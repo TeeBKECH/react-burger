@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Counter, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Scrollbars } from 'react-custom-scrollbars'
 
 import bulka_1 from '../../images/bun-01.png'
 import bulka_2 from '../../images/bun-02.png'
@@ -29,6 +30,7 @@ const Tabs = props => {
 }
 
 const BurgerIngredients = props => {
+
   return (
     <section className={styles.igredients}>
       <div className={styles.header}>
@@ -37,8 +39,14 @@ const BurgerIngredients = props => {
         </h2>
         <Tabs />
       </div>
-      <div className={styles.categories}>
-
+      <Scrollbars
+        className={styles.categories}
+        autoHide
+        autoHideTimeout={1000}
+        autoHideDuration={200}
+        thumbMinSize={30}
+        universal={true}
+      >
         <article className={styles.category}>
           <h4 className="text text_type_main-medium">
             Булки
@@ -109,14 +117,13 @@ const BurgerIngredients = props => {
 
           </div>
         </article>
-
-      </div>
+      </Scrollbars>
     </section>
   )
 }
 
 BurgerIngredients.propTypes = {
-
+  data: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default BurgerIngredients

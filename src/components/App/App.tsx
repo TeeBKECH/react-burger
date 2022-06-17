@@ -1,19 +1,20 @@
 import React from 'react';
 
 import AppHeader from '../AppHeader/AppHeader';
-// import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 
+import data from '../../utils/data'
 import styles from './App.module.css';
 
-function App() {
+const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <div className={styles.app_content}>
-        <BurgerIngredients />
-        {/* <BurgerConstructor /> */}
-      </div>
+      <main className={styles.app_content}>
+        <BurgerIngredients {...data} />
+        <BurgerConstructor {...data} />
+      </main>
     </div>
   );
 }
