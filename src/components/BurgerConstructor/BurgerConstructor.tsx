@@ -8,7 +8,7 @@ const BurgerConstructor = props => {
 }
 
 BurgerConstructor.propTypes = {
-  props: PropTypes.bool
+
 }
 
 export default BurgerConstructor

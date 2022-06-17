@@ -38,7 +38,7 @@ const AppHeader = props => {
 }
 
 AppHeader.propTypes = {
-  props: PropTypes.any
+
 }
 
 export default AppHeader
