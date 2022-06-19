@@ -19,9 +19,12 @@
   gap: 16px;
 }
 
-.constructor_box_scroll {
+.customScroller {
   max-height: 400px;
-  height: calc(100vh - 460px) !important;
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
 }
 
 .constructor_list_item {

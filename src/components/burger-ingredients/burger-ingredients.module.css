@@ -19,6 +19,7 @@
 .categories {
   max-height: 716px;
   height: calc(100vh - 100px - 80px - 180px) !important;
+  overflow-y: auto;
 }
 
 .category {

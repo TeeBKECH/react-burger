@@ -4,7 +4,10 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "es5",
+      "es6",
+      "es7"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,9 +22,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "noImplicitAny": false,
-    "jsx": "react-jsx"
+    "jsx": "react"
   },
   "include": [
-    "src"
+    "src",
+    "src/components"
   ]
 }

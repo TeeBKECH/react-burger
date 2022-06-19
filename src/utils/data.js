@@ -109,7 +109,7 @@ const data = [
       "image": "https://code.s3.yandex.net/react/code/sp_1.png",
       "image_mobile": "https://code.s3.yandex.net/react/code/sp_1-mobile.png",
       "image_large": "https://code.s3.yandex.net/react/code/sp_1-large.png",
-      "__v": 0
+      "__v": 2
    },
    {
       "_id": "60666c42cc7b410027a1a9bb",
@@ -123,7 +123,7 @@ const data = [
       "image": "https://code.s3.yandex.net/react/code/mineral_rings.png",
       "image_mobile": "https://code.s3.yandex.net/react/code/mineral_rings-mobile.png",
       "image_large": "https://code.s3.yandex.net/react/code/mineral_rings-large.png",
-      "__v": 0
+      "__v": 1
    },
    {
       "_id": "60666c42cc7b410027a1a9ba",
@@ -137,7 +137,7 @@ const data = [
       "image": "https://code.s3.yandex.net/react/code/sauce-01.png",
       "image_mobile": "https://code.s3.yandex.net/react/code/sauce-01-mobile.png",
       "image_large": "https://code.s3.yandex.net/react/code/sauce-01-large.png",
-      "__v": 0
+      "__v": 1
    },
    {
       "_id": "60666c42cc7b410027a1a9bd",
@@ -165,7 +165,7 @@ const data = [
       "image": "https://code.s3.yandex.net/react/code/salad.png",
       "image_mobile": "https://code.s3.yandex.net/react/code/salad-mobile.png",
       "image_large": "https://code.s3.yandex.net/react/code/salad-large.png",
-      "__v": 0
+      "__v": 1
    },
    {
       "_id": "60666c42cc7b410027a1a9b3",
@@ -179,7 +179,7 @@ const data = [
       "image": "https://code.s3.yandex.net/react/code/meat-03.png",
       "image_mobile": "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
       "image_large": "https://code.s3.yandex.net/react/code/meat-03-large.png",
-      "__v": 0
+      "__v": 1
    },
    {
       "_id": "60666c42cc7b410027a1a9bf",
@@ -193,7 +193,7 @@ const data = [
       "image": "https://code.s3.yandex.net/react/code/cheese.png",
       "image_mobile": "https://code.s3.yandex.net/react/code/cheese-mobile.png",
       "image_large": "https://code.s3.yandex.net/react/code/cheese-large.png",
-      "__v": 0
+      "__v": 1
    },
    {
       "_id": "60666c42cc7b410027a1a9b2",
