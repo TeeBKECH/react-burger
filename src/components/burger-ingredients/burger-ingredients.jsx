@@ -27,22 +27,18 @@ const BurgerIngredients = ({data}) => {
     )
   }
 
-  const filterIngredients = () => {
-    const newData = [...data];
-    setIngredients(newData.filter(el => el.type == current))
-  }
-
   useEffect(() => {
-    filterIngredients()
-  }, [current])
+    const newData = [...data];
+    setIngredients(newData.filter(el => el.type === current))
+  }, [current, data])
 
   let title
 
-  if (current == 'bun') {
+  if (current === 'bun') {
     title = 'Булки'
-  } else if (current == 'main') {
+  } else if (current === 'main') {
     title = 'Начинки'
-  } else if (current == 'sauce') {
+  } else if (current === 'sauce') {
     title = 'Соусы'
   }
 
@@ -87,7 +83,7 @@ const BurgerIngredients = ({data}) => {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object)
+  data: PropTypes.arrayOf(PropTypes.object).isRequired
 }
 
 export default BurgerIngredients

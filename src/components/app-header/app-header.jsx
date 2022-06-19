@@ -1,12 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import classNames from 'classnames'
 
 import styles from './app-header.module.css'
 
-const AppHeader = props => {
+const AppHeader = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
@@ -36,10 +35,6 @@ const AppHeader = props => {
       </a>
     </header>
   )
-}
-
-AppHeader.propTypes = {
-
 }
 
 export default AppHeader
