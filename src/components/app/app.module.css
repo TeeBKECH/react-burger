@@ -1,0 +1,10 @@
+.app {
+  width: 100%;
+}
+
+.app_content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}

@@ -1,0 +1,61 @@
+.igredients {
+  width: 600px;
+  height: 100%;
+  padding: 40px 0 0;
+}
+
+.header {
+  margin: 0 0 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.categories {
+  max-height: 716px;
+  height: calc(100vh - 100px - 80px - 180px) !important;
+  overflow-y: auto;
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 40px;
+}
+
+.category_items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+.category_item {
+  position: relative;
+  /* border: 1px solid rgba(255, 255, 255, .4); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.category_item_currency {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category_item img {
+  display: block;
+  width: calc(100% - 32px);
+}
+
+.category_item p {
+  height: 48px;
+}
