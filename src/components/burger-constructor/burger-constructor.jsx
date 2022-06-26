@@ -8,7 +8,7 @@ import styles from './burger-constructor.module.css'
 
 const ConstructorItems = ({data}) => {
 
-  const items = data.map(el => {
+  const items = data.filter(el => el.type !== 'bun').map(el => {
     
     return (
 

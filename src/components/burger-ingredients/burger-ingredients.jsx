@@ -53,7 +53,7 @@ const BurgerIngredients = ({data}) => {
           <span className="text text_type_digits-default">{el.price}</span>
           <CurrencyIcon type="primary" />
         </div>
-        <p className="text text_type_main-default">{el.name}</p>
+        <p className="text text_type_main-default card_title">{el.name}</p>
       </div>
     )
   })
@@ -68,7 +68,7 @@ const BurgerIngredients = ({data}) => {
       </div>
       <div className={styles.categories}>
 
-        <article className={styles.category}>
+        <article className={`${styles.category} custom-scroll`}>
           <h4 className="text text_type_main-medium">
             {title}
           </h4>
