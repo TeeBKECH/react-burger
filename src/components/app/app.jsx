@@ -17,6 +17,11 @@ const App = () => {
   
   useEffect(() => {
     const getData = async () => {
+      setState({
+        isLoading: true,
+        hasError: false,
+        data: []
+      })
       await fetch(API_URL)
         .then(res => res.json())
         .then(data => setState({
@@ -43,15 +48,12 @@ const App = () => {
       <AppHeader />
       <main className={styles.app_content}>
         {isLoading && 'Идет загрузка...'}
-        {!hasError && data ? (
+        {hasError && 'Произошла ошибка при загрузке!'}
+        {!hasError && !isLoading && data.length && (
           <>
             <BurgerIngredients data={data} />
             <BurgerConstructor data={data} />
           </>
-        ) : (
-          <div>
-            Произошла ошибка при загрузке!
-          </div>
         )}
       </main>
     </div>

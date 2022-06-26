@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import bulka_1 from '../../images/bun-01.png'
+import Modal from '../modal/modal'
+import OrderDetails from '../order-details/order-details'
+
 import styles from './burger-constructor.module.css'
 
 const ConstructorItems = ({data}) => {
+
+  const bun = data.find(el => el.type === 'bun')
 
   const items = data.filter(el => el.type !== 'bun').map(el => {
     
@@ -27,52 +31,82 @@ const ConstructorItems = ({data}) => {
     <div className={styles.constructor_list}>
 
       <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_top}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={bulka_1}
-        />
+        {bun && (
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={bun.name}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        )}
       </div>
 
-      <ul className={styles.constructor_box + ' ' + styles.customScroller}>
+      <ul className={styles.constructor_box + ' customScroller'}>
         {items}
       </ul>
 
       <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_bottom}>
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={bulka_1}
-        />
+        {bun && (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={bun.name}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        )}
       </div>
 
     </div>
   )
 }
 
-const Total = () => {
+const Total = ({data}) => {
+
+  const [totalPrice, setTotalprice] = useState(0);
+
+  useEffect(() => {
+    const newPrice = data.reduce((prevPrice, currentValue) => {
+      return prevPrice + currentValue.price
+    }, totalPrice)
+
+    setTotalprice(newPrice)
+  }, [])
+
   return (
     <div className={styles.total}>
-      <span className="text text_type_digits-medium">550</span>
+      <span className="text text_type_digits-medium">{totalPrice}</span>
       <CurrencyIcon type="primary" />
     </div>
   )
 }
 
 const BurgerConstructor = ({data}) => {
+  const [orderDetails, setorderDetails] = React.useState(false);
+
+  const openOrdertDetails = () => {
+    setorderDetails(true)
+  }
+
+  const closeOrderDetails = () => {
+    setorderDetails(false)
+  }
+
   return (
     <section className={styles.burger_constructor}>
       <ConstructorItems data={data} />
       <div className={styles.order_block}>
-        <Total />
-        <Button type="primary" size="large">
+        <Total data={data} />
+        <Button type="primary" size="large" onClick={openOrdertDetails}>
           Оформить заказ
         </Button>
       </div>
+      {orderDetails && (
+          <Modal onClose={closeOrderDetails}>
+            <OrderDetails />
+          </Modal>
+        )}
     </section>
   )
 }
