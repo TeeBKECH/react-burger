@@ -23,7 +23,12 @@ const App = () => {
         data: []
       })
       await fetch(API_URL)
-        .then(res => res.json())
+        .then(res => {
+          if (res.ok) {
+              return res.json();
+          }
+          return Promise.reject(`Ошибка ${res.status}`);
+        })
         .then(data => setState({
           isLoading: false,
           hasError: false,

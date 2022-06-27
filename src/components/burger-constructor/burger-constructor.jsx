@@ -8,6 +8,12 @@ import OrderDetails from '../order-details/order-details'
 
 import styles from './burger-constructor.module.css'
 
+const orderData = {
+  'orderNumber': '034536',
+  'orderStatus': 'Ваш заказ начали готовить',
+  'orderMessage': 'Дождитесь готовности на орбитальной станции'
+}
+
 const ConstructorItems = ({data}) => {
 
   const bun = data.find(el => el.type === 'bun')
@@ -35,7 +41,7 @@ const ConstructorItems = ({data}) => {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={bun.name}
+            text={`${bun.name} (Верх)`}
             price={bun.price}
             thumbnail={bun.image}
           />
@@ -51,7 +57,7 @@ const ConstructorItems = ({data}) => {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={bun.name}
+            text={`${bun.name} (Низ)`}
             price={bun.price}
             thumbnail={bun.image}
           />
@@ -104,7 +110,7 @@ const BurgerConstructor = ({data}) => {
       </div>
       {orderDetails && (
           <Modal onClose={closeOrderDetails}>
-            <OrderDetails />
+            <OrderDetails order={orderData} />
           </Modal>
         )}
     </section>

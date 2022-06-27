@@ -31,6 +31,8 @@ const IngredientDetails = ({details}) => {
     </div>
   )
 }
-IngredientDetails.propTypes = {}
+IngredientDetails.propTypes = {
+  details: PropTypes.object.isRequired
+}
 
 export default IngredientDetails

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
@@ -38,6 +38,10 @@ const Modal = ({onClose, children, title}) => {
   )
 }
 
-Modal.propTypes = {}
+Modal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+  title: PropTypes.string
+}
 
 export default Modal

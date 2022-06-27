@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -21,6 +21,9 @@ const Tabs = ({current, setCurrent}) => {
   )
 }
 
-Tabs.propTypes = {}
+Tabs.propTypes = {
+  current: PropTypes.string.isRequired,
+  setCurrent: PropTypes.func.isRequired
+}
 
 export default Tabs

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-import { Counter, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import Tabs from '../tabs/tabs'
