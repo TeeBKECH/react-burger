@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 
@@ -9,9 +9,9 @@ import styles from './modal.module.css'
 
 const Modal = ({onClose, children, title}) => {
 
-  const handleCloseModal = e => {
-    e.key === 'Escape' && onClose();
-  }
+  const handleCloseModal = useCallback((e) => {
+      e.key === 'Escape' && onClose();
+  }, [onClose])
 
   useEffect(() => {
     document.addEventListener('keydown', handleCloseModal)
@@ -19,7 +19,7 @@ const Modal = ({onClose, children, title}) => {
     return () => {
       document.removeEventListener('keydown', handleCloseModal)
     }
-  }, [])
+  }, [handleCloseModal])
 
   return ReactDOM.createPortal(
     <>
