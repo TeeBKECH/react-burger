@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
+=======
+import React from 'react'
+>>>>>>> master
 import PropTypes from 'prop-types'
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
+<<<<<<< HEAD
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 
@@ -19,6 +24,14 @@ const ConstructorItems = ({data}) => {
   const bun = data.find(el => el.type === 'bun')
 
   const items = data.filter(el => el.type !== 'bun').map(el => {
+=======
+import bulka_1 from '../../images/bun-01.png'
+import styles from './burger-constructor.module.css'
+
+const ConstructorItems = ({data}) => {
+
+  const items = data.map(el => {
+>>>>>>> master
     
     return (
 
@@ -37,6 +50,7 @@ const ConstructorItems = ({data}) => {
     <div className={styles.constructor_list}>
 
       <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_top}>
+<<<<<<< HEAD
         {bun && (
           <ConstructorElement
             type="top"
@@ -49,10 +63,23 @@ const ConstructorItems = ({data}) => {
       </div>
 
       <ul className={styles.constructor_box + ' customScroller'}>
+=======
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={200}
+          thumbnail={bulka_1}
+        />
+      </div>
+
+      <ul className={styles.constructor_box + ' ' + styles.customScroller}>
+>>>>>>> master
         {items}
       </ul>
 
       <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_bottom}>
+<<<<<<< HEAD
         {bun && (
           <ConstructorElement
             type="bottom"
@@ -62,12 +89,22 @@ const ConstructorItems = ({data}) => {
             thumbnail={bun.image}
           />
         )}
+=======
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text="Краторная булка N-200i (низ)"
+          price={200}
+          thumbnail={bulka_1}
+        />
+>>>>>>> master
       </div>
 
     </div>
   )
 }
 
+<<<<<<< HEAD
 const Total = ({data}) => {
 
   const [totalPrice, setTotalprice] = useState(0);
@@ -83,12 +120,19 @@ const Total = ({data}) => {
   return (
     <div className={styles.total}>
       <span className="text text_type_digits-medium">{totalPrice}</span>
+=======
+const Total = () => {
+  return (
+    <div className={styles.total}>
+      <span className="text text_type_digits-medium">550</span>
+>>>>>>> master
       <CurrencyIcon type="primary" />
     </div>
   )
 }
 
 const BurgerConstructor = ({data}) => {
+<<<<<<< HEAD
   const [orderDetails, setorderDetails] = React.useState(false);
 
   const openOrdertDetails = () => {
@@ -99,10 +143,13 @@ const BurgerConstructor = ({data}) => {
     setorderDetails(false)
   }
 
+=======
+>>>>>>> master
   return (
     <section className={styles.burger_constructor}>
       <ConstructorItems data={data} />
       <div className={styles.order_block}>
+<<<<<<< HEAD
         <Total data={data} />
         <Button type="primary" size="large" onClick={openOrdertDetails}>
           Оформить заказ
@@ -113,6 +160,13 @@ const BurgerConstructor = ({data}) => {
             <OrderDetails order={orderData} />
           </Modal>
         )}
+=======
+        <Total />
+        <Button type="primary" size="large">
+          Оформить заказ
+        </Button>
+      </div>
+>>>>>>> master
     </section>
   )
 }
