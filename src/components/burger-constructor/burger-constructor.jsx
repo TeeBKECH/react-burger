@@ -72,13 +72,15 @@ const Total = ({data}) => {
 
   const [totalPrice, setTotalprice] = useState(0);
 
+  
+
   useEffect(() => {
     const newPrice = data.reduce((prevPrice, currentValue) => {
       return prevPrice + currentValue.price
     }, totalPrice)
 
     setTotalprice(newPrice)
-  }, [])
+  }, [data])
 
   return (
     <div className={styles.total}>
