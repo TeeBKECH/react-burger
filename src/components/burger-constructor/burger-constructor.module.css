@@ -17,6 +17,9 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+<<<<<<< HEAD
+  max-height: 400px;
+=======
 }
 
 .customScroller {
@@ -25,6 +28,7 @@
   overflow-y: scroll;
   scrollbar-color: rebeccapurple green;
   scrollbar-width: thin;
+>>>>>>> master
 }
 
 .constructor_list_item {

@@ -1,0 +1,34 @@
+.ingredient {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.ingredient_img {
+  width: 100%;
+  height: auto;
+}
+
+.ingredient_img img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.ingredient_title {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.ingredient_info {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 20px;
+}
+
+.ingredient_info_item {
+  text-align: center;
+}

@@ -22,4 +22,26 @@ ol {
 a {
   color: #fff;
   text-decoration: none;
+<<<<<<< HEAD
+}
+
+.customScroller {
+  height: 100%;
+  overflow-y: scroll;
+  scrollbar-color: var(--text-inactive-color) var(--colors-button-inactive)
+}
+
+.customScroller::-webkit-scrollbar {
+  background: var(--colors-button-inactive);
+  width: 8px;
+}
+
+.customScroller::-webkit-scrollbar-thumb {
+  background: var(--text-inactive-color);
+}
+
+#react-modals {
+  position: relative;
+=======
+>>>>>>> master
 }
