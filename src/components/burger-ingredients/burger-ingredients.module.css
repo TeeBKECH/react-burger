@@ -11,20 +11,8 @@
   gap: 20px;
 }
 
-<<<<<<< HEAD
 .categories {
   max-height: 600px;
-=======
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.categories {
-  max-height: 716px;
-  height: calc(100vh - 100px - 80px - 180px) !important;
-  overflow-y: auto;
->>>>>>> master
 }
 
 .category {
@@ -48,10 +36,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-<<<<<<< HEAD
   cursor: pointer;
-=======
->>>>>>> master
 }
 
 .category_item_currency {
@@ -65,10 +50,6 @@
   width: calc(100% - 32px);
 }
 
-<<<<<<< HEAD
 .category_item p.card_title {
-=======
-.category_item p {
->>>>>>> master
   height: 48px;
 }
