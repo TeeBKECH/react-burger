@@ -1,63 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
+import { useSelector, useDispatch } from 'react-redux';
+
+import { getBurgerIngredients } from '../../services/actions/index';
+
 import styles from './app.module.css';
 
-const API_URL = 'https://norma.nomoreparties.space/api/ingredients'
-
 const App = () => {
-  const [state, setState] = useState({
-    isLoading: true,
-    hasError: false,
-    data: []
-  })
+  const { 
+    burgerIngredients, 
+    burgerIngredientsRequest, 
+    burgerIngredientsFailed 
+  } = useSelector(store => store.burgerIngredientsReducer);
+  const dispatch = useDispatch();
   
   useEffect(() => {
-    const getData = async () => {
-      setState({
-        isLoading: true,
-        hasError: false,
-        data: []
-      })
-      await fetch(API_URL)
-        .then(res => {
-          if (res.ok) {
-              return res.json();
-          }
-          return Promise.reject(`Ошибка ${res.status}`);
-        })
-        .then(data => setState({
-          isLoading: false,
-          hasError: false,
-          data: data.data
-        }))
-        .catch((err) => {
-          setState({
-            isLoading: false,
-            hasError: true,
-            data: []
-          })
-          console.log(err)
-        })
-    }
-
-    getData();
+    dispatch(getBurgerIngredients())
   }, [])
   
-  const { data, isLoading, hasError } = state;
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.app_content}>
-        {isLoading && 'Идет загрузка...'}
-        {hasError && 'Произошла ошибка при загрузке!'}
-        {!hasError && !isLoading && data.length && (
+        {burgerIngredientsRequest && 'Идет загрузка...'}
+        {burgerIngredientsFailed && 'Произошла ошибка при загрузке!'}
+        {!burgerIngredientsFailed && !burgerIngredientsRequest && burgerIngredients && (
           <>
-            <BurgerIngredients data={data} />
-            <BurgerConstructor data={data} />
+            <BurgerIngredients data={burgerIngredients} />
+            <BurgerConstructor data={burgerIngredients} />
           </>
         )}
       </main>
