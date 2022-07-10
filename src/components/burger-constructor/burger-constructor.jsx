@@ -187,7 +187,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={openOrderDetails}>
+        <Button type="primary" size="large" onClick={openOrderDetails} disabled={(!bun.price || !constructorIngredients.length) ? true : false}>
           Оформить заказ
         </Button>
       </div>

@@ -11,11 +11,11 @@ const Tabs = ({current, setCurrent}) => {
       <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
         Булки
       </Tab>
-      <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
-        Соусы
-      </Tab>
       <Tab value="main" active={current === 'main'} onClick={setCurrent}>
         Начинки
+      </Tab>
+      <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+        Соусы
       </Tab>
     </div>
   )
