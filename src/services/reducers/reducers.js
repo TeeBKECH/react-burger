@@ -1,7 +1,14 @@
 import {
   GET_BURGER_INGREDIENTS_REQUEST,
   GET_BURGER_INGREDIENTS_FAILED,
-  GET_BURGER_INGREDIENTS_SUCCESS
+  GET_BURGER_INGREDIENTS_SUCCESS,
+  ADD_INGREDIENT_DETAILS,
+  REMOVE_INGREDIENT_DETAILS,
+  SET_ORDER_REQUEST,
+  SET_ORDER_SUCCESS,
+  SET_ORDER_FAILED,
+  CLEAR_ORDER_DETAILS,
+  ADD_BUN
 } from '../actions/index'
 
 // Исходное состояние
@@ -10,9 +17,16 @@ const initialState = {
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,
 
-  constructorIngredients: [],
-  currentIngredient: {},
-  order: {}
+  constructorIngredients: {
+    bun: {},
+    items: []
+  },
+
+  ingredientDetails: null,
+
+  orderDetails: {},
+  orderRequest: false,
+  orderFailed: false
 }
 
 export const burgerIngredientsReducer = (state = initialState, action) => {
@@ -36,6 +50,80 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         ...state,
         burgerIngredientsFailed: true,
         burgerIngredientsRequest: false
+      };
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+export const ingredientDetailsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_INGREDIENT_DETAILS: {
+      return {
+        ...state,
+        ingredientDetails: action.ingredient
+      };
+    }
+    case REMOVE_INGREDIENT_DETAILS: {
+      return {
+        ...state,
+        ingredientDetails: null
+      };
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+export const constructorIngredientsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_BUN: {
+      return {
+        ...state,
+        constructorIngredients: {
+          ...state.items,
+          bun: action.item
+        }
+      };
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+export const orderDetailsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderRequest: true,
+        orderFailed: false,
+      };
+    }
+    case SET_ORDER_FAILED: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: true,
+        orderDetails: {}
+      };
+    }
+    case SET_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: false,
+        orderDetails: action.order
+      };
+    }
+    case CLEAR_ORDER_DETAILS: {
+      return {
+        ...state,
+        orderDetails: {}
       };
     }
     default: {
