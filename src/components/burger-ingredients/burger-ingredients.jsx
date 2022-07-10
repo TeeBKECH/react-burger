@@ -69,17 +69,17 @@ const BurgerIngredients = () => {
           <div className={`${styles.categories} customScroller`}>
 
             {
-              ingredientTypes.map((el, index) => {
-                const items = burgerIngredients.filter(item => item.type === Object.keys(el).join())
+              ingredientTypes.map((ingredientType, index) => {
+                const items = burgerIngredients.filter(item => item.type === Object.keys(ingredientType).join())
                 return (
                   <article key={index} className={`${styles.category}`}>
                     <h4 className="text text_type_main-medium">
-                      {el[Object.keys(el).join()]}
+                      {ingredientType[Object.keys(ingredientType).join()]}
                     </h4>
                     <div className={styles.category_items}>
                       {
                         items.map(el => (
-                          <Ingredient type={Object.keys(el).join() === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={() => {openIngredientDetails(el)}}/>
+                          <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={() => {openIngredientDetails(el)}}/>
                         ))
                       }
                     </div>

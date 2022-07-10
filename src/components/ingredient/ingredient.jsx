@@ -15,9 +15,11 @@ const Ingredient = ({el, openIngredientDetails, type}) => {
     })
   });
 
+  // console.log(type)
+
   return (
-    <div ref={ref} onClick={() => openIngredientDetails(el)} className={styles.category_item} style={{ opacity }}>
-      {el._v && <Counter count={el._v} size="default" />}
+    <div draggable ref={ref} onClick={() => openIngredientDetails(el)} className={styles.category_item} style={{ opacity }}>
+      {el.__v !== 0 && <Counter count={el.__v} size="default" />}
       <img src={el.image} alt={el.name} />
       <div className={styles.category_item_currency}>
         <span className="text text_type_digits-default">{el.price}</span>

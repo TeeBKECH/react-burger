@@ -1,45 +1,41 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
+import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient'
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
-import {setOrderDetails, CLEAR_ORDER_DETAILS, ADD_BUN} from '../../services/actions/index'
+import {
+  setOrderDetails, 
+  CLEAR_ORDER_DETAILS, 
+  BUN_REPLACE, 
+  INGREDIENT_INCREMENT, 
+  INGREDIENT_DECREMENT,
+  ADD_INGREDIENT,
+  REMOVE_INGREDIENT,
+  MOVE_INGREDIENT
+} from '../../services/actions/index'
 
 import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
 
-const Total = ({ bun, items }) => {
-  const [totalPrice, setTotalPrice] = useState(0)
-
-  // useEffect(() => {
-  //   if (!bun && !items) return
-  //   let newPrice = items.reduce((prevPrice, currentValue) => {
-  //     return prevPrice + currentValue.price
-  //   }, totalPrice) + (bun.price * 2)
-  //   setTotalPrice(newPrice)
-  // }, [bun, items])
-
-  return (
-    <div className={styles.total}>
-      <span className="text text_type_digits-medium">{totalPrice}</span>
-      <CurrencyIcon type="primary" />
-    </div>
-  )
-}
-
 const BurgerConstructor = () => {
-  const { bun, items, orderDetails, orderRequest, orderFailed } = useSelector(store => ({
-    bun: store.constructorIngredientsReducer.constructorIngredients.bun,
-    items: store.constructorIngredientsReducer.constructorIngredients.items,
+  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed } = useSelector(store => ({
+    bun: store.constructorIngredientsReducer.bun,
+    constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
     orderDetails: store.orderDetailsReducer.orderDetails,
     orderRequest: store.orderDetailsReducer.orderRequest,
     orderFailed: store.orderDetailsReducer.orderFailed,
   }))
 
   const dispatch = useDispatch()
+
+  let totalPrice = constructorIngredients.length ? constructorIngredients.reduce((prevPrice, currentValue) => {
+    return prevPrice + currentValue.price
+  }, 0) : 0;
+  totalPrice = bun.price ? totalPrice + (bun.price * 2) : totalPrice
 
   const openOrderDetails = () => {
     dispatch(setOrderDetails())
@@ -51,33 +47,73 @@ const BurgerConstructor = () => {
     })
   }
 
-  const addBun = (item) => {
+  const replaceBun = (item) => {
     dispatch({
-      type: ADD_BUN,
+      type: BUN_REPLACE,
+      item
+    })
+    dispatch({
+      type: INGREDIENT_INCREMENT,
       item
     })
   }
 
   const addIngredient = (item) => {
     dispatch({
-      type: ADD_BUN,
+      type: INGREDIENT_INCREMENT,
+      item
+    })
+    dispatch({
+      type: ADD_INGREDIENT,
       item
     })
   }
 
-  const [{ isHover }, dropTarget] = useDrop({
-    accept: 'bun' ? 'bun' : 'other',
+  const removeIngredient = (item) => {
+    dispatch({
+      type: INGREDIENT_DECREMENT,
+      item
+    })
+    dispatch({
+      type: REMOVE_INGREDIENT,
+      item
+    })
+  }
+
+  const moveIngredient = useCallback(
+    (dragIndex, hoverIndex) => {
+        dispatch({
+          type: MOVE_INGREDIENT,
+          dragIndex,
+          hoverIndex
+        })
+    },
+    [constructorIngredients],
+)
+
+  const [{ isHover }, dropBun] = useDrop({
+    accept: 'bun',
     collect: monitor => ({
       isHover: monitor.isOver()
     }),
     drop(itemId) {
-      'bun' ? addBun(itemId) : addIngredient(itemId)
+      replaceBun(itemId.el)
+    }
+  });
+
+  const [{ onHover }, dropIngredient] = useDrop({
+    accept: 'other',
+    collect: monitor => ({
+      onHover: monitor.isOver()
+    }),
+    drop(itemId) {
+      addIngredient(itemId.el)
     }
   });
 
   return (
     <section className={styles.burger_constructor}>
-      <div ref={dropTarget} className={styles.constructor_list}>
+      <div ref={dropBun} className={styles.constructor_list}>
 
         <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_top}>
           {bun.price ? (
@@ -99,18 +135,19 @@ const BurgerConstructor = () => {
           )}
         </div>
 
-        <ul className={styles.constructor_box + ' customScroller'}>
+        <ul ref={dropIngredient} className={styles.constructor_box + ' customScroller'}>
           {
-            items.length ? items.map(el => (
-              <li key={el._id} className={styles.constructor_list_item}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={el.name}
-                  price={el.price}
-                  thumbnail={el.image}
+            constructorIngredients.length ? constructorIngredients.map((el, i) => {
+              return (
+                <ConstructorIngredient
+                  key={el.uniqueKey}
+                  moveIngredient={moveIngredient}
+                  removeIngredient={() => removeIngredient(el)} 
+                  el={el} 
+                  index={i} 
                 />
-              </li>
-            )) : (
+              )
+            }) : (
               <li className={styles.constructor_list_item + ' ' + styles.constructor_list_emptyItem}>
                 <ConstructorElement
                   text={`Добавьте ингредиент`}
@@ -144,7 +181,12 @@ const BurgerConstructor = () => {
 
       </div>
       <div className={styles.order_block}>
-        <Total bun={bun} items={items} />
+        <div className={styles.total}>
+          <span className="text text_type_digits-medium">
+            {totalPrice}
+          </span>
+          <CurrencyIcon type="primary" />
+        </div>
         <Button type="primary" size="large" onClick={openOrderDetails}>
           Оформить заказ
         </Button>

@@ -1,0 +1,11 @@
+.constructor_list_item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding-right: 16px;
+}
+
+.constructor_list_item div {
+  max-width: 100%;
+}

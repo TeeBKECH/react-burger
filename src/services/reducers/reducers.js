@@ -8,8 +8,15 @@ import {
   SET_ORDER_SUCCESS,
   SET_ORDER_FAILED,
   CLEAR_ORDER_DETAILS,
-  ADD_BUN
+  BUN_REPLACE,
+  INGREDIENT_INCREMENT,
+  INGREDIENT_DECREMENT,
+  REMOVE_INGREDIENT,
+  ADD_INGREDIENT,
+  MOVE_INGREDIENT
 } from '../actions/index'
+
+import { v4 as uuidv4 } from 'uuid'
 
 // Исходное состояние
 const initialState = {
@@ -17,10 +24,8 @@ const initialState = {
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,
 
-  constructorIngredients: {
-    bun: {},
-    items: []
-  },
+  constructorIngredients: [],
+  bun: {},
 
   ingredientDetails: null,
 
@@ -52,6 +57,34 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         burgerIngredientsRequest: false
       };
     }
+    case INGREDIENT_INCREMENT: {
+      return {
+        ...state,
+        burgerIngredients: [...state.burgerIngredients.map(el => {
+          if (action.item.type === 'bun' && el.type === 'bun') {
+            el.__v = 0
+            if (el._id === action.item._id) {
+              el.__v = 2
+            } 
+          }
+          if (el._id === action.item._id && action.item.type !== 'bun') {
+            el.__v = el.__v + 1
+          }
+          return el
+        })]
+      };
+    }
+    case INGREDIENT_DECREMENT: {
+      return {
+        ...state,
+        burgerIngredients: [...state.burgerIngredients.map(el => {
+          if (el._id === action.item._id) {
+            el.__v = el.__v - 1
+          }
+          return el
+        })]
+      };
+    }
     default: {
       return state
     }
@@ -80,13 +113,37 @@ export const ingredientDetailsReducer = (state = initialState, action) => {
 
 export const constructorIngredientsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_BUN: {
+    case BUN_REPLACE: {
       return {
         ...state,
-        constructorIngredients: {
-          ...state.items,
-          bun: action.item
-        }
+        bun: action.item
+      };
+    }
+    case ADD_INGREDIENT: {
+      return {
+        ...state,
+        constructorIngredients: [...state.constructorIngredients, {...action.item, uniqueKey: uuidv4()}]
+      };
+    }
+    case REMOVE_INGREDIENT: {
+      return {
+        ...state,
+        constructorIngredients: [...state.constructorIngredients.filter(el => el.uniqueKey !== action.item.uniqueKey)]
+      };
+    }
+    case MOVE_INGREDIENT: {
+      return {
+        ...state,
+        constructorIngredients: [
+          ...state.constructorIngredients.map((el, index) => {
+            if (index === action.hoverIndex) {
+              return state.constructorIngredients[action.dragIndex]
+            } else if (index === action.dragIndex) {
+              return state.constructorIngredients[action.hoverIndex]
+            } 
+            return el
+          }),
+        ]
       };
     }
     default: {

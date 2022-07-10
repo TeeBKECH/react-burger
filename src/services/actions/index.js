@@ -10,7 +10,12 @@ export const CLEAR_ORDER_DETAILS = 'CLEAR_ORDER_DETAILS'
 export const ADD_INGREDIENT_DETAILS = 'ADD_INGREDIENT_DETAILS'
 export const REMOVE_INGREDIENT_DETAILS = 'REMOVE_INGREDIENT_DETAILS'
 
-export const ADD_BUN = 'ADD_BUN'
+export const INGREDIENT_INCREMENT = 'INGREDIENT_INCREMENT'
+export const INGREDIENT_DECREMENT = 'INGREDIENT_DECREMENT'
+export const ADD_INGREDIENT = 'ADD_INGREDIENT'
+export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT'
+export const BUN_REPLACE = 'BUN_REPLACE'
 
 const GET_INGREDIENTS_API = 'https://norma.nomoreparties.space/api/ingredients'
 const ORDER_API = 'https://norma.nomoreparties.space/api/orders'
@@ -56,7 +61,7 @@ export const setOrderDetails = () => {
       type: SET_ORDER_REQUEST
     })
 
-    const orderData = getState().burgerIngredientsReducer.burgerIngredients.map(el => el._id)
+    const orderData = [...getState().constructorIngredientsReducer.constructorIngredients.map(el => el._id), getState().constructorIngredientsReducer.bun._id]
 
     fetch(ORDER_API, {
       method: 'POST',
