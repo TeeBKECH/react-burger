@@ -13,10 +13,10 @@ import {
   INGREDIENT_DECREMENT,
   REMOVE_INGREDIENT,
   ADD_INGREDIENT,
-  MOVE_INGREDIENT
+  MOVE_INGREDIENT,
+  CLEAR_CONSTRUCTOR,
+  REMOVE_INGREDIENT_COUNTER
 } from '../actions/index'
-
-import { v4 as uuidv4 } from 'uuid'
 
 // Исходное состояние
 const initialState = {
@@ -85,6 +85,17 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
         })]
       };
     }
+    case REMOVE_INGREDIENT_COUNTER: {
+      return {
+        ...state,
+        burgerIngredients: [...state.burgerIngredients.map(el => {
+          return {
+            ...el,
+            __v: 0
+          }
+        })]
+      };
+    }
     default: {
       return state
     }
@@ -119,10 +130,17 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
         bun: action.item
       };
     }
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        ...state,
+        constructorIngredients: [],
+        bun: {}
+      };
+    }
     case ADD_INGREDIENT: {
       return {
         ...state,
-        constructorIngredients: [...state.constructorIngredients, {...action.item, uniqueKey: uuidv4()}]
+        constructorIngredients: [...state.constructorIngredients, {...action.item, uniqueKey: action.uniqueKey}]
       };
     }
     case REMOVE_INGREDIENT: {

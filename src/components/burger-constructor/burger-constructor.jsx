@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
+import { v4 as uuidv4 } from 'uuid'
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -65,6 +66,7 @@ const BurgerConstructor = () => {
     })
     dispatch({
       type: ADD_INGREDIENT,
+      uniqueKey: uuidv4(),
       item
     })
   }
@@ -187,7 +189,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" onClick={openOrderDetails} disabled={(!bun.price || !constructorIngredients.length) ? true : false}>
+        <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun.price ? true : false}>
           Оформить заказ
         </Button>
       </div>

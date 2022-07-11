@@ -1,6 +1,7 @@
 export const GET_BURGER_INGREDIENTS_REQUEST = 'GET_BURGER_INGREDIENTS_REQUEST'
 export const GET_BURGER_INGREDIENTS_FAILED = 'GET_BURGER_INGREDIENTS_FAILED'
 export const GET_BURGER_INGREDIENTS_SUCCESS = 'GET_BURGER_INGREDIENTS_SUCCESS'
+export const REMOVE_INGREDIENT_COUNTER = 'REMOVE_INGREDIENT_COUNTER'
 
 export const SET_ORDER_REQUEST = 'SET_ORDER_REQUEST'
 export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS'
@@ -10,6 +11,7 @@ export const CLEAR_ORDER_DETAILS = 'CLEAR_ORDER_DETAILS'
 export const ADD_INGREDIENT_DETAILS = 'ADD_INGREDIENT_DETAILS'
 export const REMOVE_INGREDIENT_DETAILS = 'REMOVE_INGREDIENT_DETAILS'
 
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR'
 export const INGREDIENT_INCREMENT = 'INGREDIENT_INCREMENT'
 export const INGREDIENT_DECREMENT = 'INGREDIENT_DECREMENT'
 export const ADD_INGREDIENT = 'ADD_INGREDIENT'
@@ -17,8 +19,14 @@ export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT'
 export const BUN_REPLACE = 'BUN_REPLACE'
 
-const GET_INGREDIENTS_API = 'https://norma.nomoreparties.space/api/ingredients'
-const ORDER_API = 'https://norma.nomoreparties.space/api/orders'
+const baseUrl = 'https://norma.nomoreparties.space/api'
+
+const checkResponse = res => {
+  if (res.ok) {
+    return res.json()
+  }
+  return Promise.reject(`Ошибка ${res.status}`)
+}
 
 // Получение с сервера игредиентов посредством усилителя
 export const getBurgerIngredients = () => {
@@ -28,16 +36,8 @@ export const getBurgerIngredients = () => {
     dispatch({
       type: GET_BURGER_INGREDIENTS_REQUEST
     })
-    fetch(GET_INGREDIENTS_API)
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          dispatch({
-            type: GET_BURGER_INGREDIENTS_FAILED
-          })
-        }
-      })
+    fetch(baseUrl + '/ingredients')
+      .then(checkResponse)
       .then(data => {
         dispatch({
           type: GET_BURGER_INGREDIENTS_SUCCESS,
@@ -63,27 +63,24 @@ export const setOrderDetails = () => {
 
     const orderData = [...getState().constructorIngredientsReducer.constructorIngredients.map(el => el._id), getState().constructorIngredientsReducer.bun._id]
 
-    fetch(ORDER_API, {
+    fetch(baseUrl + '/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       }, 
       body: JSON.stringify({"ingredients": orderData})
     })
-      .then(res => {
-        if (res.ok) {
-          return res.json()
-        } else {
-          dispatch({
-            type: SET_ORDER_FAILED
-          })
-        }
-      })
+      .then(checkResponse)
       .then(data => {
-        // console.log(data)
         dispatch({
           type: SET_ORDER_SUCCESS,
           order: data
+        })
+        dispatch({
+          type: CLEAR_CONSTRUCTOR
+        })
+        dispatch({
+          type: REMOVE_INGREDIENT_COUNTER
         })
       })
       .catch(err => {
