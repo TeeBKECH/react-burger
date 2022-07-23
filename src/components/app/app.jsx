@@ -24,36 +24,35 @@ const App = () => {
       <div className={styles.app}>
         <AppHeader />
         <main className={styles.app_content}>
-          
-            <Switch>
-              <Route path="/login" exact={true}>
-                <LoginPage />
-              </Route>
-              <Route path="/register" exact={true}>
-                <RegisterPage />
-              </Route>
-              <Route path="/forgot-password" exact={true}>
-                <ForgotPasswordPage />
-              </Route>
-              <Route path="/reset-password" exact={true}>
-                <ResetPasswordPage />
-              </Route>
-              <Route path="/profile" exact={true}>
-                <ProfilePage />
-              </Route>
-              <Route path="//ingredients/:id" exact={true}>
-                <IngredientPage />
-              </Route>
-              <Route path="/" exact={true}>
-                <DndProvider backend={HTML5Backend}>
-                  <BurgerIngredients />
-                  <BurgerConstructor />
-                </DndProvider>
-              </Route>
-              <Route>
-                <Error404Page />
-              </Route>
-            </Switch>
+          <Switch>
+            <Route path="/login" exact={true}>
+              <LoginPage />
+            </Route>
+            <Route path="/register" exact={true}>
+              <RegisterPage />
+            </Route>
+            <Route path="/forgot-password" exact={true}>
+              <ForgotPasswordPage />
+            </Route>
+            <Route path="/reset-password" exact={true}>
+              <ResetPasswordPage />
+            </Route>
+            <Route path="/profile" exact={true}>
+              <ProfilePage />
+            </Route>
+            <Route path="/ingredients/:id" exact={true}>
+              <IngredientPage />
+            </Route>
+            <Route path="/" exact={true}>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </DndProvider>
+            </Route>
+            <Route>
+              <Error404Page />
+            </Route>
+          </Switch>
         </main>
       </div>
     </Router>

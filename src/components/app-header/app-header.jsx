@@ -16,7 +16,7 @@ const AppHeader = () => {
             Конструктор
           </p>
         </Link>
-        <Link to='#2' className={styles.nav_link}>
+        <Link to='/login' className={styles.nav_link}>
           <ListIcon type='secondary' />
           <p className=" text text_type_main-default text_color_inactive">
             Лента заказов
