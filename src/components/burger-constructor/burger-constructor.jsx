@@ -152,6 +152,7 @@ const BurgerConstructor = () => {
             }) : (
               <li className={styles.constructor_list_item + ' ' + styles.constructor_list_emptyItem}>
                 <ConstructorElement
+                  isLocked={true}
                   text={`Добавьте ингредиент`}
                   price={0}
                   thumbnail={noImg}
