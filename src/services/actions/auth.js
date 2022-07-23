@@ -5,6 +5,8 @@ export const SUBMIT_FAILED = 'SUBMIT_FAILED'
 export const CREATE_USER = 'CREATE_USER'
 export const GET_USER = 'GET_USER'
 export const UPDATE_USER = 'UPDATE_USER'
+export const FORGOT_PASSWORD = 'FORGOT_PASSWORD'
+export const RESET_PASSWORD = 'RESET_PASSWORD'
 export const CLEAR_FORM = 'CLEAR_FORM'
 export const FORM_SET_VALUE = 'FORM_SET_VALUE'
 
@@ -16,15 +18,13 @@ export const setFormValue = (field, value) => ({
 }) 
 
 // Регистрация пользователя
-export const createUser = () => {
+export const createUser = (name, email, password) => {
   
-  return function(dispatch, getState) {
+  return function(dispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST
     })
-
-    const form = getState().formDataReducer.form
 
     fetch(API_URL + '/auth/register', {
       method: 'POST',
@@ -32,15 +32,52 @@ export const createUser = () => {
         'Content-Type': 'application/json;charset=utf-8'
       }, 
       body: JSON.stringify({
-        "email": form.emailValue, 
-        "password": form.passwordValue,
-        "name": form.nameValue
+        name,
+        email, 
+        password,
+      } )
+    })
+    .then(checkResponse)
+    .then(data => {
+      dispatch({
+        type: CREATE_USER,
+        payload: data
+      })
+      dispatch({
+        type: CLEAR_FORM
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: SUBMIT_FAILED
+      })
+    })
+  }
+}
+
+// Авторизация пользователя
+export const getUser = (email, password) => {
+  
+  return function(dispatch) {
+
+    dispatch({
+      type: SUBMIT_REQUEST
+    })
+
+    fetch(API_URL + '/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }, 
+      body: JSON.stringify({
+        email, 
+        password
       } )
     })
       .then(checkResponse)
       .then(data => {
         dispatch({
-          type: CREATE_USER,
+          type: GET_USER,
           payload: data
         })
         dispatch({
@@ -53,4 +90,112 @@ export const createUser = () => {
         })
       })
   }
+}
+
+// Запрос на сброс пароля
+export const forgotPassword = (email) => {
+  
+  return function(dispatch) {
+
+    dispatch({
+      type: SUBMIT_REQUEST
+    })
+
+    fetch(API_URL + '/password-reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }, 
+      body: JSON.stringify({
+        email
+      } )
+    })
+      .then(checkResponse)
+      .then(data => {
+        dispatch({
+          type: FORGOT_PASSWORD,
+          message: data.message
+        })
+        dispatch({
+          type: CLEAR_FORM
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: SUBMIT_FAILED
+        })
+      })
+  }
 } 
+
+// Сброс пароля
+export const resetPassword = (password, token) => {
+  
+  return function(dispatch) {
+
+    dispatch({
+      type: SUBMIT_REQUEST
+    })
+
+    fetch(API_URL + '/password-reset/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }, 
+      body: JSON.stringify({
+        password,
+        token
+      } )
+    })
+      .then(checkResponse)
+      .then(data => {
+        dispatch({
+          type: RESET_PASSWORD,
+          message: data.message
+        })
+        dispatch({
+          type: CLEAR_FORM
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: SUBMIT_FAILED
+        })
+      })
+  }
+} 
+
+// Обновление информации о пользователе
+export const updateUser = (name, email, password) => {
+  
+  return function(dispatch) {
+
+    dispatch({
+      type: SUBMIT_REQUEST
+    })
+
+    fetch(API_URL + '/password-reset/reset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }, 
+      body: JSON.stringify({
+        name,
+        email,
+        password
+      } )
+    })
+      .then(checkResponse)
+      .then(data => {
+        dispatch({
+          type: UPDATE_USER,
+          payload: data
+        })
+      })
+      .catch(err => {
+        dispatch({
+          type: SUBMIT_FAILED
+        })
+      })
+  }
+}

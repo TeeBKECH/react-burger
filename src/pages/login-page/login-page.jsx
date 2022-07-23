@@ -1,21 +1,31 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { getUser, setFormValue } from '../../services/actions/auth'
 
 import styles from './login-page.module.css'
 
 export const LoginPage = () => {
 
-  const [emailValue, setEmailValue] = useState('')
-  const [passwordValue, setPasswordValue] = useState('')
+  const {
+    emailValue,
+    passwordValue
+  } = useSelector(store => store.formDataReducer.form)
+
   const inputRef = useRef(null)
+  const dispatch = useDispatch()
+
+  const onFormChange = (e) => {
+    dispatch(setFormValue(e.target.name, e.target.value))
+  }
 
   const onIconClick = () => {
     inputRef.current.focus()
   }
 
   const submitForm = () => {
-    console.log(1)
+    dispatch(getUser(emailValue, passwordValue))
   }
 
   return (
@@ -30,9 +40,9 @@ export const LoginPage = () => {
         <Input
           type={'email'}
           placeholder={'E-mail'}
-          onChange={e => setEmailValue(e.target.value)}
+          onChange={onFormChange}
           value={emailValue}
-          name={'email'}
+          name={'emailValue'}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}
@@ -42,9 +52,9 @@ export const LoginPage = () => {
         <Input
           type={'password'}
           placeholder={'Пароль'}
-          onChange={e => setPasswordValue(e.target.value)}
+          onChange={onFormChange}
           value={passwordValue}
-          name={'password'}
+          name={'passwordValue'}
           icon={'ShowIcon'}
           error={false}
           ref={inputRef}

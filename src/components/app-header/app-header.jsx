@@ -1,8 +1,7 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import classNames from 'classnames'
 
 import styles from './app-header.module.css'
 
@@ -10,30 +9,24 @@ const AppHeader = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
-        <Link to='/' className={classNames(styles.nav_link, styles.nav_link_active)}>
-          <BurgerIcon type='primary' />
-          <p className="text text_type_main-default">
-            Конструктор
-          </p>
-        </Link>
-        <Link to='/login' className={styles.nav_link}>
+        <NavLink exact={true} to='/' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
+          <BurgerIcon type='secondary' />
+          <p>Конструктор</p>
+        </NavLink>
+        <NavLink to='/login' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
           <ListIcon type='secondary' />
-          <p className=" text text_type_main-default text_color_inactive">
-            Лента заказов
-          </p>
-        </Link>
+          <p>Лента заказов</p>
+        </NavLink>
       </nav>
       <div className={styles.logo}>
-        <Link to="/">
+        <NavLink to="/">
           <Logo />
-        </Link>
+        </NavLink>
       </div>
-      <Link to='/profile' className={styles.profile_link}>
+      <NavLink to='/profile' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
         <ProfileIcon type='secondary' />
-        <p className=" text text_type_main-default text_color_inactive">
-          Личный кабинет
-        </p>
-      </Link>
+        <p>Личный кабинет</p>
+      </NavLink>
     </header>
   )
 }

@@ -25,6 +25,12 @@ const App = () => {
         <AppHeader />
         <main className={styles.app_content}>
           <Switch>
+            <Route path="/" exact={true}>
+              <DndProvider backend={HTML5Backend}>
+                <BurgerIngredients />
+                <BurgerConstructor />
+              </DndProvider>
+            </Route>
             <Route path="/login" exact={true}>
               <LoginPage />
             </Route>
@@ -42,12 +48,6 @@ const App = () => {
             </Route>
             <Route path="/ingredients/:id" exact={true}>
               <IngredientPage />
-            </Route>
-            <Route path="/" exact={true}>
-              <DndProvider backend={HTML5Backend}>
-                <BurgerIngredients />
-                <BurgerConstructor />
-              </DndProvider>
             </Route>
             <Route>
               <Error404Page />

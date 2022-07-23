@@ -1,21 +1,31 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { setFormValue, resetPassword } from '../../services/actions/auth'
 
 import styles from './reset-pass.module.css'
 
 export const ResetPasswordPage = () => {
   
-  const [passwordValue, setPasswordValue] = useState('')
-  const [codeValue, setCodeValue] = useState('')
+  const {
+    passwordValue,
+    resetPasswordToken,
+  } = useSelector(store => store.formDataReducer.form)
+
   const inputRef = useRef(null)
+  const dispatch = useDispatch()
+
+  const onFormChange = (e) => {
+    dispatch(setFormValue(e.target.name, e.target.value))
+  }
 
   const onIconClick = () => {
     inputRef.current.focus()
   }
 
   const submitForm = () => {
-    console.log(1)
+    dispatch(resetPassword(passwordValue, resetPasswordToken))
   }
 
   return (
@@ -30,9 +40,9 @@ export const ResetPasswordPage = () => {
         <Input
           type={'password'}
           placeholder={'Введите новый пароль'}
-          onChange={e => setPasswordValue(e.target.value)}
+          onChange={onFormChange}
           value={passwordValue}
-          name={'password'}
+          name={'passwordValue'}
           icon={'ShowIcon'}
           error={false}
           ref={inputRef}
@@ -43,9 +53,9 @@ export const ResetPasswordPage = () => {
         <Input
           type={'text'}
           placeholder={'Введите код из письма'}
-          onChange={e => setCodeValue(e.target.value)}
-          value={codeValue}
-          name={'code'}
+          onChange={onFormChange}
+          value={resetPasswordToken}
+          name={'resetPasswordToken'}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}

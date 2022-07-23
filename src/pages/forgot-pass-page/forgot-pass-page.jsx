@@ -1,20 +1,30 @@
-import React, { useState, useRef} from 'react'
+import React, { useRef} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
+import { setFormValue, forgotPassword } from '../../services/actions/auth'
 
 import styles from './forgot-pass.module.css'
 
 export const ForgotPasswordPage = () => {
 
-  const [emailValue, setEmailValue] = useState('')
+  const {
+    emailValue
+  } = useSelector(store => store.formDataReducer.form)
+
   const inputRef = useRef(null)
+  const dispatch = useDispatch()
+
+  const onFormChange = (e) => {
+    dispatch(setFormValue(e.target.name, e.target.value))
+  }
 
   const onIconClick = () => {
     inputRef.current.focus()
   }
 
   const submitForm = () => {
-    console.log(1)
+    dispatch(forgotPassword(emailValue))
   }
 
   return (
@@ -29,9 +39,9 @@ export const ForgotPasswordPage = () => {
         <Input
           type={'email'}
           placeholder={'Укажите e-mail'}
-          onChange={e => setEmailValue(e.target.value)}
+          onChange={onFormChange}
           value={emailValue}
-          name={'email'}
+          name={'emailValue'}
           error={false}
           errorText={'Ошибка'}
           ref={inputRef}

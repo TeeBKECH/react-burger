@@ -27,7 +27,7 @@ export const RegisterPage = () => {
   }
 
   const submitForm = () => {
-    dispatch(createUser())
+    dispatch(createUser(nameValue, emailValue, passwordValue))
   }
 
   return (

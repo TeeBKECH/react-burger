@@ -5,7 +5,9 @@ import {
   GET_USER,
   UPDATE_USER,
   CLEAR_FORM,
-  FORM_SET_VALUE
+  FORM_SET_VALUE,
+  RESET_PASSWORD,
+  FORGOT_PASSWORD
 } from '../actions/auth'
 
 // Исходное состояние
@@ -14,8 +16,12 @@ const initialState = {
   form: {
     nameValue: '',
     emailValue: '',
-    passwordValue: ''
+    passwordValue: '',
+    resetPasswordToken: '',
   },
+
+  resetPassword: false,
+  requestMessage: '',
 
   submitRequest: false,
   submitFailed: false,
@@ -51,7 +57,7 @@ export const formDataReducer = (state = initialState, action) => {
   }
 }
 
-export const createUserReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SUBMIT_REQUEST: {
       return {
@@ -72,6 +78,36 @@ export const createUserReducer = (state = initialState, action) => {
         user: action.payload.user,
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken,
+      };
+    }
+    case GET_USER: {
+      return {
+        ...state,
+        user: action.payload.user,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+      };
+    }
+    case UPDATE_USER: {
+      return {
+        ...state,
+        user: action.payload.user,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+      };
+    }
+    case FORGOT_PASSWORD: {
+      return {
+        ...state,
+        requestMessage: action.message,
+        resetPassword: true
+      };
+    }
+    case RESET_PASSWORD: {
+      return {
+        ...state,
+        requestMessage: action.message,
+        resetPassword: false
       };
     }
     default: {

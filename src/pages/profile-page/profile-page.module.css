@@ -1,0 +1,34 @@
+.profile {
+  width: 1280px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 60px;
+}
+
+.profile_sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.profile_nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_nav_link {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.profile_content {
+
+}
+
+.profile_form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
