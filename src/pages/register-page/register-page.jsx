@@ -1,22 +1,33 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
+
+import { setFormValue, createUser } from '../../services/actions/auth'
 
 import styles from './register-page.module.css'
 
 export const RegisterPage = () => {
 
-  const [emailValue, setEmailValue] = useState('')
-  const [nameValue, setNameValue] = useState('')
-  const [passwordValue, setPasswordValue] = useState('')
+  const {
+    nameValue,
+    emailValue,
+    passwordValue
+  } = useSelector(store => store.formDataReducer.form)
+
   const inputRef = useRef(null)
+  const dispatch = useDispatch()
+
+  const onFormChange = (e) => {
+    dispatch(setFormValue(e.target.name, e.target.value))
+  }
 
   const onIconClick = () => {
     inputRef.current.focus()
   }
 
   const submitForm = () => {
-    console.log(1)
+    dispatch(createUser())
   }
 
   return (
@@ -31,9 +42,9 @@ export const RegisterPage = () => {
         <Input
           type={'text'}
           placeholder={'Имя'}
-          onChange={e => setNameValue(e.target.value)}
+          onChange={onFormChange}
           value={nameValue}
-          name={'name'}
+          name={'nameValue'}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}
@@ -43,9 +54,9 @@ export const RegisterPage = () => {
         <Input
           type={'email'}
           placeholder={'E-mail'}
-          onChange={e => setEmailValue(e.target.value)}
+          onChange={onFormChange}
           value={emailValue}
-          name={'email'}
+          name={'emailValue'}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}
@@ -55,9 +66,9 @@ export const RegisterPage = () => {
         <Input
           type={'password'}
           placeholder={'Пароль'}
-          onChange={e => setPasswordValue(e.target.value)}
+          onChange={onFormChange}
           value={passwordValue}
-          name={'password'}
+          name={'passwordValue'}
           icon={'ShowIcon'}
           error={false}
           ref={inputRef}

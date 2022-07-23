@@ -1,3 +1,5 @@
+import { API_URL, checkResponse } from '../../utils/api'
+
 export const GET_BURGER_INGREDIENTS_REQUEST = 'GET_BURGER_INGREDIENTS_REQUEST'
 export const GET_BURGER_INGREDIENTS_FAILED = 'GET_BURGER_INGREDIENTS_FAILED'
 export const GET_BURGER_INGREDIENTS_SUCCESS = 'GET_BURGER_INGREDIENTS_SUCCESS'
@@ -19,15 +21,6 @@ export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT'
 export const BUN_REPLACE = 'BUN_REPLACE'
 
-const baseUrl = 'https://norma.nomoreparties.space/api'
-
-const checkResponse = res => {
-  if (res.ok) {
-    return res.json()
-  }
-  return Promise.reject(`Ошибка ${res.status}`)
-}
-
 // Получение с сервера игредиентов посредством усилителя
 export const getBurgerIngredients = () => {
   
@@ -36,7 +29,7 @@ export const getBurgerIngredients = () => {
     dispatch({
       type: GET_BURGER_INGREDIENTS_REQUEST
     })
-    fetch(baseUrl + '/ingredients')
+    fetch(API_URL + '/ingredients')
       .then(checkResponse)
       .then(data => {
         dispatch({
@@ -63,7 +56,7 @@ export const setOrderDetails = () => {
 
     const orderData = [...getState().constructorIngredientsReducer.constructorIngredients.map(el => el._id), getState().constructorIngredientsReducer.bun._id]
 
-    fetch(baseUrl + '/orders', {
+    fetch(API_URL + '/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'

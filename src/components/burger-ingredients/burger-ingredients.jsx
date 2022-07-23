@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { getBurgerIngredients } from '../../services/actions/index';
 
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import Tabs from '../tabs/tabs'

@@ -33,12 +33,12 @@ export const ForgotPasswordPage = () => {
           value={emailValue}
           name={'email'}
           error={false}
+          errorText={'Ошибка'}
           ref={inputRef}
           onIconClick={onIconClick}
-          errorText={'Ошибка'}
           size={'default'}
         />
-        <Button onClick={submitForm} type="primary" size="large">
+        <Button onClick={submitForm} disabled={emailValue ? false : true} type="primary" size="large">
           Восстановить
         </Button>
       </div>
