@@ -1,0 +1,24 @@
+.category_item {
+  position: relative;
+  /* border: 1px solid rgba(255, 255, 255, .4); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.category_item_currency {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category_item img {
+  display: block;
+  width: calc(100% - 32px);
+}
+
+.category_item p.card_title {
+  height: 48px;
+}

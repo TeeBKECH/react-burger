@@ -11,13 +11,13 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 500px;
 }
 
 .constructor_box {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-height: 400px;
 }
 
 .constructor_list_item {
@@ -46,6 +46,7 @@
 }
 
 .constructor_list_item_top,
-.constructor_list_item_bottom {
+.constructor_list_item_bottom,
+.constructor_list_emptyItem {
   padding-left: 32px;
 }
