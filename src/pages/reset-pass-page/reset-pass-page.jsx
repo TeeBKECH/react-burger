@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { setFormValue, resetPassword } from '../../services/actions/auth'
 
@@ -11,10 +11,16 @@ export const ResetPasswordPage = () => {
   const {
     passwordValue,
     resetPasswordToken,
-  } = useSelector(store => store.formDataReducer.form)
+    requestMessage
+  } = useSelector(store => ({
+    passwordValue: store.formDataReducer.form.passwordValue,
+    resetPasswordToken: store.formDataReducer.form.resetPasswordToken,
+    requestMessage: store.userReducer.requestMessage,
+  }))
 
   const inputRef = useRef(null)
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const onFormChange = (e) => {
     dispatch(setFormValue(e.target.name, e.target.value))
@@ -23,9 +29,14 @@ export const ResetPasswordPage = () => {
   const onIconClick = () => {
     inputRef.current.focus()
   }
-
+  
   const submitForm = () => {
     dispatch(resetPassword(passwordValue, resetPasswordToken))
+  }
+
+  if (requestMessage === 'Password successfully reset') {
+    const state = {from: location}
+    return <Redirect to={{pathname: '/login', state}} />
   }
 
   return (

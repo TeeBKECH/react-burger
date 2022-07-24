@@ -2,12 +2,16 @@ import {
   SUBMIT_REQUEST,
   SUBMIT_FAILED,
   CREATE_USER,
+  LOGIN_USER,
+  LOGOUT_USER,
   GET_USER,
   UPDATE_USER,
   CLEAR_FORM,
+  RESET_FORM,
   FORM_SET_VALUE,
   RESET_PASSWORD,
-  FORGOT_PASSWORD
+  FORGOT_PASSWORD,
+  UPDATE_FORM
 } from '../actions/auth'
 
 // Исходное состояние
@@ -19,17 +23,12 @@ const initialState = {
     passwordValue: '',
     resetPasswordToken: '',
   },
-
-  resetPassword: false,
+  
   requestMessage: '',
-
   submitRequest: false,
   submitFailed: false,
 
-  user: {
-    name: '',
-    email: ''
-  },
+  user: null,
   accesToken: '',
   refreshToken: '',
 }
@@ -44,6 +43,27 @@ export const formDataReducer = (state = initialState, action) => {
           [action.field]: action.value
         }
       }
+    }
+    case UPDATE_FORM: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          nameValue: action.payload.name,
+          emailValue: action.payload.email
+        },
+      };
+    }
+    case RESET_FORM: {
+      return {
+        ...state,
+        form: {
+          ...state.form,
+          nameValue: action.payload.name,
+          emailValue: action.payload.email,
+          passwordValue: '',
+        }
+      };
     }
     case CLEAR_FORM: {
       return {
@@ -75,25 +95,31 @@ export const userReducer = (state = initialState, action) => {
     case CREATE_USER: {
       return {
         ...state,
-        user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        user: action.payload
+      };
+    }
+    case LOGIN_USER: {
+      return {
+        ...state,
+        user: action.payload
+      };
+    }
+    case LOGOUT_USER: {
+      return {
+        ...state,
+        user: initialState.user
       };
     }
     case GET_USER: {
       return {
         ...state,
-        user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        user: action.payload
       };
     }
     case UPDATE_USER: {
       return {
         ...state,
-        user: action.payload.user,
-        accessToken: action.payload.accessToken,
-        refreshToken: action.payload.refreshToken,
+        user: action.payload
       };
     }
     case FORGOT_PASSWORD: {

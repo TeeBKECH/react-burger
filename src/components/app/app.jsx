@@ -10,10 +10,12 @@ import {
   ProfilePage, 
   RegisterPage, 
   ResetPasswordPage,
-  IngredientPage } from '../../pages';
+  IngredientPage, 
+  OrdersList} from '../../pages';
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import { ProtectedRoute } from '../protected-route/protected-route';
 
 import styles from './app.module.css';
 
@@ -43,9 +45,12 @@ const App = () => {
             <Route path="/reset-password" exact={true}>
               <ResetPasswordPage />
             </Route>
-            <Route path="/profile" exact={true}>
-              <ProfilePage />
+            <Route path="/orders-list" exact={true}>
+              <OrdersList />
             </Route>
+            <ProtectedRoute path="/profile">
+              <ProfilePage />
+            </ProtectedRoute>
             <Route path="/ingredients/:id" exact={true}>
               <IngredientPage />
             </Route>

@@ -13,7 +13,7 @@ const AppHeader = () => {
           <BurgerIcon type='secondary' />
           <p>Конструктор</p>
         </NavLink>
-        <NavLink to='/login' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
+        <NavLink to='/orders-list' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
           <ListIcon type='secondary' />
           <p>Лента заказов</p>
         </NavLink>

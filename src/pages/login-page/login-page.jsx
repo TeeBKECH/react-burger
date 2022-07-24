@@ -1,17 +1,25 @@
 import React, { useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { getUser, setFormValue } from '../../services/actions/auth'
+import { logIn, setFormValue } from '../../services/actions/auth'
 
 import styles from './login-page.module.css'
+import { getCookie } from '../../utils/api'
 
 export const LoginPage = () => {
 
   const {
     emailValue,
-    passwordValue
-  } = useSelector(store => store.formDataReducer.form)
+    passwordValue,
+    user
+  } = useSelector(store => ({
+    emailValue: store.formDataReducer.form.emailValue,
+    passwordValue: store.formDataReducer.form.passwordValue,
+    user: store.userReducer.user
+  }))
+
+  const location = useLocation()
 
   const inputRef = useRef(null)
   const dispatch = useDispatch()
@@ -25,7 +33,12 @@ export const LoginPage = () => {
   }
 
   const submitForm = () => {
-    dispatch(getUser(emailValue, passwordValue))
+    dispatch(logIn(emailValue, passwordValue))
+  }
+
+  if (user) {
+    const { from } = location.state || {from: '/'}
+    return <Redirect to={from} />
   }
 
   return (

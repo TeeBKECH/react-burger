@@ -1,6 +1,6 @@
-import React, { useRef} from 'react'
+import React, { useCallback, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { setFormValue, forgotPassword } from '../../services/actions/auth'
 
@@ -9,11 +9,16 @@ import styles from './forgot-pass.module.css'
 export const ForgotPasswordPage = () => {
 
   const {
-    emailValue
-  } = useSelector(store => store.formDataReducer.form)
+    emailValue,
+    requestMessage
+  } = useSelector(store => ({
+    emailValue: store.formDataReducer.form.emailValue,
+    requestMessage: store.userReducer.requestMessage
+  }))
 
   const inputRef = useRef(null)
   const dispatch = useDispatch()
+  const location = useLocation()
 
   const onFormChange = (e) => {
     dispatch(setFormValue(e.target.name, e.target.value))
@@ -25,6 +30,11 @@ export const ForgotPasswordPage = () => {
 
   const submitForm = () => {
     dispatch(forgotPassword(emailValue))
+  }
+
+  if (requestMessage === 'Reset email sent') {
+    const state = {from: location}
+    return <Redirect to={{pathname: '/reset-password', state}} />
   }
 
   return (
