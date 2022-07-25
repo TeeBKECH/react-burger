@@ -25,8 +25,6 @@ const BurgerIngredients = () => {
 
   const scrollRef = useRef(null)
 
-  const { ingredientDetails } = useSelector(store => store.ingredientDetailsReducer);
-
   const dispatch = useDispatch();
 
   const [current, setCurrent] = React.useState('bun')
@@ -35,12 +33,6 @@ const BurgerIngredients = () => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
       ingredient: ingredient
-    })
-  }
-
-  const closeIngredientDetails = () => {
-    dispatch({
-      type: REMOVE_INGREDIENT_DETAILS
     })
   }
 
@@ -121,13 +113,7 @@ const BurgerIngredients = () => {
                 )
               })
             }
-
           </div>
-          {ingredientDetails && (
-            <Modal title="Детали ингредиента" onClose={closeIngredientDetails}>
-              <IngredientDetails details={ingredientDetails} />
-            </Modal>
-          )}
         </section>
       )}
     </>
