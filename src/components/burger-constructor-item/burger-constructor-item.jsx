@@ -1,16 +1,11 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useDrag, useDrop } from 'react-dnd'
-import { useSelector, useDispatch } from 'react-redux'
-
-import styles from './constructor-ingredient.module.css'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-const ConstrucorIngredient = ({ el, index, removeIngredient, moveIngredient }) => {
+import styles from './burger-constructor-item.module.css'
 
-  const { uniqueKey } = el
-
-  const dispatch = useDispatch()
+const BurgerConstrucorItem = ({ el, index, removeIngredient, moveIngredient }) => {
 
   const ref = useRef(null)
 
@@ -63,10 +58,11 @@ const ConstrucorIngredient = ({ el, index, removeIngredient, moveIngredient }) =
   )
 }
 
-ConstrucorIngredient.propTypes = {
+BurgerConstrucorItem.propTypes = {
   el: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
-  removeIngredient: PropTypes.func.isRequired
+  removeIngredient: PropTypes.func.isRequired,
+  moveIngredient: PropTypes.func.isRequired
 }
 
-export default ConstrucorIngredient
+export default BurgerConstrucorItem

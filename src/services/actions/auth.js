@@ -147,6 +147,7 @@ const refreshToken = (afterRefresh) => {
         "token": getCookie('refreshToken')
       })
     })
+    .then(checkResponse)
     .then((res) => {
       saveTokens(res.refreshToken, res.accessToken);
       dispatch(afterRefresh);

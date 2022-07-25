@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient'
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import {
@@ -141,7 +141,7 @@ const BurgerConstructor = () => {
           {
             constructorIngredients.length ? constructorIngredients.map((el, i) => {
               return (
-                <ConstructorIngredient
+                <BurgerConstructorItem
                   key={el.uniqueKey}
                   moveIngredient={moveIngredient}
                   removeIngredient={() => removeIngredient(el)} 

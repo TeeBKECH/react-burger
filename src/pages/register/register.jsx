@@ -1,25 +1,19 @@
 import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, Redirect, useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { logIn, setFormValue } from '../../services/actions/auth'
 
-import styles from './login-page.module.css'
-import { getCookie } from '../../utils/api'
+import { setFormValue, createUser } from '../../services/actions/auth'
 
-export const LoginPage = () => {
+import styles from './register.module.css'
+
+export const RegisterPage = () => {
 
   const {
+    nameValue,
     emailValue,
-    passwordValue,
-    user
-  } = useSelector(store => ({
-    emailValue: store.formDataReducer.form.emailValue,
-    passwordValue: store.formDataReducer.form.passwordValue,
-    user: store.userReducer.user
-  }))
-
-  const location = useLocation()
+    passwordValue
+  } = useSelector(store => store.formDataReducer.form)
 
   const inputRef = useRef(null)
   const dispatch = useDispatch()
@@ -33,12 +27,7 @@ export const LoginPage = () => {
   }
 
   const submitForm = () => {
-    dispatch(logIn(emailValue, passwordValue))
-  }
-
-  if (user) {
-    const { from } = location.state || {from: '/'}
-    return <Redirect to={from} />
+    dispatch(createUser(nameValue, emailValue, passwordValue))
   }
 
   return (
@@ -46,10 +35,22 @@ export const LoginPage = () => {
 
       <div className={styles.form_title}>
         <h2 className="text text_type_main-medium">
-          Вход
+          Регистрация
         </h2>
       </div>
       <div className={styles.form_body}>
+        <Input
+          type={'text'}
+          placeholder={'Имя'}
+          onChange={onFormChange}
+          value={nameValue}
+          name={'nameValue'}
+          error={false}
+          ref={inputRef}
+          onIconClick={onIconClick}
+          errorText={'Ошибка'}
+          size={'default'}
+        />
         <Input
           type={'email'}
           placeholder={'E-mail'}
@@ -76,17 +77,13 @@ export const LoginPage = () => {
           size={'default'}
         />
         <Button onClick={submitForm} type="primary" size="large">
-          Войти
+          Зарегистрироваться
         </Button>
       </div>
       <div className={styles.form_links}>
         <p className="text text_type_main-default text_color_inactive">
-          Вы — новый пользователь? &nbsp;
-          <Link className={styles.form_links_item} to='/register'>Зарегистрироваться</Link>
-        </p>
-        <p className="text text_type_main-default text_color_inactive">
-          Забыли пароль? &nbsp;
-          <Link className={styles.form_links_item} to='/forgot-password'>Восстановить пароль</Link>
+          Уже зарегистрированы? &nbsp;
+          <Link className={styles.form_links_item} to='/login'>Войти</Link>
         </p>
       </div>
     </div>

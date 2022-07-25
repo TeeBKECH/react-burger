@@ -1,6 +1,4 @@
 import React from 'react';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { 
@@ -10,11 +8,10 @@ import {
   ProfilePage, 
   RegisterPage, 
   ResetPasswordPage,
-  IngredientPage, 
-  OrdersList} from '../../pages';
+  IngredientPage,
+  OrdersList,
+  Home } from '../../pages';
 import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import { ProtectedRoute } from '../protected-route/protected-route';
 
 import styles from './app.module.css';
@@ -28,10 +25,7 @@ const App = () => {
         <main className={styles.app_content}>
           <Switch>
             <Route path="/" exact={true}>
-              <DndProvider backend={HTML5Backend}>
-                <BurgerIngredients />
-                <BurgerConstructor />
-              </DndProvider>
+              <Home />
             </Route>
             <Route path="/login" exact={true}>
               <LoginPage />

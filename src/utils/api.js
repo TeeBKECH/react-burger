@@ -11,9 +11,6 @@ export const checkResponse = async res => {
 
   const error = (data && data.message) || res.status
   return Promise.reject(error)
-
-  // console.log(message)
-  // return Promise.reject(message).catch(message)
 }
 
 export const getCookie = (name) => {

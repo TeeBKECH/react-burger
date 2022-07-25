@@ -6,7 +6,7 @@ import { setFormValue, updateUser, logOut, RESET_FORM } from '../../services/act
 import { OrdersHistory } from '../index'
 import { getCookie } from '../../utils/api'
 
-import styles from './profile-page.module.css'
+import styles from './profile.module.css'
 
 const ProfileForm = () => {
 
