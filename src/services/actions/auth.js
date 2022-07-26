@@ -152,6 +152,11 @@ const refreshToken = (afterRefresh) => {
       saveTokens(res.refreshToken, res.accessToken);
       dispatch(afterRefresh);
     })
+    .catch(err => {
+      dispatch({
+        type: SUBMIT_FAILED
+      })
+    })
   }
 }
 

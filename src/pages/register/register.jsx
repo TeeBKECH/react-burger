@@ -26,12 +26,13 @@ export const RegisterPage = () => {
     inputRef.current.focus()
   }
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault()
     dispatch(createUser(nameValue, emailValue, passwordValue))
   }
 
   return (
-    <div className={styles.form}>
+    <form onSubmit={submitForm} className={styles.form}>
 
       <div className={styles.form_title}>
         <h2 className="text text_type_main-medium">
@@ -76,7 +77,7 @@ export const RegisterPage = () => {
           errorText={'Ошибка'}
           size={'default'}
         />
-        <Button onClick={submitForm} type="primary" size="large">
+        <Button type="primary" size="large">
           Зарегистрироваться
         </Button>
       </div>
@@ -86,6 +87,6 @@ export const RegisterPage = () => {
           <Link className={styles.form_links_item} to='/login'>Войти</Link>
         </p>
       </div>
-    </div>
+    </form>
   )
 }

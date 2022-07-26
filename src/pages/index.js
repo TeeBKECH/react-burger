@@ -4,7 +4,6 @@ import { ForgotPasswordPage } from "./forgot-pass/forgot-pass"
 import { ResetPasswordPage } from "./reset-pass/reset-pass"
 import { ProfilePage } from "./profile/profile"
 import { Error404Page } from "./error-404/error-404"
-import { IngredientPage } from "./ingredient/ingredient"
 import { OrdersList } from "./orders-list/orders-list"
 import { OrdersHistory } from "./orders-history/orders-history"
 import { Home } from "./home/home"
@@ -16,7 +15,6 @@ export {
   ResetPasswordPage, 
   ProfilePage, 
   Error404Page, 
-  IngredientPage, 
   OrdersList, 
   OrdersHistory,
   Home

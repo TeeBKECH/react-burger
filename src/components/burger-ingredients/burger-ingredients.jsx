@@ -68,10 +68,6 @@ const BurgerIngredients = () => {
     { sauce: 'Соусы' }
   ]
 
-  useEffect(() => {
-    dispatch(getBurgerIngredients())
-  }, [])
-
   return (
     <>
       {burgerIngredientsRequest && 'Идет загрузка...'}

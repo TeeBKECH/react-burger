@@ -28,7 +28,8 @@ export const ForgotPasswordPage = () => {
     inputRef.current.focus()
   }
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault()
     dispatch(forgotPassword(emailValue))
   }
 
@@ -38,7 +39,7 @@ export const ForgotPasswordPage = () => {
   }
 
   return (
-    <div className={styles.form}>
+    <form onSubmit={submitForm} className={styles.form}>
 
       <div className={styles.form_title}>
         <h2 className="text text_type_main-medium">
@@ -58,7 +59,7 @@ export const ForgotPasswordPage = () => {
           onIconClick={onIconClick}
           size={'default'}
         />
-        <Button onClick={submitForm} disabled={emailValue ? false : true} type="primary" size="large">
+        <Button disabled={emailValue ? false : true} type="primary" size="large">
           Восстановить
         </Button>
       </div>
@@ -68,6 +69,6 @@ export const ForgotPasswordPage = () => {
           <Link className={styles.form_links_item} to='/login'>Войти</Link>
         </p>
       </div>
-    </div>
+    </form>
   )
 }

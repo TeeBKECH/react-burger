@@ -25,8 +25,6 @@ export const ModalSwitch = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const { ingredientDetails } = useSelector(store => store.ingredientDetailsReducer);
-
   const background = location.state && location.state.background
 
   const closeIngredientDetails = () => {
@@ -73,7 +71,7 @@ export const ModalSwitch = () => {
         </main>
       </div>
 
-      {background && ingredientDetails && (
+      {background && (
         <Route
           path='/ingredients/:ingredientId'
           children={

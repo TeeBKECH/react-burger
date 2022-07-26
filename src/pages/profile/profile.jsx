@@ -28,7 +28,8 @@ const ProfileForm = () => {
     inputRef.current.focus()
   }
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault()
     dispatch(updateUser(form.nameValue, form.emailValue, form.passwordValue))
   }
 
@@ -40,7 +41,7 @@ const ProfileForm = () => {
   }
 
   return (
-    <div className={styles.profile_form}>
+    <form onSubmit={submitForm} className={styles.profile_form}>
       <Input
         type={'text'}
         placeholder={'Имя'}
@@ -84,11 +85,11 @@ const ProfileForm = () => {
         <Button onClick={resetForm} type="primary" size="large">
           Сбросить
         </Button>
-        <Button onClick={submitForm} type="primary" size="large">
+        <Button type="primary" size="large">
           Сохранить
         </Button>
       </div>
-    </div>
+    </form>
   )
 }
 

@@ -20,14 +20,12 @@ const IngredientDetails = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!ingredientDetails) {
-      dispatch(getBurgerIngredients())
-      dispatch({
-        type: ADD_INGREDIENT_DETAILS,
-        ingredient: burgerIngredients.find(el => el._id === params.ingredientId)
-      })
-      console.log(burgerIngredients)
-    }
+    dispatch({
+      type: ADD_INGREDIENT_DETAILS,
+      ingredient: burgerIngredients.find(el => el._id === params.ingredientId)
+    })
+    console.log(burgerIngredients)
+
   }, [burgerIngredients])
 
   return (

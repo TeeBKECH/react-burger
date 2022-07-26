@@ -31,7 +31,8 @@ export const LoginPage = () => {
     inputRef.current.focus()
   }
 
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault()
     dispatch(logIn(emailValue, passwordValue))
   }
 
@@ -41,7 +42,7 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className={styles.form}>
+    <form onSubmit={submitForm} className={styles.form}>
 
       <div className={styles.form_title}>
         <h2 className="text text_type_main-medium">
@@ -74,7 +75,7 @@ export const LoginPage = () => {
           errorText={'Ошибка'}
           size={'default'}
         />
-        <Button onClick={submitForm} type="primary" size="large">
+        <Button type="primary" size="large">
           Войти
         </Button>
       </div>
@@ -88,6 +89,6 @@ export const LoginPage = () => {
           <Link className={styles.form_links_item} to='/forgot-password'>Восстановить пароль</Link>
         </p>
       </div>
-    </div>
+    </form>
   )
 }

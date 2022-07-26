@@ -22,6 +22,8 @@ export const ResetPasswordPage = () => {
   const dispatch = useDispatch()
   const location = useLocation()
 
+  console.log(location)
+
   const onFormChange = (e) => {
     dispatch(setFormValue(e.target.name, e.target.value))
   }
@@ -30,8 +32,13 @@ export const ResetPasswordPage = () => {
     inputRef.current.focus()
   }
   
-  const submitForm = () => {
+  const submitForm = (e) => {
+    e.preventDefault()
     dispatch(resetPassword(passwordValue, resetPasswordToken))
+  }
+
+  if (!requestMessage) {
+    return <Redirect to={{pathname: '/forgot-password'}} />
   }
 
   if (requestMessage === 'Password successfully reset') {
@@ -40,7 +47,7 @@ export const ResetPasswordPage = () => {
   }
 
   return (
-    <div className={styles.form}>
+    <form onSubmit={submitForm} className={styles.form}>
 
       <div className={styles.form_title}>
         <h2 className="text text_type_main-medium">
@@ -73,7 +80,7 @@ export const ResetPasswordPage = () => {
           errorText={'Ошибка'}
           size={'default'}
         />
-        <Button onClick={submitForm} type="primary" size="large">
+        <Button type="primary" size="large">
           Сохранить
         </Button>
       </div>
@@ -83,6 +90,6 @@ export const ResetPasswordPage = () => {
           <Link className={styles.form_links_item} to='/login'>Войти</Link>
         </p>
       </div>
-    </div>
+    </form>
   )
 }
