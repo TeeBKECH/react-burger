@@ -4,6 +4,7 @@
   align-content: center;
   gap: 16px;
   width: 100%;
+  max-width: 620px;
 }
 
 .ingredient_img {

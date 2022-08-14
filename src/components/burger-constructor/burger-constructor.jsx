@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
+import { Redirect } from 'react-router-dom'
 
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import ConstructorIngredient from '../constructor-ingredient/constructor-ingredient'
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
+
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import {
@@ -23,13 +25,16 @@ import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
 
 const BurgerConstructor = () => {
-  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed } = useSelector(store => ({
+  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useSelector(store => ({
     bun: store.constructorIngredientsReducer.bun,
     constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
     orderDetails: store.orderDetailsReducer.orderDetails,
     orderRequest: store.orderDetailsReducer.orderRequest,
     orderFailed: store.orderDetailsReducer.orderFailed,
+    user: store.userReducer.user,
   }))
+
+  const [checkLogin, setChecklogin] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -39,6 +44,10 @@ const BurgerConstructor = () => {
   totalPrice = bun.price ? totalPrice + (bun.price * 2) : totalPrice
 
   const openOrderDetails = () => {
+    if (!user) {
+      setChecklogin(true)
+      return
+    }
     dispatch(setOrderDetails())
   }
 
@@ -141,7 +150,7 @@ const BurgerConstructor = () => {
           {
             constructorIngredients.length ? constructorIngredients.map((el, i) => {
               return (
-                <ConstructorIngredient
+                <BurgerConstructorItem
                   key={el.uniqueKey}
                   moveIngredient={moveIngredient}
                   removeIngredient={() => removeIngredient(el)} 
@@ -152,6 +161,7 @@ const BurgerConstructor = () => {
             }) : (
               <li className={styles.constructor_list_item + ' ' + styles.constructor_list_emptyItem}>
                 <ConstructorElement
+                  isLocked={true}
                   text={`Добавьте ингредиент`}
                   price={0}
                   thumbnail={noImg}
@@ -193,6 +203,9 @@ const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
+      {checkLogin && (
+        <Redirect to={{pathname: '/login'}} />
+      )}
       {!orderRequest && !orderFailed && orderDetails.success && (
         <Modal onClose={closeOrderDetails}>
           <OrderDetails order={orderDetails.order} />

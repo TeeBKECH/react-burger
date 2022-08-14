@@ -1,0 +1,53 @@
+.profile {
+  width: 1280px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 60px;
+}
+
+.profile_sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.profile_nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_nav_link {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  color: #8585ad;
+}
+
+.profile_nav_link_active {
+  color: #F2F2F3;
+}
+
+.logout {
+  background: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.profile_content {
+
+}
+
+.profile_form {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile_form_btns {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}

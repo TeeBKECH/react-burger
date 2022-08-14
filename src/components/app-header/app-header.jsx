@@ -1,38 +1,36 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import classNames from 'classnames'
 
 import styles from './app-header.module.css'
 
 const AppHeader = () => {
   return (
     <header className={styles.header}>
-      <nav className={styles.nav}>
-        <a href='#1' className={classNames(styles.nav_link, styles.nav_link_active)}>
-          <BurgerIcon type='primary' />
-          <p className="text text_type_main-default">
-            Конструктор
-          </p>
-        </a>
-        <a href='#2' className={styles.nav_link}>
-          <ListIcon type='secondary' />
-          <p className=" text text_type_main-default text_color_inactive">
-            Лента заказов
-          </p>
-        </a>
-      </nav>
-      <div className={styles.logo}>
-        <a href="#3">
-          <Logo />
-        </a>
+      <div className={styles.wrapper}>
+        <nav className={styles.header_nav}>
+          <NavLink exact={true} to='/' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
+            <BurgerIcon type='secondary' />
+            <p>Конструктор</p>
+          </NavLink>
+          <NavLink to='/orders-list' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
+            <ListIcon type='secondary' />
+            <p>Лента заказов</p>
+          </NavLink>
+        </nav>
+        <div className={styles.logo}>
+          <NavLink to="/">
+            <Logo />
+          </NavLink>
+        </div>
+        <div className={styles.profile}>
+          <NavLink to='/profile' activeClassName={styles.nav_link_active} className={`${styles.nav_link} text text_type_main-default text_color_inactive`}>
+            <ProfileIcon type='secondary' />
+            <p>Личный кабинет</p>
+          </NavLink>
+        </div>
       </div>
-      <a href='#4' className={styles.profile_link}>
-        <ProfileIcon type='secondary' />
-        <p className=" text text_type_main-default text_color_inactive">
-          Личный кабинет
-        </p>
-      </a>
     </header>
   )
 }

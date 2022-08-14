@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { getBurgerIngredients } from '../../services/actions/index';
 
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import Modal from '../modal/modal'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import Tabs from '../tabs/tabs'
@@ -26,8 +25,6 @@ const BurgerIngredients = () => {
 
   const scrollRef = useRef(null)
 
-  const { ingredientDetails } = useSelector(store => store.ingredientDetailsReducer);
-
   const dispatch = useDispatch();
 
   const [current, setCurrent] = React.useState('bun')
@@ -36,12 +33,6 @@ const BurgerIngredients = () => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
       ingredient: ingredient
-    })
-  }
-
-  const closeIngredientDetails = () => {
-    dispatch({
-      type: REMOVE_INGREDIENT_DETAILS
     })
   }
 
@@ -76,10 +67,6 @@ const BurgerIngredients = () => {
     { main: 'Начинки' },
     { sauce: 'Соусы' }
   ]
-
-  useEffect(() => {
-    dispatch(getBurgerIngredients())
-  }, [])
 
   return (
     <>
@@ -122,13 +109,7 @@ const BurgerIngredients = () => {
                 )
               })
             }
-
           </div>
-          {ingredientDetails && (
-            <Modal title="Детали ингредиента" onClose={closeIngredientDetails}>
-              <IngredientDetails details={ingredientDetails} />
-            </Modal>
-          )}
         </section>
       )}
     </>
