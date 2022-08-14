@@ -1,14 +1,17 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { FC } from 'react'
 
 import styles from './order-details.module.css'
 import orderImage from '../../images/orderImage.svg'
 
-const OrderDetails = ({order}) => {
+interface IOrder {
+  number: number;
+}
+
+const OrderDetails: FC<IOrder> = ({number}) => {
   return (
     <div className={styles.order}>
       <div className={styles.order_header}>
-        <p className={`${styles.order_number} text text_type_digits-large`}>{order.number}</p>
+        <p className={`${styles.order_number} text text_type_digits-large`}>{number}</p>
         <p className='text text_type_main-medium'>идентификатор заказа</p>
       </div>
       <img className={styles.order_image} src={orderImage} alt="Заказ оформлен" />
@@ -18,9 +21,6 @@ const OrderDetails = ({order}) => {
       </div>
     </div>
   )
-}
-OrderDetails.propTypes = {
-  order: PropTypes.object.isRequired
 }
 
 export default OrderDetails

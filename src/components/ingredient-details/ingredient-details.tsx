@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import { ADD_INGREDIENT_DETAILS, getBurgerIngredients } from '../../services/actions'
+import { ADD_INGREDIENT_DETAILS } from '../../services/actions'
 
 import styles from './ingredient-details.module.css'
 
@@ -11,13 +11,13 @@ const IngredientDetails = () => {
   const {
     burgerIngredients,
     ingredientDetails
-  } = useSelector(store => ({
+  } = useAppSelector(store => ({
     burgerIngredients: store.burgerIngredientsReducer.burgerIngredients,
     ingredientDetails: store.ingredientDetailsReducer.ingredientDetails
   }))
 
   const params = useParams()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch({

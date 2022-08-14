@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo, useRef } from 'react'
+import { useRef } from 'react'
 import { NavLink, Route } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useDispatch, useSelector } from 'react-redux'
 import { setFormValue, updateUser, logOut, RESET_FORM } from '../../services/actions/auth'
 import { OrdersHistory } from '../index'
 import { getCookie } from '../../utils/api'
@@ -12,20 +12,20 @@ const ProfileForm = () => {
 
   const { user,
     form
-  } = useSelector(store => ({
+  } = useAppSelector(store => ({
   user: store.userReducer.user,
   form: store.formDataReducer.form
   }))
 
-  const dispatch = useDispatch()
-  const inputRef = useRef(null)
+  const dispatch = useAppDispatch()
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const onFormChange = (e) => {
     dispatch(setFormValue(e.target.name, e.target.value))
   }
 
   const onIconClick = () => {
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const submitForm = (e) => {
@@ -82,9 +82,11 @@ const ProfileForm = () => {
         size={'default'}
       />
       <div className={styles.profile_form_btns}>
+        {/*@ts-ignore*/}
         <Button onClick={resetForm} type="primary" size="large">
           Сбросить
         </Button>
+        {/*@ts-ignore*/}
         <Button type="primary" size="large">
           Сохранить
         </Button>
@@ -95,7 +97,7 @@ const ProfileForm = () => {
 
 export const ProfilePage = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const logOutHandler = () => {
     dispatch(logOut(getCookie('refreshToken')))

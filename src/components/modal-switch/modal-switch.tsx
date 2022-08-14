@@ -1,8 +1,7 @@
-import React from "react"
-import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index'
 import { Switch, Route } from 'react-router-dom';
+import { useAppDispatch } from "../../utils/hooks";
 
 import { 
   Error404Page, 
@@ -19,11 +18,14 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 import styles from './modal-switch.module.css';
 import Modal from "../modal/modal";
+import { FC } from "react";
 
-export const ModalSwitch = () => {
+export const ModalSwitch: FC = () => {
   const location = useLocation()
   const history = useHistory()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+
+  console.log(location)
 
   const background = location.state && location.state.background
 

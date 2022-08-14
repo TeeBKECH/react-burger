@@ -1,4 +1,4 @@
-import { API_URL, checkResponse, deleteCookie, getCookie, saveTokens, setCookie } from '../../utils/api'
+import { API_URL, checkResponse, deleteCookie, getCookie, saveTokens } from '../../utils/api'
 
 export const SUBMIT_REQUEST = 'SUBMIT_REQUEST'
 export const SUBMIT_FAILED = 'SUBMIT_FAILED'
@@ -161,7 +161,7 @@ const refreshToken = (afterRefresh) => {
 }
 
 // Обновление информации о пользователе
-export const getUser = () => {
+export const getUser = (): any => {
 
   return function (dispatch) {
 
@@ -173,7 +173,7 @@ export const getUser = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'authorization': getCookie('accessToken')
+        'authorization': getCookie('accessToken') as string
       }
     })
       .then(checkResponse)
@@ -213,7 +213,7 @@ export const updateUser = (name, email, password) => {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
-        'authorization': getCookie('accessToken')
+        'authorization': getCookie('accessToken') as string
       },
       body: JSON.stringify({
         name,

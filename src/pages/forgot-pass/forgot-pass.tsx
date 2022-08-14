@@ -1,8 +1,8 @@
-import React, { useCallback, useRef} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useRef} from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { setFormValue, forgotPassword } from '../../services/actions/auth'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import styles from './forgot-pass.module.css'
 
@@ -11,13 +11,13 @@ export const ForgotPasswordPage = () => {
   const {
     emailValue,
     requestMessage
-  } = useSelector(store => ({
+  } = useAppSelector(store => ({
     emailValue: store.formDataReducer.form.emailValue,
     requestMessage: store.userReducer.requestMessage
   }))
 
-  const inputRef = useRef(null)
-  const dispatch = useDispatch()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
   const location = useLocation()
 
   const onFormChange = (e) => {
@@ -25,7 +25,7 @@ export const ForgotPasswordPage = () => {
   }
 
   const onIconClick = () => {
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const submitForm = (e) => {
@@ -59,6 +59,7 @@ export const ForgotPasswordPage = () => {
           onIconClick={onIconClick}
           size={'default'}
         />
+        {/*@ts-ignore*/}
         <Button disabled={emailValue ? false : true} type="primary" size="large">
           Восстановить
         </Button>

@@ -1,12 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom'
 import { useDrag } from 'react-dnd'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { IIngredient } from '../../services/reducers/reducers';
 
 import styles from './ingredient.module.css'
 
-const Ingredient = ({el, openIngredientDetails, type}) => {
+interface IIngredientProps {
+  el: IIngredient;
+  openIngredientDetails: any;
+  type: string;
+}
+
+const Ingredient: FC<IIngredientProps> = ({el, openIngredientDetails, type}) => {
 
   const location = useLocation();
   const ingredientId = el._id;
@@ -39,12 +45,6 @@ const Ingredient = ({el, openIngredientDetails, type}) => {
       </div>
     </Link>
   )
-}
-
-Ingredient.propTypes = {
-  el: PropTypes.object.isRequired,
-  openIngredientDetails: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
 }
 
 export default Ingredient

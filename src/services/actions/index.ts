@@ -24,7 +24,7 @@ export const BUN_REPLACE = 'BUN_REPLACE'
 // Получение с сервера игредиентов посредством усилителя
 export const getBurgerIngredients = (): any => {
   
-  return function(dispatch): void {
+  return function(dispatch) {
 
     dispatch({
       type: GET_BURGER_INGREDIENTS_REQUEST

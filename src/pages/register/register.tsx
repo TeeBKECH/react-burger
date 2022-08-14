@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useRef } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -13,17 +13,17 @@ export const RegisterPage = () => {
     nameValue,
     emailValue,
     passwordValue
-  } = useSelector(store => store.formDataReducer.form)
+  } = useAppSelector(store => store.formDataReducer.form)
 
-  const inputRef = useRef(null)
-  const dispatch = useDispatch()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
 
   const onFormChange = (e) => {
     dispatch(setFormValue(e.target.name, e.target.value))
   }
 
   const onIconClick = () => {
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
   const submitForm = (e) => {
@@ -77,6 +77,7 @@ export const RegisterPage = () => {
           errorText={'Ошибка'}
           size={'default'}
         />
+        {/*@ts-ignore*/}
         <Button type="primary" size="large">
           Зарегистрироваться
         </Button>

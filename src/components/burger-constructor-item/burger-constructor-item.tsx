@@ -1,50 +1,65 @@
-import React, { useRef } from 'react'
-import PropTypes from 'prop-types'
+import { FC, useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import styles from './burger-constructor-item.module.css'
 
-const BurgerConstrucorItem = ({ el, index, removeIngredient, moveIngredient }) => {
+interface IBurgerEl {
+  name: string;
+  price: number;
+  image: string;
+}
 
-  const ref = useRef(null)
+interface IBurgerItemProps {
+  el: IBurgerEl;
+  index: number;
+  removeIngredient: any;
+  moveIngredient: any;
+}
+
+const BurgerConstrucorItem: FC<IBurgerItemProps> = ({ el, index, removeIngredient, moveIngredient }) => {
+
+  const ref = useRef<HTMLLIElement>(null)
 
   const [{ isDragging }, dragRef] = useDrag({
     type: 'item',
     item: { index },
-    collect: (monitor) => ({
+    collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
   })
 
-  const [spec, dropRef] = useDrop({
+  const [ , dropRef] = useDrop({
     accept: 'item',
-    hover: (item, monitor) => {
+    hover: (item: any, monitor: any): void => {
       const dragIndex = item.index
       const hoverIndex = index
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top)
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top
 
-      // if dragging down, continue only when hover is smaller than middle Y
-      if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return
-      // if dragging up, continue only when hover is bigger than middle Y
-      if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return
+      if (hoverBoundingRect !== undefined) {
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top)
+        const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top
 
-      moveIngredient(dragIndex, hoverIndex)
-      item.index = hoverIndex
+        // if dragging down, continue only when hover is smaller than middle Y
+        if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return
+        // if dragging up, continue only when hover is bigger than middle Y
+        if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return
+
+        moveIngredient(dragIndex, hoverIndex)
+        item.index = hoverIndex
+      }
     },
   })
 
   const opacity = isDragging ? 0 : 1
-  const dragDropRef = dragRef(dropRef(ref))
+  dragRef(dropRef(ref))
 
   return (
     <li
       style={{ opacity }}
       draggable
-      index={index}
-      ref={dragDropRef}
+      // index={index}
+      ref={ref}
       className={styles.constructor_list_item}
     >
       <DragIcon type="primary" />
@@ -56,13 +71,6 @@ const BurgerConstrucorItem = ({ el, index, removeIngredient, moveIngredient }) =
       />
     </li>
   )
-}
-
-BurgerConstrucorItem.propTypes = {
-  el: PropTypes.object.isRequired,
-  index: PropTypes.number.isRequired,
-  removeIngredient: PropTypes.func.isRequired,
-  moveIngredient: PropTypes.func.isRequired
 }
 
 export default BurgerConstrucorItem

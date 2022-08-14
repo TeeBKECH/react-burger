@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { Redirect } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
@@ -25,7 +25,7 @@ import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
 
 const BurgerConstructor = () => {
-  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useSelector(store => ({
+  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useAppSelector(store => ({
     bun: store.constructorIngredientsReducer.bun,
     constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
     orderDetails: store.orderDetailsReducer.orderDetails,
@@ -36,12 +36,22 @@ const BurgerConstructor = () => {
 
   const [checkLogin, setChecklogin] = useState(false)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  let totalPrice = constructorIngredients.length ? constructorIngredients.reduce((prevPrice, currentValue) => {
-    return prevPrice + currentValue.price
-  }, 0) : 0;
-  totalPrice = bun.price ? totalPrice + (bun.price * 2) : totalPrice
+  let totalPrice: number = 0
+
+  if (!!constructorIngredients.length || bun.price) {
+    let ingredientPrice: number = constructorIngredients
+      .map(el => {
+        return el.price
+      })
+      .reduce((prevPrice, currentValue): number => {
+        return prevPrice + currentValue
+      }, 0)
+    let bunPrice = bun.price ? bun.price * 2 : 0
+    totalPrice = ingredientPrice + bunPrice
+  }
+
 
   const openOrderDetails = () => {
     if (!user) {
@@ -107,7 +117,7 @@ const BurgerConstructor = () => {
     collect: monitor => ({
       isHover: monitor.isOver()
     }),
-    drop(itemId) {
+    drop(itemId: any) {
       replaceBun(itemId.el)
     }
   });
@@ -117,7 +127,7 @@ const BurgerConstructor = () => {
     collect: monitor => ({
       onHover: monitor.isOver()
     }),
-    drop(itemId) {
+    drop(itemId: any) {
       addIngredient(itemId.el)
     }
   });
@@ -199,6 +209,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </div>
+        {/* @ts-ignore */}
         <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun.price ? true : false}>
           Оформить заказ
         </Button>
@@ -208,7 +219,7 @@ const BurgerConstructor = () => {
       )}
       {!orderRequest && !orderFailed && orderDetails.success && (
         <Modal onClose={closeOrderDetails}>
-          <OrderDetails order={orderDetails.order} />
+          <OrderDetails number={orderDetails.order.number} />
         </Modal>
       )}
     </section>

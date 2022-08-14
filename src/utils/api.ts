@@ -1,5 +1,11 @@
 export const API_URL = 'https://norma.nomoreparties.space/api'
 
+interface ISetCookie {
+  name: string;
+  value: string;
+  props?: any;
+}
+
 export const checkResponse = async res => {
 
   const isJson = res.headers.get('content-type')?.includes('application/json')
@@ -13,14 +19,14 @@ export const checkResponse = async res => {
   return Promise.reject(error)
 }
 
-export const getCookie = (name) => {
+export const getCookie = (name: string) => {
   const matches = document.cookie.match(
     new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-const setCookie = (name, value, props) => {
+const setCookie = (name: string, value: any, props?: any) => {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {

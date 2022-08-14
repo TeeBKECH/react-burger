@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useRef } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { setFormValue, resetPassword } from '../../services/actions/auth'
@@ -12,14 +12,14 @@ export const ResetPasswordPage = () => {
     passwordValue,
     resetPasswordToken,
     requestMessage
-  } = useSelector(store => ({
+  } = useAppSelector(store => ({
     passwordValue: store.formDataReducer.form.passwordValue,
     resetPasswordToken: store.formDataReducer.form.resetPasswordToken,
     requestMessage: store.userReducer.requestMessage,
   }))
 
-  const inputRef = useRef(null)
-  const dispatch = useDispatch()
+  const inputRef = useRef<HTMLInputElement>(null)
+  const dispatch = useAppDispatch()
   const location = useLocation()
 
   console.log(location)
@@ -29,7 +29,7 @@ export const ResetPasswordPage = () => {
   }
 
   const onIconClick = () => {
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
   
   const submitForm = (e) => {
@@ -80,6 +80,7 @@ export const ResetPasswordPage = () => {
           errorText={'Ошибка'}
           size={'default'}
         />
+        {/*@ts-ignore*/}
         <Button type="primary" size="large">
           Сохранить
         </Button>

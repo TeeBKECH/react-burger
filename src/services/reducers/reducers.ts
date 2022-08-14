@@ -18,8 +18,47 @@ import {
   REMOVE_INGREDIENT_COUNTER
 } from '../actions/index'
 
+export interface IIngredient {
+  calories: number;
+  carbohydrates: number;
+  fat: number;
+  image: string;
+  image_large: string;
+  image_mobile: string;
+  name: string;
+  price: number;
+  proteins: number;
+  type: string;
+  __v: number;
+  _id: string;
+  uniqueKey?: string;
+}
+
+interface IOrderNumber {
+  number: number;
+}
+
+interface IOrderDetails {
+  name: string;
+  order: IOrderNumber;
+  success: boolean;
+}
+
 // Исходное состояние
-const initialState = {
+const initialState: {
+  burgerIngredients: IIngredient[];
+  burgerIngredientsRequest: boolean;
+  burgerIngredientsFailed: boolean;
+
+  constructorIngredients: IIngredient[];
+  bun: IIngredient | {};
+
+  ingredientDetails: IIngredient | null;
+
+  orderDetails: IOrderDetails | {};
+  orderRequest: boolean;
+  orderFailed: boolean;
+} = {
   burgerIngredients: [],
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,
@@ -188,6 +227,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
       };
     }
     case SET_ORDER_SUCCESS: {
+      console.log(action.order)
       return {
         ...state,
         orderRequest: false,

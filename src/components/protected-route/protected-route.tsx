@@ -1,15 +1,15 @@
-import { Route, Redirect, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { Route, Redirect, useLocation, RouteProps } from 'react-router-dom';
 import { getCookie } from '../../utils/api';
 import { getUser } from '../../services/actions/auth';
-import { useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 
-export const ProtectedRoute = ({ children, ...rest }) => {
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
 
-  const { user } = useSelector(store => store.userReducer)
+  const { user } = useAppSelector(store => store.userReducer)
   const token = getCookie('accessToken')
   const location = useLocation()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const state = {from: location}
 
   const init = useCallback( () => {
