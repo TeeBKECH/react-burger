@@ -7,6 +7,7 @@ import { Redirect } from 'react-router-dom'
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
+
 import Modal from '../modal/modal'
 import OrderDetails from '../order-details/order-details'
 import {
