@@ -1,6 +1,6 @@
-import React from 'react'
+import { FC } from 'react'
 
-export const OrdersHistory = () => {
+export const OrdersHistory: FC = () => {
   return (
     <div>OrdersHistory</div>
   )

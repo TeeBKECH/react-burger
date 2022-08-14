@@ -1,17 +1,12 @@
 import { FC, useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { IIngredient } from '../../services/reducers/reducers';
 
 import styles from './burger-constructor-item.module.css'
 
-interface IBurgerEl {
-  name: string;
-  price: number;
-  image: string;
-}
-
 interface IBurgerItemProps {
-  el: IBurgerEl;
+  el: IIngredient;
   index: number;
   removeIngredient: any;
   moveIngredient: any;

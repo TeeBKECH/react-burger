@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { FC, useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { Redirect } from 'react-router-dom'
@@ -23,8 +23,9 @@ import {
 
 import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
+import { IIngredient } from '../../services/reducers/reducers'
 
-const BurgerConstructor = () => {
+const BurgerConstructor: FC = () => {
   const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useAppSelector(store => ({
     bun: store.constructorIngredientsReducer.bun,
     constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
@@ -34,7 +35,7 @@ const BurgerConstructor = () => {
     user: store.userReducer.user,
   }))
 
-  const [checkLogin, setChecklogin] = useState(false)
+  const [checkLogin, setChecklogin] = useState<boolean>(false)
 
   const dispatch = useAppDispatch()
 
@@ -42,18 +43,18 @@ const BurgerConstructor = () => {
 
   if (!!constructorIngredients.length || bun.price) {
     let ingredientPrice: number = constructorIngredients
-      .map(el => {
+      .map((el: IIngredient) => {
         return el.price
       })
       .reduce((prevPrice, currentValue): number => {
         return prevPrice + currentValue
       }, 0)
-    let bunPrice = bun.price ? bun.price * 2 : 0
+    let bunPrice: number = bun.price ? bun.price * 2 : 0
     totalPrice = ingredientPrice + bunPrice
   }
 
 
-  const openOrderDetails = () => {
+  const openOrderDetails = (): void => {
     if (!user) {
       setChecklogin(true)
       return
@@ -61,13 +62,13 @@ const BurgerConstructor = () => {
     dispatch(setOrderDetails())
   }
 
-  const closeOrderDetails = () => {
+  const closeOrderDetails = (): void => {
     dispatch({
       type: CLEAR_ORDER_DETAILS
     })
   }
 
-  const replaceBun = (item) => {
+  const replaceBun = (item: IIngredient): void => {
     dispatch({
       type: BUN_REPLACE,
       item
@@ -78,7 +79,7 @@ const BurgerConstructor = () => {
     })
   }
 
-  const addIngredient = (item) => {
+  const addIngredient = (item: IIngredient): void => {
     dispatch({
       type: INGREDIENT_INCREMENT,
       item
@@ -90,7 +91,7 @@ const BurgerConstructor = () => {
     })
   }
 
-  const removeIngredient = (item) => {
+  const removeIngredient = (item: IIngredient): void => {
     dispatch({
       type: INGREDIENT_DECREMENT,
       item
@@ -102,7 +103,7 @@ const BurgerConstructor = () => {
   }
 
   const moveIngredient = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
         dispatch({
           type: MOVE_INGREDIENT,
           dragIndex,
@@ -158,12 +159,12 @@ const BurgerConstructor = () => {
 
         <ul ref={dropIngredient} className={styles.constructor_box + ' customScroller'}>
           {
-            constructorIngredients.length ? constructorIngredients.map((el, i) => {
+            !!constructorIngredients.length ? constructorIngredients.map((el: IIngredient, i: number) => {
               return (
                 <BurgerConstructorItem
                   key={el.uniqueKey}
                   moveIngredient={moveIngredient}
-                  removeIngredient={() => removeIngredient(el)} 
+                  removeIngredient={removeIngredient}
                   el={el} 
                   index={i} 
                 />

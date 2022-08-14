@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { FC, useRef } from 'react'
 import { NavLink, Route } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -8,7 +8,7 @@ import { getCookie } from '../../utils/api'
 
 import styles from './profile.module.css'
 
-const ProfileForm = () => {
+const ProfileForm: FC = () => {
 
   const { user,
     form
@@ -95,7 +95,7 @@ const ProfileForm = () => {
   )
 }
 
-export const ProfilePage = () => {
+export const ProfilePage: FC = () => {
 
   const dispatch = useAppDispatch()
 

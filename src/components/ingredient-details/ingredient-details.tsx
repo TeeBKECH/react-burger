@@ -1,12 +1,13 @@
-import { useEffect } from 'react'
+import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import { ADD_INGREDIENT_DETAILS } from '../../services/actions'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import styles from './ingredient-details.module.css'
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
 
   const {
     burgerIngredients,
@@ -16,13 +17,13 @@ const IngredientDetails = () => {
     ingredientDetails: store.ingredientDetailsReducer.ingredientDetails
   }))
 
-  const params = useParams()
+  const {ingredientId}: {ingredientId?: number} = useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
-      ingredient: burgerIngredients.find(el => el._id === params.ingredientId)
+      ingredient: burgerIngredients.find((el: IIngredient) => el._id === ingredientId)
     })
     console.log(burgerIngredients)
 

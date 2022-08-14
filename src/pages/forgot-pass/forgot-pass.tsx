@@ -1,4 +1,4 @@
-import { useRef} from 'react'
+import { FC, useRef} from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { setFormValue, forgotPassword } from '../../services/actions/auth'
@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import styles from './forgot-pass.module.css'
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage: FC = () => {
 
   const {
     emailValue,
@@ -20,15 +20,15 @@ export const ForgotPasswordPage = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
 
-  const onFormChange = (e) => {
+  const onFormChange = (e): void => {
     dispatch(setFormValue(e.target.name, e.target.value))
   }
 
-  const onIconClick = () => {
+  const onIconClick = (): void => {
     inputRef.current?.focus()
   }
 
-  const submitForm = (e) => {
+  const submitForm = (e): void => {
     e.preventDefault()
     dispatch(forgotPassword(emailValue))
   }

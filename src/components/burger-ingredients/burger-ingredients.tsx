@@ -1,8 +1,9 @@
-import React, { useRef } from 'react'
+import { FC, useRef, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import Tabs from '../tabs/tabs'
 import Ingredient from '../ingredient/ingredient'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import {
   ADD_INGREDIENT_DETAILS,
@@ -10,7 +11,7 @@ import {
 
 import styles from './burger-ingredients.module.css'
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
 
   const {
     burgerIngredients,
@@ -22,16 +23,16 @@ const BurgerIngredients = () => {
 
   const dispatch = useAppDispatch();
 
-  const [current, setCurrent] = React.useState('bun')
+  const [current, setCurrent] = useState<string>('bun')
 
-  const openIngredientDetails = (ingredient) => {
+  const openIngredientDetails = (ingredient: IIngredient): void => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
       ingredient: ingredient
     })
   }
 
-  const isInViewport = () => {
+  const isInViewport = (): void => {
 
     const html = scrollRef.current;
     const titles = document.querySelectorAll(`.category_title`)
@@ -58,7 +59,13 @@ const BurgerIngredients = () => {
     } 
   }
 
-  const ingredientTypes = [
+  interface IIngredientType {
+    bun?: string;
+    main?: string;
+    sauce?: string;
+  }
+
+  const ingredientTypes: IIngredientType[] = [
     { bun: 'Булки' },
     { main: 'Начинки' },
     { sauce: 'Соусы' }
@@ -85,7 +92,7 @@ const BurgerIngredients = () => {
 
             {
               ingredientTypes.map((ingredientType, index) => {
-                const items = burgerIngredients.filter(item => item.type === Object.keys(ingredientType).join())
+                const items = burgerIngredients.filter((item: IIngredient) => item.type === Object.keys(ingredientType).join())
                 return (
                   <article
                     key={index}
@@ -96,7 +103,7 @@ const BurgerIngredients = () => {
                     </h4>
                     <div className={styles.category_items}>
                       {
-                        items.map(el => (
+                        items.map((el: IIngredient) => (
                           <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={() => { openIngredientDetails(el) }} />
                         ))
                       }

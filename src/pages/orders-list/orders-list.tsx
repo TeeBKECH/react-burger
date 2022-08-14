@@ -1,6 +1,6 @@
-import React from 'react'
+import { FC } from 'react'
 
-export const OrdersList = () => {
+export const OrdersList: FC = () => {
   return (
     <div>OrdersList</div>
   )

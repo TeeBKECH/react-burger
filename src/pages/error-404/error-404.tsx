@@ -1,6 +1,6 @@
-import React from 'react'
+import { FC } from 'react'
 
-export const Error404Page = () => {
+export const Error404Page: FC = () => {
   return (
     <div>Error404Page</div>
   )

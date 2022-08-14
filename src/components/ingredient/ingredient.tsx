@@ -14,13 +14,13 @@ interface IIngredientProps {
 
 const Ingredient: FC<IIngredientProps> = ({el, openIngredientDetails, type}) => {
 
-  const location = useLocation();
-  const ingredientId = el._id;
+  const location = useLocation()
+  const ingredientId = el._id
 
   const [{ opacity }, ref] = useDrag({
     type: type,
     item: { el },
-    collect: monitor => ({
+    collect: (monitor: any) => ({
       opacity: monitor.isDragging() ? 0.5 : 1
     })
   });

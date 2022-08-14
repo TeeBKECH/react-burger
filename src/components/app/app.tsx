@@ -1,14 +1,14 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { FC, useEffect } from 'react'
+import { useAppDispatch } from '../../utils/hooks'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import { getBurgerIngredients } from '../../services/actions'
 
 import { ModalSwitch } from '../modal-switch/modal-switch'
 
-const App = () => {
+const App: FC = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getBurgerIngredients())

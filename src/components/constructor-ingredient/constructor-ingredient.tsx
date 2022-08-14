@@ -1,17 +1,12 @@
 import { FC, useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import styles from './constructor-ingredient.module.css'
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-interface IBurgerConstructorEl {
-  name: string;
-  price: number;
-  image: string;
-}
-
 interface IBurgerConstructorItemProps {
-  el: IBurgerConstructorEl;
+  el: IIngredient;
   index: number;
   removeIngredient: any;
   moveIngredient: any;
@@ -24,7 +19,7 @@ const ConstructorIngredient: FC<IBurgerConstructorItemProps> = ({ el, index, rem
   const [{ isDragging }, dragRef] = useDrag({
     type: 'item',
     item: { index },
-    collect: (monitor) => ({
+    collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
   })
@@ -50,7 +45,7 @@ const ConstructorIngredient: FC<IBurgerConstructorItemProps> = ({ el, index, rem
     },
   })
 
-  const opacity = isDragging ? 0 : 1
+  const opacity: number = isDragging ? 0 : 1
   dragRef(dropRef(ref))
 
   return (

@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index'
 import { Switch, Route } from 'react-router-dom';
@@ -18,16 +19,19 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 import styles from './modal-switch.module.css';
 import Modal from "../modal/modal";
-import { FC } from "react";
+
+interface ILocationState {
+  background?: any;
+  from?: any;
+}
 
 export const ModalSwitch: FC = () => {
   const location = useLocation()
+  const locationState = location.state as ILocationState
   const history = useHistory()
   const dispatch = useAppDispatch()
 
-  console.log(location)
-
-  const background = location.state && location.state.background
+  const background = locationState && locationState.background
 
   const closeIngredientDetails = () => {
     dispatch({

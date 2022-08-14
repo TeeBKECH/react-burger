@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { FC, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Link } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -7,7 +7,7 @@ import { setFormValue, createUser } from '../../services/actions/auth'
 
 import styles from './register.module.css'
 
-export const RegisterPage = () => {
+export const RegisterPage: FC = () => {
 
   const {
     nameValue,
