@@ -22,9 +22,9 @@ export const MOVE_INGREDIENT = 'MOVE_INGREDIENT'
 export const BUN_REPLACE = 'BUN_REPLACE'
 
 // Получение с сервера игредиентов посредством усилителя
-export const getBurgerIngredients = () => {
+export const getBurgerIngredients = (): any => {
   
-  return function(dispatch) {
+  return function(dispatch): void {
 
     dispatch({
       type: GET_BURGER_INGREDIENTS_REQUEST
@@ -46,7 +46,7 @@ export const getBurgerIngredients = () => {
 }
 
 // Отправка на сервер данных заказа
-export const setOrderDetails = () => {
+export const setOrderDetails = (): any => {
   
   return function(dispatch, getState) {
 

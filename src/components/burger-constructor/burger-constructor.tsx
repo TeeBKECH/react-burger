@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { Redirect } from 'react-router-dom'
 
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
 
