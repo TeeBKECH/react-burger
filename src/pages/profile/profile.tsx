@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { ChangeEvent, FC, FormEvent, useRef } from 'react'
 import { NavLink, Route } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -20,7 +20,7 @@ const ProfileForm: FC = () => {
   const dispatch = useAppDispatch()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const onFormChange = (e) => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setFormValue(e.target.name, e.target.value))
   }
 
@@ -28,7 +28,7 @@ const ProfileForm: FC = () => {
     inputRef.current?.focus()
   }
 
-  const submitForm = (e) => {
+  const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(updateUser(form.nameValue, form.emailValue, form.passwordValue))
   }

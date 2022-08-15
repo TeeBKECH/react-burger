@@ -1,4 +1,4 @@
-import { FC, useRef} from 'react'
+import { ChangeEvent, FC, FormEvent, useRef} from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { setFormValue, forgotPassword } from '../../services/actions/auth'
@@ -20,7 +20,7 @@ export const ForgotPasswordPage: FC = () => {
   const dispatch = useAppDispatch()
   const location = useLocation()
 
-  const onFormChange = (e): void => {
+  const onFormChange = (e: ChangeEvent<HTMLInputElement>): void => {
     dispatch(setFormValue(e.target.name, e.target.value))
   }
 
@@ -28,7 +28,7 @@ export const ForgotPasswordPage: FC = () => {
     inputRef.current?.focus()
   }
 
-  const submitForm = (e): void => {
+  const submitForm = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
     dispatch(forgotPassword(emailValue))
   }

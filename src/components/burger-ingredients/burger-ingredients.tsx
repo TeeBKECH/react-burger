@@ -104,7 +104,7 @@ const BurgerIngredients: FC = () => {
                     <div className={styles.category_items}>
                       {
                         items.map((el: IIngredient) => (
-                          <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={() => { openIngredientDetails(el) }} />
+                          <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={openIngredientDetails} />
                         ))
                       }
                     </div>

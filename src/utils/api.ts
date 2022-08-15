@@ -1,8 +1,8 @@
 export const API_URL = 'https://norma.nomoreparties.space/api'
 
-export const checkResponse = async (res: any) => {
+export const checkResponse = async (res: Response) => {
 
-  const isJson: boolean = res.headers.get('content-type')?.includes('application/json')
+  const isJson: boolean = res.headers.get('content-type')?.includes('application/json') as boolean
   const data: any | null = isJson ? await res.json() : null
 
   if (res.ok) {

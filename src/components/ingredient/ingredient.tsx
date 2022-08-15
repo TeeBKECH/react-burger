@@ -8,7 +8,7 @@ import styles from './ingredient.module.css'
 
 interface IIngredientProps {
   el: IIngredient;
-  openIngredientDetails: any;
+  openIngredientDetails: (el: IIngredient) => void;
   type: string;
 }
 

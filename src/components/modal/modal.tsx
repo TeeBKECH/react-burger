@@ -14,7 +14,7 @@ export interface IModalProps {
 
 const Modal: FC<IModalProps> = ({onClose, children, title}) => {
 
-  const handleCloseModal = useCallback((e) => {
+  const handleCloseModal = useCallback((e: KeyboardEvent) => {
       e.key === 'Escape' && onClose();
   }, [onClose])
 

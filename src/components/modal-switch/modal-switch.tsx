@@ -21,8 +21,8 @@ import styles from './modal-switch.module.css';
 import Modal from "../modal/modal";
 
 interface ILocationState {
-  background?: any;
-  from?: any;
+  background?: Location;
+  from?: Location;
 }
 
 export const ModalSwitch: FC = () => {
