@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { FC, useCallback, useState } from 'react'
 import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
 import { Redirect } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
 
@@ -23,9 +23,10 @@ import {
 
 import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
+import { IIngredient } from '../../services/reducers/reducers'
 
-const BurgerConstructor = () => {
-  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useSelector(store => ({
+const BurgerConstructor: FC = () => {
+  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useAppSelector(store => ({
     bun: store.constructorIngredientsReducer.bun,
     constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
     orderDetails: store.orderDetailsReducer.orderDetails,
@@ -34,16 +35,26 @@ const BurgerConstructor = () => {
     user: store.userReducer.user,
   }))
 
-  const [checkLogin, setChecklogin] = useState(false)
+  const [checkLogin, setChecklogin] = useState<boolean>(false)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  let totalPrice = constructorIngredients.length ? constructorIngredients.reduce((prevPrice, currentValue) => {
-    return prevPrice + currentValue.price
-  }, 0) : 0;
-  totalPrice = bun.price ? totalPrice + (bun.price * 2) : totalPrice
+  let totalPrice: number = 0
 
-  const openOrderDetails = () => {
+  if (!!constructorIngredients.length || bun.price) {
+    let ingredientPrice: number = constructorIngredients
+      .map((el: IIngredient) => {
+        return el.price
+      })
+      .reduce((prevPrice, currentValue): number => {
+        return prevPrice + currentValue
+      }, 0)
+    let bunPrice: number = bun.price ? bun.price * 2 : 0
+    totalPrice = ingredientPrice + bunPrice
+  }
+
+
+  const openOrderDetails = (): void => {
     if (!user) {
       setChecklogin(true)
       return
@@ -51,13 +62,13 @@ const BurgerConstructor = () => {
     dispatch(setOrderDetails())
   }
 
-  const closeOrderDetails = () => {
+  const closeOrderDetails = (): void => {
     dispatch({
       type: CLEAR_ORDER_DETAILS
     })
   }
 
-  const replaceBun = (item) => {
+  const replaceBun = (item: IIngredient): void => {
     dispatch({
       type: BUN_REPLACE,
       item
@@ -68,7 +79,7 @@ const BurgerConstructor = () => {
     })
   }
 
-  const addIngredient = (item) => {
+  const addIngredient = (item: IIngredient): void => {
     dispatch({
       type: INGREDIENT_INCREMENT,
       item
@@ -80,7 +91,7 @@ const BurgerConstructor = () => {
     })
   }
 
-  const removeIngredient = (item) => {
+  const removeIngredient = (item: IIngredient): void => {
     dispatch({
       type: INGREDIENT_DECREMENT,
       item
@@ -92,7 +103,7 @@ const BurgerConstructor = () => {
   }
 
   const moveIngredient = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
         dispatch({
           type: MOVE_INGREDIENT,
           dragIndex,
@@ -107,7 +118,7 @@ const BurgerConstructor = () => {
     collect: monitor => ({
       isHover: monitor.isOver()
     }),
-    drop(itemId) {
+    drop(itemId: any) {
       replaceBun(itemId.el)
     }
   });
@@ -117,7 +128,7 @@ const BurgerConstructor = () => {
     collect: monitor => ({
       onHover: monitor.isOver()
     }),
-    drop(itemId) {
+    drop(itemId: any) {
       addIngredient(itemId.el)
     }
   });
@@ -148,12 +159,12 @@ const BurgerConstructor = () => {
 
         <ul ref={dropIngredient} className={styles.constructor_box + ' customScroller'}>
           {
-            constructorIngredients.length ? constructorIngredients.map((el, i) => {
+            !!constructorIngredients.length ? constructorIngredients.map((el: IIngredient, i: number) => {
               return (
                 <BurgerConstructorItem
                   key={el.uniqueKey}
                   moveIngredient={moveIngredient}
-                  removeIngredient={() => removeIngredient(el)} 
+                  removeIngredient={removeIngredient}
                   el={el} 
                   index={i} 
                 />
@@ -199,6 +210,7 @@ const BurgerConstructor = () => {
           </span>
           <CurrencyIcon type="primary" />
         </div>
+        {/* @ts-ignore */}
         <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun.price ? true : false}>
           Оформить заказ
         </Button>
@@ -208,7 +220,7 @@ const BurgerConstructor = () => {
       )}
       {!orderRequest && !orderFailed && orderDetails.success && (
         <Modal onClose={closeOrderDetails}>
-          <OrderDetails order={orderDetails.order} />
+          <OrderDetails number={orderDetails.order.number} />
         </Modal>
       )}
     </section>

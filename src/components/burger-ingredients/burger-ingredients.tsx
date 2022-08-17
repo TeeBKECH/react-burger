@@ -1,68 +1,71 @@
-import React, { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { FC, useRef, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import { getBurgerIngredients } from '../../services/actions/index';
-
-import Modal from '../modal/modal'
-import IngredientDetails from '../ingredient-details/ingredient-details'
 import Tabs from '../tabs/tabs'
 import Ingredient from '../ingredient/ingredient'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import {
   ADD_INGREDIENT_DETAILS,
-  REMOVE_INGREDIENT_DETAILS
 } from '../../services/actions/index'
 
 import styles from './burger-ingredients.module.css'
 
-const BurgerIngredients = () => {
+const BurgerIngredients: FC = () => {
 
   const {
     burgerIngredients,
     burgerIngredientsRequest,
     burgerIngredientsFailed
-  } = useSelector(store => store.burgerIngredientsReducer);
+  } = useAppSelector(store => store.burgerIngredientsReducer);
 
-  const scrollRef = useRef(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [current, setCurrent] = React.useState('bun')
+  const [current, setCurrent] = useState<string>('bun')
 
-  const openIngredientDetails = (ingredient) => {
+  const openIngredientDetails = (ingredient: IIngredient): void => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
       ingredient: ingredient
     })
   }
 
-  const isInViewport = () => {
+  const isInViewport = (): void => {
 
     const html = scrollRef.current;
     const titles = document.querySelectorAll(`.category_title`)
 
-    let parrentOffset = html.getBoundingClientRect().top
-    let offset = 0
-    let currentTab = current
-    console.log(parrentOffset)
-    titles.forEach((title, index) => {
-      const rect = title.getBoundingClientRect().top - parrentOffset
-      if (rect >= 0 && rect <= 155) {
-        offset = rect
-        currentTab = title.getAttribute('id')
-      }
-      // return (
-      //   rect.top >= 0 &&
-      //   rect.left >= 0 &&
-      //   rect.bottom <= (window.innerHeight || html.clientHeight) &&
-      //   rect.right <= (window.innerWidth || html.clientWidth)
-      // )
-    })
-    setCurrent(currentTab)
-    // console.log(offset)
+    if (html !== null) {
+      let parrentOffset = html.getBoundingClientRect().top
+      // let offset = 0
+      let currentTab = current
+      titles.forEach((title, index) => {
+        const rect = title.getBoundingClientRect().top - parrentOffset
+        if (rect >= 0 && rect <= 155) {
+          // offset = rect
+          currentTab = title.getAttribute('id') as string
+        }
+        // return (
+        //   rect.top >= 0 &&
+        //   rect.left >= 0 &&
+        //   rect.bottom <= (window.innerHeight || html.clientHeight) &&
+        //   rect.right <= (window.innerWidth || html.clientWidth)
+        // )
+      })
+      setCurrent(currentTab)
+      // console.log(offset)
+    } 
   }
 
-  const ingredientTypes = [
+  interface IIngredientType {
+    bun?: string;
+    main?: string;
+    sauce?: string;
+  }
+
+  const ingredientTypes: IIngredientType[] = [
     { bun: 'Булки' },
     { main: 'Начинки' },
     { sauce: 'Соусы' }
@@ -89,7 +92,7 @@ const BurgerIngredients = () => {
 
             {
               ingredientTypes.map((ingredientType, index) => {
-                const items = burgerIngredients.filter(item => item.type === Object.keys(ingredientType).join())
+                const items = burgerIngredients.filter((item: IIngredient) => item.type === Object.keys(ingredientType).join())
                 return (
                   <article
                     key={index}
@@ -100,8 +103,8 @@ const BurgerIngredients = () => {
                     </h4>
                     <div className={styles.category_items}>
                       {
-                        items.map(el => (
-                          <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={() => { openIngredientDetails(el) }} />
+                        items.map((el: IIngredient) => (
+                          <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={openIngredientDetails} />
                         ))
                       }
                     </div>

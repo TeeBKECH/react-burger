@@ -1,15 +1,20 @@
-import React, { useCallback, useEffect } from 'react'
+import { FC, ReactNode, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import ModalOverlay from '../modal-overlay/modal-overlay'
 
 import styles from './modal.module.css'
 
-const Modal = ({onClose, children, title}) => {
+export interface IModalProps {
+  onClose: () => void;
+  children?: ReactNode;
+  title?: string;
+}
 
-  const handleCloseModal = useCallback((e) => {
+const Modal: FC<IModalProps> = ({onClose, children, title}) => {
+
+  const handleCloseModal = useCallback((e: KeyboardEvent) => {
       e.key === 'Escape' && onClose();
   }, [onClose])
 
@@ -34,14 +39,8 @@ const Modal = ({onClose, children, title}) => {
       </div>
       <ModalOverlay onClose={onClose} />
     </>,
-    document.getElementById('react-modals')
+    document.getElementById('react-modals') as HTMLElement
   )
-}
-
-Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
-  title: PropTypes.string
 }
 
 export default Modal

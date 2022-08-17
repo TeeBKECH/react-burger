@@ -1,28 +1,29 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import { ADD_INGREDIENT_DETAILS, getBurgerIngredients } from '../../services/actions'
+import { ADD_INGREDIENT_DETAILS } from '../../services/actions'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import styles from './ingredient-details.module.css'
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
 
   const {
     burgerIngredients,
     ingredientDetails
-  } = useSelector(store => ({
+  } = useAppSelector(store => ({
     burgerIngredients: store.burgerIngredientsReducer.burgerIngredients,
     ingredientDetails: store.ingredientDetailsReducer.ingredientDetails
   }))
 
-  const params = useParams()
-  const dispatch = useDispatch()
+  const {ingredientId}: {ingredientId?: number} = useParams()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
-      ingredient: burgerIngredients.find(el => el._id === params.ingredientId)
+      ingredient: burgerIngredients.find((el: IIngredient) => el._id === ingredientId)
     })
     console.log(burgerIngredients)
 
