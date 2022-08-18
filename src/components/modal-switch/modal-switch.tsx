@@ -4,15 +4,16 @@ import { REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index'
 import { Switch, Route } from 'react-router-dom';
 import { useAppDispatch } from "../../utils/hooks";
 
-import { 
-  Error404Page, 
-  ForgotPasswordPage, 
-  LoginPage, 
-  ProfilePage, 
-  RegisterPage, 
+import {
+  Error404Page,
+  ForgotPasswordPage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
   ResetPasswordPage,
-  OrdersList,
-  Home } from '../../pages';
+  Home,
+  OrdersFeed
+} from '../../pages';
 import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ProtectedRoute } from '../protected-route/protected-route';
@@ -61,8 +62,11 @@ export const ModalSwitch: FC = () => {
             <Route path="/reset-password" exact>
               <ResetPasswordPage />
             </Route>
-            <Route path="/orders-list" exact>
-              <OrdersList />
+            <Route path="/feed" exact>
+              <OrdersFeed />
+            </Route>
+            <Route path="/feed/:id" exact>
+              Not Modal
             </Route>
             <ProtectedRoute path="/profile">
               <ProfilePage />
@@ -78,14 +82,24 @@ export const ModalSwitch: FC = () => {
       </div>
 
       {background && (
-        <Route
-          path='/ingredients/:ingredientId'
-          children={
-            <Modal title="Детали ингредиента" onClose={closeIngredientDetails}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
+        <>
+          <Route
+            path='/ingredients/:ingredientId'
+            children={
+              <Modal title="Детали ингредиента" onClose={closeIngredientDetails}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:id'
+            children={
+              <Modal title="Детали заказа" onClose={closeIngredientDetails}>
+                Modal
+              </Modal>
+            }
+          />
+        </>
       )}
     </>
   );
