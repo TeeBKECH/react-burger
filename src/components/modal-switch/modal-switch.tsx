@@ -20,6 +20,7 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 import styles from './modal-switch.module.css';
 import Modal from "../modal/modal";
+import { OrderItemData } from "../order-item-data/order-item-data";
 
 interface ILocationState {
   background?: Location;
@@ -94,8 +95,8 @@ export const ModalSwitch: FC = () => {
           <Route
             path='/feed/:id'
             children={
-              <Modal title="Детали заказа" onClose={closeIngredientDetails}>
-                Modal
+              <Modal title="" onClose={closeIngredientDetails}>
+                <OrderItemData />
               </Modal>
             }
           />
