@@ -5,24 +5,30 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import image1 from '../../images/bun-01.png'
 import styles from './order-item.module.css'
 
-export const OrderItem: FC = () => {
+import { TOrders } from '../../services/reducers/wsReduser'
+
+interface IFeeditem {
+  orderData: TOrders
+}
+
+export const OrderItem: FC<IFeeditem> = ({orderData}) => {
   const location = useLocation()
   
   return (
     <Link
       to={{
-        pathname: `/feed/1`,
+        pathname: `/feed/${orderData._id}`,
         state: { background: location },
       }}
       className={styles.order__item}
     >
       <div className={styles.order__item_header}>
-        <p className="text text_type_digits-default">#412345</p>
-        <p className="text text_type_main-default text_color_inactive">Сегодня, 16:20 i-GMT+3</p>
+        <p className="text text_type_digits-default">#{orderData.number}</p>
+        <p className="text text_type_main-default text_color_inactive">{orderData.createdAt}</p>
       </div>
       <div className={styles.order__item_body}>
         <p className="text text_type_main-medium">
-          Death Star Starship Main бургер
+          {orderData.name}
         </p>
       </div>
       <div className={styles.order__item_footer}>

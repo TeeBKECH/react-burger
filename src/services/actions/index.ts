@@ -1,4 +1,4 @@
-import { API_URL, checkResponse } from '../../utils/api'
+import { API_URL, checkResponse, getCookie } from '../../utils/api'
 
 export const GET_BURGER_INGREDIENTS_REQUEST = 'GET_BURGER_INGREDIENTS_REQUEST'
 export const GET_BURGER_INGREDIENTS_FAILED = 'GET_BURGER_INGREDIENTS_FAILED'
@@ -59,7 +59,8 @@ export const setOrderDetails = (): any => {
     fetch(API_URL + '/orders', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=utf-8'
+        'Content-Type': 'application/json;charset=utf-8',
+        'authorization': getCookie('accessToken') as string
       }, 
       body: JSON.stringify({"ingredients": orderData})
     })

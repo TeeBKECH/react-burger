@@ -67,7 +67,7 @@ export const ModalSwitch: FC = () => {
               <OrdersFeed />
             </Route>
             <Route path="/feed/:id" exact>
-              Not Modal
+              <OrderItemData />
             </Route>
             <ProtectedRoute path="/profile">
               <ProfilePage />
