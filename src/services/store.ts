@@ -3,16 +3,13 @@ import thunk from 'redux-thunk'
 import { rootReducer } from './reducers/index'
 import { composeWithDevTools } from '@redux-devtools/extension'
 import { socketMiddleware } from './middleware/wsMiddleware'
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_ORDERS } from './actions/wsActions'
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_ORDERS, WS_CONNECTION_AUTH_START } from './actions/wsActions'
 
-const wsUrl: string = 'wss://norma.nomoreparties.space/orders/all'
-
-// export interface IWsConnectedStart {
-//   readonly type: typeof WS_CONNECTION_START
-// }
+const wsUrl: string = 'wss://norma.nomoreparties.space'
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
+  wsInitAuth: WS_CONNECTION_AUTH_START,
   onOpen: WS_CONNECTION_SUCCESS,
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
@@ -31,4 +28,4 @@ export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 
-export default store;
+export default store

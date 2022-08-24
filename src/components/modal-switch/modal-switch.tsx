@@ -1,8 +1,7 @@
-import { FC } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { FC } from "react"
+import { useHistory, useLocation, Route, Switch } from "react-router-dom"
 import { REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index'
-import { Switch, Route } from 'react-router-dom';
-import { useAppDispatch } from "../../utils/hooks";
+import { useAppDispatch } from "../../utils/hooks"
 
 import {
   Error404Page,
@@ -13,14 +12,14 @@ import {
   ResetPasswordPage,
   Home,
   OrdersFeed
-} from '../../pages';
-import AppHeader from '../app-header/app-header';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ProtectedRoute } from '../protected-route/protected-route';
+} from '../../pages'
+import AppHeader from '../app-header/app-header'
+import IngredientDetails from '../ingredient-details/ingredient-details'
+import { ProtectedRoute } from '../protected-route/protected-route'
 
-import styles from './modal-switch.module.css';
-import Modal from "../modal/modal";
-import { OrderItemData } from "../order-item-data/order-item-data";
+import styles from './modal-switch.module.css'
+import Modal from "../modal/modal"
+import { OrderItemData } from "../order-item-data/order-item-data"
 
 interface ILocationState {
   background?: Location;
@@ -103,5 +102,5 @@ export const ModalSwitch: FC = () => {
         </>
       )}
     </>
-  );
-};
+  )
+}
