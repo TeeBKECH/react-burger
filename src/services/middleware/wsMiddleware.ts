@@ -29,6 +29,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middlewa
       }
       if (socket) {
         socket.onopen = event => {
+          console.log('ws open')
           dispatch({ type: onOpen, payload: event })
         }
 
@@ -37,13 +38,19 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middlewa
         }
 
         socket.onmessage = event => {
+          console.log('ws get message')
           const { data } = event;
           const parsedData = JSON.parse(data)
           const { success, ...restParsedData } = parsedData
           dispatch({ type: getOrders, payload: restParsedData })
         }
 
+        if (type === onClose) {
+          socket.close()
+        }
+
         socket.onclose = event => {
+          console.log('ws closed')
           dispatch({ type: onClose, payload: event })
         }
       }

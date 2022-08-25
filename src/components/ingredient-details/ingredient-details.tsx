@@ -30,9 +30,8 @@ const IngredientDetails: FC = () => {
   }, [burgerIngredients])
 
   return (
-    <>
-      {ingredientDetails && (
-        <div className={styles.ingredient}>
+    ingredientDetails && (
+      <div className={styles.ingredient}>
         <div className={styles.ingredient_img}>
           <img src={ingredientDetails.image} alt={ingredientDetails.name} />
         </div>
@@ -56,8 +55,7 @@ const IngredientDetails: FC = () => {
           </div>
         </div>
       </div>
-      )}
-    </>
+    )
   )
 }
 

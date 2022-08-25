@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 
 import { OrderItem } from '../../components/order-item/order-item'
-import { WS_CONNECTION_START } from '../../services/actions/wsActions'
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/wsActions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import { TOrders } from '../../services/reducers/wsReduser'
@@ -19,6 +19,12 @@ export const OrdersFeed: FC = () => {
     dispatch({
       type: WS_CONNECTION_START
     })
+
+    return () => {
+      dispatch({
+        type: WS_CONNECTION_CLOSED
+      })
+    }
   }, [])
 
   return (

@@ -3,7 +3,8 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS
+  WS_GET_ORDERS,
+  WS_ADD_ORDER_DETAILS
 } from '../actions/wsActions'
 
 export type TOrders = {
@@ -26,13 +27,15 @@ type TWsData = {
 type TWSState = {
   wsConnected: boolean;
   wsData: TWsData | null;
+  orderDetails: TOrders | null;
 
   error?: Event;
 }
 
 const initialState: TWSState = {
   wsConnected: false,
-  wsData: null
+  wsData: null,
+  orderDetails: null,
 };
 
 export const wsReducer = (state = initialState, action) => {
@@ -56,6 +59,11 @@ export const wsReducer = (state = initialState, action) => {
       return {
         ...state,
         wsData: action.payload
+      };
+    case WS_ADD_ORDER_DETAILS:
+      return {
+        ...state,
+        orderDetails: action.payload
       };
     default:
       return state;

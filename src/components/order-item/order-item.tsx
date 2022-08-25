@@ -1,29 +1,47 @@
 import { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
+import { formatRelative } from 'date-fns'
+import ruLocale from 'date-fns/locale/ru'
+
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import image1 from '../../images/bun-01.png'
-import styles from './order-item.module.css'
 
 import { TOrders } from '../../services/reducers/wsReduser'
 import { useAppSelector } from '../../utils/hooks'
 
-interface IFeeditem {
+import styles from './order-item.module.css'
+interface IFeeditemProps {
   orderData: TOrders
 }
 
-export const OrderItem: FC<IFeeditem> = ({orderData}) => {
+export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
+  
+  const location = useLocation()
 
   const { burgerIngredients } = useAppSelector(store => store.burgerIngredientsReducer)
 
-  const location = useLocation()
+  const orderIngredients = orderData.ingredients
+    .map(index => burgerIngredients.find(ingredient => index === ingredient._id))
+    .map(el => {
+      if (el.type === 'bun') {
+        return {
+          ...el,
+          price: el.price * 2
+        }
+      }
+      return el
+    })
 
-  const orderIngredients = orderData.ingredients.map(id => {
-    return burgerIngredients.find(ingredient => id === ingredient._id)
-  })
+  const dateFormater = formatRelative(
+    new Date(orderData.createdAt),
+    new Date(), 
+    {
+      locale: ruLocale,
+      weekStartsOn: 1
+    }
+  )
 
-  console.log(orderIngredients)
-  console.log(burgerIngredients)
+  // console.log(orderIngredients)
   
   return (
     <Link
@@ -35,7 +53,7 @@ export const OrderItem: FC<IFeeditem> = ({orderData}) => {
     >
       <div className={styles.order__item_header}>
         <p className="text text_type_digits-default">#{orderData.number}</p>
-        <p className="text text_type_main-default text_color_inactive">{orderData.createdAt}</p>
+        <p className="text text_type_main-default text_color_inactive">{dateFormater}</p>
       </div>
       <div className={styles.order__item_body}>
         <p className="text text_type_main-medium">
@@ -45,19 +63,29 @@ export const OrderItem: FC<IFeeditem> = ({orderData}) => {
       <div className={styles.order__item_footer}>
         <ul className={styles.order__item_ingredients}>
           {
-            orderIngredients.map(ingredient => {
-              return <li><img src={ingredient.image_mobile} alt="" /></li>
-            })
+            orderIngredients.length <= 6 ? (
+              orderIngredients.map(el => <li><img src={el?.image_mobile} alt="" /></li>)
+            ) : (
+              orderIngredients.map((el, index) => {
+                if (index < 5) {
+                  return <li><img src={el?.image_mobile} alt="" /></li>
+                }
+                if (index === 5) {
+                  return (
+                    <li>
+                      <div className={styles.order__item_overlay}>
+                        <p className="text text_type_digits-default">{`+${orderIngredients.length - 5}`}</p>
+                      </div>
+                      <img src={orderIngredients[index].image_mobile} alt="" />
+                    </li>
+                  )
+                }
+              })
+            )
           }
-          <li>
-            <div className={styles.order__item_overlay}>
-              <p className="text text_type_digits-default">+3</p>
-            </div>
-            <img src={image1} alt="" />
-          </li>
         </ul>
         <div className={styles.order__item_price}>
-          <p className="text text_type_digits-default">480</p>
+          <p className="text text_type_digits-default">{orderIngredients.reduce((acc, el) => acc + el.price, 0)}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>

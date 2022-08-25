@@ -215,14 +215,32 @@ const BurgerConstructor: FC = () => {
           Оформить заказ
         </Button>
       </div>
-      {checkLogin && (
-        <Redirect to={{pathname: '/login'}} />
-      )}
-      {!orderRequest && !orderFailed && orderDetails.success && (
-        <Modal onClose={closeOrderDetails}>
-          <OrderDetails number={orderDetails.order.number} />
-        </Modal>
-      )}
+      {
+        checkLogin && (
+          <Redirect to={{pathname: '/login'}} />
+        )
+      }
+      {
+        orderRequest && (
+          <Modal onClose={closeOrderDetails}>
+            Формируем ваш заказ, ожидайте...
+          </Modal>
+        )
+      }
+      {
+        orderFailed && (
+          <Modal onClose={closeOrderDetails}>
+            Произошла ошибка при формировании заказа!
+          </Modal>
+        )
+      }
+      {
+        !orderRequest && !orderFailed && orderDetails.success && (
+          <Modal onClose={closeOrderDetails}>
+            <OrderDetails number={orderDetails.order.number} />
+          </Modal>
+        )
+      }
     </section>
   )
 }
