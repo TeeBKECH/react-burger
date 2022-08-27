@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import { ADD_INGREDIENT_DETAILS } from '../../services/actions'
@@ -25,8 +26,6 @@ const IngredientDetails: FC = () => {
       type: ADD_INGREDIENT_DETAILS,
       ingredient: burgerIngredients.find((el: IIngredient) => el._id === ingredientId)
     })
-    console.log(burgerIngredients)
-
   }, [burgerIngredients])
 
   return (

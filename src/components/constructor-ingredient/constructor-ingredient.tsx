@@ -1,9 +1,10 @@
 import { FC, useRef } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+
 import { IIngredient } from '../../services/reducers/reducers'
 
 import styles from './constructor-ingredient.module.css'
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 interface IBurgerConstructorItemProps {
   el: IIngredient;
@@ -27,12 +28,12 @@ const ConstructorIngredient: FC<IBurgerConstructorItemProps> = ({ el, index, rem
   const [ , dropRef] = useDrop({
     accept: 'item',
     hover: (item: any, monitor: any) => {
-      const dragIndex = item.index
-      const hoverIndex = index
+      const dragIndex: number = item.index
+      const hoverIndex: number = index
       const hoverBoundingRect = ref.current?.getBoundingClientRect()
       if (hoverBoundingRect !== undefined) {
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top)
-        const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top
+        const hoverMiddleY: number = (hoverBoundingRect.bottom - hoverBoundingRect.top)
+        const hoverActualY: number = monitor.getClientOffset().y - hoverBoundingRect.top
   
         // if dragging down, continue only when hover is smaller than middle Y
         if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return

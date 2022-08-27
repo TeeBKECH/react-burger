@@ -1,13 +1,13 @@
 import {
-  WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
   WS_GET_ORDERS,
-  WS_ADD_ORDER_DETAILS
+  WS_ADD_ORDER_DETAILS,
+  WS_REMOVE_ORDER_DETAILS
 } from '../actions/wsActions'
 
-export type TOrders = {
+export type TOrder = {
   ingredients: string[];
   _id: string;
   status: string;
@@ -15,25 +15,29 @@ export type TOrders = {
   number: number;
   createdAt: string;
   updatedAt: string;
+
+  uniqueKey?: string;
 }
 
 type TWsData = {
   success: boolean;
-  orders: TOrders[];
+  orders: TOrder[];
   total: number;
   totalToday: number;
 }
 
 type TWSState = {
   wsConnected: boolean;
+  wsConnectedError: boolean;
   wsData: TWsData | null;
-  orderDetails: TOrders | null;
+  orderDetails: TOrder | null;
 
   error?: Event;
 }
 
 const initialState: TWSState = {
   wsConnected: false,
+  wsConnectedError: false,
   wsData: null,
   orderDetails: null,
 };
@@ -43,17 +47,20 @@ export const wsReducer = (state = initialState, action) => {
     case WS_CONNECTION_SUCCESS:
       return {
         ...state,
-        wsConnected: true
+        wsConnected: true,
+        wsConnectedError: false
       };
     case WS_CONNECTION_ERROR:
       return {
         ...state,
-        wsConnected: false
+        wsConnected: true,
+        error: action.payload
       };
     case WS_CONNECTION_CLOSED:
       return {
         ...state,
-        wsConnected: false
+        wsConnected: false,
+        wsConnectedError: false
       };
     case WS_GET_ORDERS:
       return {
@@ -64,6 +71,11 @@ export const wsReducer = (state = initialState, action) => {
       return {
         ...state,
         orderDetails: action.payload
+      };
+    case WS_REMOVE_ORDER_DETAILS:
+      return {
+        ...state,
+        orderDetails: null
       };
     default:
       return state;

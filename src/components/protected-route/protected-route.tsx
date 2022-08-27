@@ -1,8 +1,9 @@
-import { Route, Redirect, useLocation, RouteProps } from 'react-router-dom';
+import { FC, useCallback, useEffect } from 'react'
+import { Route, Redirect, useLocation, RouteProps } from 'react-router-dom'
+
 import { getCookie } from '../../utils/api';
-import { getUser } from '../../services/actions/auth';
-import { FC, useCallback, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
+import { getUser } from '../../services/actions/auth';
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
 
@@ -10,7 +11,9 @@ export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const token = getCookie('accessToken')
   const location = useLocation()
   const dispatch = useAppDispatch()
-  const state = {from: location}
+  const state = {
+    from: location
+  }
 
   const init = useCallback( () => {
     if (token) {

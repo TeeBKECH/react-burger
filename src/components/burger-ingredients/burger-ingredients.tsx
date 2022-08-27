@@ -1,13 +1,12 @@
 import { FC, useRef, useState } from 'react'
+
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import Tabs from '../tabs/tabs'
-import Ingredient from '../ingredient/ingredient'
 import { IIngredient } from '../../services/reducers/reducers'
+import { ADD_INGREDIENT_DETAILS } from '../../services/actions/index'
 
-import {
-  ADD_INGREDIENT_DETAILS,
-} from '../../services/actions/index'
+import Ingredient from '../ingredient/ingredient'
+import Tabs from '../tabs/tabs'
 
 import styles from './burger-ingredients.module.css'
 

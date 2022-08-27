@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { useHistory, useLocation, Route, Switch } from "react-router-dom"
+
 import { REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index'
 import { useAppDispatch } from "../../utils/hooks"
 
@@ -13,13 +14,14 @@ import {
   Home,
   OrdersFeed
 } from '../../pages'
+
 import AppHeader from '../app-header/app-header'
 import IngredientDetails from '../ingredient-details/ingredient-details'
 import { ProtectedRoute } from '../protected-route/protected-route'
+import { OrderItemData } from "../order-item-data/order-item-data"
+import Modal from "../modal/modal"
 
 import styles from './modal-switch.module.css'
-import Modal from "../modal/modal"
-import { OrderItemData } from "../order-item-data/order-item-data"
 
 interface ILocationState {
   background?: Location;
@@ -34,10 +36,14 @@ export const ModalSwitch: FC = () => {
 
   const background = locationState && locationState.background
 
-  const closeIngredientDetails = () => {
+  const closeIngredientDetails = (): void => {
     dispatch({
       type: REMOVE_INGREDIENT_DETAILS
     })
+    history.goBack()
+  }
+
+  const closeOrderDetails = (): void => {
     history.goBack()
   }
 
@@ -94,7 +100,7 @@ export const ModalSwitch: FC = () => {
           <Route
             path='/feed/:id'
             children={
-              <Modal title="" onClose={closeIngredientDetails}>
+              <Modal title="" onClose={closeOrderDetails}>
                 <OrderItemData />
               </Modal>
             }

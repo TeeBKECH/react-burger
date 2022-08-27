@@ -3,13 +3,16 @@ import thunk from 'redux-thunk'
 import { rootReducer } from './reducers/index'
 import { composeWithDevTools } from '@redux-devtools/extension'
 import { socketMiddleware } from './middleware/wsMiddleware'
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_ORDERS, WS_CONNECTION_AUTH_START } from './actions/wsActions'
-
-const wsUrl: string = 'wss://norma.nomoreparties.space'
+import { 
+  WS_CONNECTION_CLOSED, 
+  WS_CONNECTION_ERROR, 
+  WS_CONNECTION_START, 
+  WS_CONNECTION_SUCCESS, 
+  WS_GET_ORDERS
+} from './actions/wsActions'
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,
-  wsInitAuth: WS_CONNECTION_AUTH_START,
   onOpen: WS_CONNECTION_SUCCESS,
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
@@ -19,7 +22,7 @@ const wsActions = {
 const store = createStore(
   rootReducer, 
   composeWithDevTools(
-    applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions))
+    applyMiddleware(thunk, socketMiddleware(wsActions))
   )
 );
 

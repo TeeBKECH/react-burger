@@ -1,4 +1,5 @@
-export const API_URL = 'https://norma.nomoreparties.space/api'
+export const API_URL: string = 'https://norma.nomoreparties.space/api'
+export const API_WS_URL: string = 'wss://norma.nomoreparties.space'
 
 export const checkResponse = async (res: Response) => {
 

@@ -1,17 +1,18 @@
 import { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import { formatRelative } from 'date-fns'
 import ruLocale from 'date-fns/locale/ru'
 
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { v4 as uuidv4 } from 'uuid'
 
-import { TOrders } from '../../services/reducers/wsReduser'
+import { TOrder } from '../../services/reducers/wsReduser'
 import { useAppSelector } from '../../utils/hooks'
 
 import styles from './order-item.module.css'
 interface IFeeditemProps {
-  orderData: TOrders
+  orderData: TOrder
 }
 
 export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
@@ -31,8 +32,14 @@ export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
       }
       return el
     })
+    .map(el => {
+      return {
+        ...el,
+        uniqueKey: uuidv4()
+      }
+    })
 
-  const dateFormater = formatRelative(
+  const dateFormater: string = formatRelative(
     new Date(orderData.createdAt),
     new Date(), 
     {
@@ -40,8 +47,6 @@ export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
       weekStartsOn: 1
     }
   )
-
-  // console.log(orderIngredients)
   
   return (
     <Link
@@ -64,15 +69,15 @@ export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
         <ul className={styles.order__item_ingredients}>
           {
             orderIngredients.length <= 6 ? (
-              orderIngredients.map(el => <li><img src={el?.image_mobile} alt="" /></li>)
+              orderIngredients.map(el => <li key={el.uniqueKey}><img src={el?.image_mobile} alt="" /></li>)
             ) : (
               orderIngredients.map((el, index) => {
                 if (index < 5) {
-                  return <li><img src={el?.image_mobile} alt="" /></li>
+                  return <li key={el.uniqueKey}><img src={el?.image_mobile} alt="" /></li>
                 }
                 if (index === 5) {
                   return (
-                    <li>
+                    <li key={el.uniqueKey}>
                       <div className={styles.order__item_overlay}>
                         <p className="text text_type_digits-default">{`+${orderIngredients.length - 5}`}</p>
                       </div>
@@ -80,6 +85,7 @@ export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
                     </li>
                   )
                 }
+                return null
               })
             )
           }

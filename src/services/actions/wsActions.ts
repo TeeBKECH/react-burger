@@ -1,32 +1,7 @@
 export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START'
-export const WS_CONNECTION_AUTH_START: 'WS_CONNECTION_AUTH_START' = 'WS_CONNECTION_AUTH_START'
 export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS'
 export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR'
 export const WS_CONNECTION_CLOSED: 'WS_CONNECTION_CLOSED' = 'WS_CONNECTION_CLOSED'
 export const WS_GET_ORDERS: 'WS_GET_ORDERS' = 'WS_GET_ORDERS'
 export const WS_ADD_ORDER_DETAILS: 'ADD_ORDER_DETAILS' = 'ADD_ORDER_DETAILS'
-
-// export const wsConnectionSuccess = () => {
-//   return {
-//     type: WS_CONNECTION_SUCCESS
-//   }
-// }
-
-// export const wsConnectionError = () => {
-//   return {
-//     type: WS_CONNECTION_ERROR
-//   }
-// }
-
-// export const wsConnectionClosed = () => {
-//   return {
-//     type: WS_CONNECTION_CLOSED
-//   }
-// }
-
-// export const wsGetOrders = orders => {
-//   return {
-//     type: WS_GET_ORDERS,
-//     payload: orders
-//   }
-// }
+export const WS_REMOVE_ORDER_DETAILS: 'WS_REMOVE_ORDER_DETAILS' = 'WS_REMOVE_ORDER_DETAILS'

@@ -1,15 +1,16 @@
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
-import { Redirect } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks'
-
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
+import { getCookie } from '../../utils/api'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import Modal from '../modal/modal'
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
 import OrderDetails from '../order-details/order-details'
+import Modal from '../modal/modal'
+
 import {
   setOrderDetails, 
   CLEAR_ORDER_DETAILS, 
@@ -20,13 +21,21 @@ import {
   REMOVE_INGREDIENT,
   MOVE_INGREDIENT
 } from '../../services/actions/index'
+import { getUser } from '../../services/actions/auth'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
-import { IIngredient } from '../../services/reducers/reducers'
 
 const BurgerConstructor: FC = () => {
-  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useAppSelector(store => ({
+  const { 
+    bun, 
+    constructorIngredients, 
+    orderDetails, 
+    orderRequest, 
+    orderFailed, 
+    user 
+  } = useAppSelector(store => ({
     bun: store.constructorIngredientsReducer.bun,
     constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
     orderDetails: store.orderDetailsReducer.orderDetails,
@@ -35,10 +44,11 @@ const BurgerConstructor: FC = () => {
     user: store.userReducer.user,
   }))
 
-  const [checkLogin, setChecklogin] = useState<boolean>(false)
-
   const dispatch = useAppDispatch()
 
+  const [checkLogin, setChecklogin] = useState<boolean>(false)
+
+  const token = getCookie('accessToken')
   let totalPrice: number = 0
 
   if (!!constructorIngredients.length || bun.price) {
@@ -53,13 +63,18 @@ const BurgerConstructor: FC = () => {
     totalPrice = ingredientPrice + bunPrice
   }
 
+  useEffect(() => {
+    if (token) {
+      dispatch(getUser())
+    }
+  }, [])
 
   const openOrderDetails = (): void => {
-    if (!user) {
+    if (user) {
+      dispatch(setOrderDetails())
+    } else {
       setChecklogin(true)
-      return
     }
-    dispatch(setOrderDetails())
   }
 
   const closeOrderDetails = (): void => {

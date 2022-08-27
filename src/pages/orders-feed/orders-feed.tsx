@@ -1,23 +1,23 @@
 import { FC, useEffect } from 'react'
 
 import { OrderItem } from '../../components/order-item/order-item'
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/wsActions'
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_GET_ORDERS } from '../../services/actions/wsActions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import { TOrders } from '../../services/reducers/wsReduser'
+import { TOrder } from '../../services/reducers/wsReduser'
 
 import styles from './orders-feed.module.css'
+import { API_WS_URL } from '../../utils/api'
 
 export const OrdersFeed: FC = () => {
 
   const { wsData, wsConnected } = useAppSelector(store => store.wsReducer)
   const dispatch = useAppDispatch()
 
-  console.log(wsData)
-
   useEffect(() => {
     dispatch({
-      type: WS_CONNECTION_START
+      type: WS_CONNECTION_START,
+      payload: `${API_WS_URL}/orders/all`
     })
 
     return () => {
@@ -35,8 +35,8 @@ export const OrdersFeed: FC = () => {
         </h2>
         <div className={`${styles.feed__items} customScroller`}>
           {
-            wsConnected && wsData && wsData.orders.map((el: TOrders) => {
-              return <OrderItem orderData={el} key={el._id} />
+            wsConnected && wsData && wsData.orders.map((el: TOrder) => {
+              return <OrderItem orderData={el} key={el.uniqueKey} />
             })
           }
         </div>
@@ -46,22 +46,31 @@ export const OrdersFeed: FC = () => {
           <div className={`${styles.feed__right_status} ${styles.feed__right_status_ready}`}>
             <h3 className="text text_type_main-medium">Готовы:</h3>
             <ul>
-              <li className="text text_type_main-default">034533</li>
-              <li className="text text_type_main-default">034532</li>
-              <li className="text text_type_main-default">034531</li>
-              <li className="text text_type_main-default">034530</li>
-              <li className="text text_type_main-default">034529</li>
-              <li className="text text_type_main-default">034528</li>
-              <li className="text text_type_main-default">034522</li>
+              {
+                wsConnected && wsData && wsData.orders.map((el, index) => {
+                  if (index < 10) {
+                    if (el.status === 'done') {
+                      return <li key={el.uniqueKey} className="text text_type_main-default">{el.number}</li>
+                    }
+                  }
+                  return null
+                })
+              }
             </ul>
           </div>
           <div className={`${styles.feed__right_status} ${styles.feed__right_status_inprogress}`}>
             <h3 className="text text_type_main-medium">В работе:</h3>
             <ul>
-              <li className="text text_type_main-default">034533</li>
-              <li className="text text_type_main-default">034532</li>
-              <li className="text text_type_main-default">034531</li>
-              <li className="text text_type_main-default">034530</li>
+              {
+                wsConnected && wsData && wsData.orders.map((el, index) => {
+                  if (index < 10) {
+                    if (el.status === 'pending') {
+                      return <li key={el.uniqueKey} className="text text_type_main-default">{el.number}</li>
+                    }
+                  }
+                  return null
+                })
+              }
             </ul>
           </div>
         </div>

@@ -1,35 +1,30 @@
 import type { Middleware, MiddlewareAPI } from 'redux'
-import type { AppDispatch, RootState } from '../store';
-import { getCookie } from "../../utils/api"
+import type { AppDispatch, RootState } from '../store'
+import { v4 as uuidv4 } from 'uuid'
 
 export type TWsActions = {
   wsInit: string;
-  wsInitAuth: string;
   onOpen: string;
   onClose: string;
   onError: string;
   getOrders: string;
 }
 
-export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middleware => {
+export const socketMiddleware = (wsActions: TWsActions): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null
 
     return next => action => {
-      const { dispatch, getState } = store
+      const { dispatch } = store
       const { type, payload } = action
-      const { wsInit, wsInitAuth, onOpen, onClose, onError, getOrders } = wsActions
-      const accessToken = getCookie('accessToken')?.replace('Bearer ', '')
+      const { wsInit, onOpen, onClose, onError, getOrders } = wsActions
 
       if (type === wsInit) {
-        socket = new WebSocket(`${wsUrl}/orders/all`)
+        socket = new WebSocket(payload)
       }
-      if (type === wsInitAuth) {
-        socket = new WebSocket(`${wsUrl}/orders?token=${accessToken}`)
-      }
+
       if (socket) {
         socket.onopen = event => {
-          console.log('ws open')
           dispatch({ type: onOpen, payload: event })
         }
 
@@ -38,11 +33,22 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middlewa
         }
 
         socket.onmessage = event => {
-          console.log('ws get message')
-          const { data } = event;
+          const { data } = event
           const parsedData = JSON.parse(data)
           const { success, ...restParsedData } = parsedData
-          dispatch({ type: getOrders, payload: restParsedData })
+
+          dispatch({
+            type: getOrders,
+            payload: {
+              ...restParsedData,
+              orders: restParsedData.orders.map(order => {
+                return {
+                  ...order, 
+                  uniqueKey: uuidv4()
+                }
+              })
+            }
+          })
         }
 
         if (type === onClose) {
@@ -51,7 +57,6 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWsActions): Middlewa
 
         socket.onclose = event => {
           console.log('ws closed')
-          dispatch({ type: onClose, payload: event })
         }
       }
 
