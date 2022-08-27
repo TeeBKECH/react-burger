@@ -16,7 +16,7 @@ interface IIngredientProps {
 const Ingredient: FC<IIngredientProps> = ({el, openIngredientDetails, type}) => {
 
   const location: Location = useLocation()
-  const ingredientId: number = el._id
+  const ingredientId: string = el._id
 
   const [{ opacity }, ref] = useDrag({
     type: type,

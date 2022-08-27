@@ -22,9 +22,9 @@ export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
   const { burgerIngredients } = useAppSelector(store => store.burgerIngredientsReducer)
 
   const orderIngredients = orderData.ingredients
-    .map(index => burgerIngredients.find(ingredient => index === ingredient._id))
+    .map((index: string) => burgerIngredients.find(ingredient => index === ingredient._id))
     .map(el => {
-      if (el.type === 'bun') {
+      if (el && el.type === 'bun') {
         return {
           ...el,
           price: el.price * 2
@@ -91,7 +91,13 @@ export const OrderItem: FC<IFeeditemProps> = ({orderData}) => {
           }
         </ul>
         <div className={styles.order__item_price}>
-          <p className="text text_type_digits-default">{orderIngredients.reduce((acc, el) => acc + el.price, 0)}</p>
+          <p className="text text_type_digits-default">{orderIngredients.reduce((acc, el) => {
+              if (el && el.price) {
+                return acc + el.price
+              } else {
+                return acc
+              }
+            }, 0)}</p>
           <CurrencyIcon type="primary" />
         </div>
       </div>

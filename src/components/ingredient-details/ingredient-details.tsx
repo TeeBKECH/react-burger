@@ -18,7 +18,7 @@ const IngredientDetails: FC = () => {
     ingredientDetails: store.ingredientDetailsReducer.ingredientDetails
   }))
 
-  const {ingredientId}: {ingredientId?: number} = useParams()
+  const {ingredientId}: {ingredientId?: string} = useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const IngredientDetails: FC = () => {
       type: ADD_INGREDIENT_DETAILS,
       ingredient: burgerIngredients.find((el: IIngredient) => el._id === ingredientId)
     })
-  }, [burgerIngredients])
+  }, [burgerIngredients, dispatch, ingredientId])
 
   return (
     ingredientDetails && (

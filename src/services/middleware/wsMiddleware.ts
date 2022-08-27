@@ -1,8 +1,9 @@
 import type { Middleware, MiddlewareAPI } from 'redux'
 import type { AppDispatch, RootState } from '../store'
 import { v4 as uuidv4 } from 'uuid'
+import { TOrder } from '../reducers/wsReduser';
 
-export type TWsActions = {
+export interface IWsActions {
   wsInit: string;
   onOpen: string;
   onClose: string;
@@ -10,7 +11,7 @@ export type TWsActions = {
   getOrders: string;
 }
 
-export const socketMiddleware = (wsActions: TWsActions): Middleware => {
+export const socketMiddleware = (wsActions): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null
 
@@ -41,7 +42,7 @@ export const socketMiddleware = (wsActions: TWsActions): Middleware => {
             type: getOrders,
             payload: {
               ...restParsedData,
-              orders: restParsedData.orders.map(order => {
+              orders: restParsedData.orders.map((order: TOrder) => {
                 return {
                   ...order, 
                   uniqueKey: uuidv4()

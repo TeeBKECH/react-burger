@@ -1,4 +1,17 @@
-import { API_URL, checkResponse, deleteCookie, getCookie, saveTokens } from '../../utils/api'
+import { 
+  API_URL, 
+  checkResponse, 
+  deleteCookie, 
+  getCookie, 
+  saveTokens 
+} from '../../utils/api'
+
+import { IForm, IUser } from '../reducers/auth'
+
+import { 
+  AppDispatch, 
+  AppThunk 
+} from '../store'
 
 export const SUBMIT_REQUEST = 'SUBMIT_REQUEST'
 export const SUBMIT_FAILED = 'SUBMIT_FAILED'
@@ -14,17 +27,108 @@ export const RESET_FORM = 'RESET_FORM'
 export const UPDATE_FORM = 'UPDATE_FORM'
 export const FORM_SET_VALUE = 'FORM_SET_VALUE'
 
+export interface ISetFormValue {
+  readonly type: typeof FORM_SET_VALUE;
+  readonly field: string;
+  readonly value: string;
+}
+
+export interface IUpdateForm {
+  readonly type: typeof UPDATE_FORM;
+  readonly payload: {
+    readonly name: string;
+    readonly email: string;
+  };
+}
+
+export interface IResetForm {
+  readonly type: typeof RESET_FORM;
+  readonly payload: {
+    readonly name: string;
+    readonly email: string;
+    readonly passwordValue: string;
+  };
+}
+
+export interface IClearForm {
+  readonly type: typeof CLEAR_FORM;
+  readonly form: IForm;
+}
+
+export type TFormActions = 
+  | ISetFormValue
+  | IUpdateForm
+  | IResetForm
+  | IClearForm
+
+export interface ISubmitRequest {
+  readonly type: typeof SUBMIT_REQUEST;
+}
+
+export interface ISubmitFailed {
+  readonly type: typeof SUBMIT_FAILED;
+}
+
+export interface ICreateUser {
+  readonly type: typeof CREATE_USER;
+  readonly payload: IUser;
+}
+
+export interface ILoginUser {
+  readonly type: typeof LOGIN_USER;
+  readonly payload: IUser;
+}
+
+export interface ILogoutUser {
+  readonly type: typeof LOGOUT_USER;
+}
+
+export interface ILogoutUser {
+  readonly type: typeof LOGOUT_USER;
+}
+
+export interface IGetUser {
+  readonly type: typeof GET_USER;
+  readonly payload: IUser;
+}
+
+export interface IUpdateUser {
+  readonly type: typeof UPDATE_USER;
+  readonly payload: IUser;
+}
+
+export interface IForgotPassword {
+  readonly type: typeof FORGOT_PASSWORD;
+  readonly message: string;
+}
+
+export interface IResetPassword {
+  readonly type: typeof RESET_PASSWORD;
+  readonly message: string;
+}
+
+export type TUserActions = 
+  | ISubmitRequest
+  | ISubmitFailed
+  | ICreateUser
+  | ILoginUser
+  | ILogoutUser
+  | IGetUser
+  | IUpdateUser
+  | IForgotPassword
+  | IResetPassword
+
 // Обновление данных формы
-export const setFormValue = (field, value) => ({
+export const setFormValue = (field: string, value: string): ISetFormValue => ({
   type: FORM_SET_VALUE,
   field,
   value
 })
 
 // Регистрация пользователя
-export const createUser = (name, email, password) => {
+export const createUser: AppThunk = (name: string, email: string, password: string) => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST
@@ -60,9 +164,9 @@ export const createUser = (name, email, password) => {
 }
 
 // Авторизация пользователя
-export const logIn = (email, password) => {
+export const logIn: AppThunk = (email: string, password: string) => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST
@@ -98,9 +202,9 @@ export const logIn = (email, password) => {
 }
 
 // Выход из учетной записи
-export const logOut = (token) => {
+export const logOut: AppThunk = (token: string | undefined) => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST
@@ -134,9 +238,9 @@ export const logOut = (token) => {
   }
 }
 
-const refreshToken = (afterRefresh) => {
+const refreshToken = (afterRefresh: any) => {
 
-  return function(dispatch) {
+  return function(dispatch: AppDispatch) {
 
     fetch(API_URL + '/auth/token', {
       method: 'POST',
@@ -161,9 +265,9 @@ const refreshToken = (afterRefresh) => {
 }
 
 // Обновление информации о пользователе
-export const getUser = (): any => {
+export const getUser: AppThunk = () => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST,
@@ -201,9 +305,9 @@ export const getUser = (): any => {
 }
 
 // Обновление информации о пользователе
-export const updateUser = (name, email, password) => {
+export const updateUser: AppThunk = (name: string, email: string, password: string) => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST
@@ -237,9 +341,9 @@ export const updateUser = (name, email, password) => {
 }
 
 // Запрос на сброс пароля
-export const forgotPassword = (email) => {
+export const forgotPassword: AppThunk = (email: string) => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST
@@ -273,9 +377,9 @@ export const forgotPassword = (email) => {
 }
 
 // Сброс пароля
-export const resetPassword = (password, token) => {
+export const resetPassword: AppThunk = (password: string, token: string) => {
 
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
 
     dispatch({
       type: SUBMIT_REQUEST

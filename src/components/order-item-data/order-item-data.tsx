@@ -39,7 +39,7 @@ export const OrderItemData: FC = () => {
     done: 'Готов'
   }
 
-  const {id}: {id?: number} = useParams()
+  const {id}: {id?: string} = useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -62,12 +62,12 @@ export const OrderItemData: FC = () => {
       payload: wsData.orders.find((el) => el._id === id)
     })
 
-  }, [wsData])
+  }, [wsData, id, dispatch])
 
   const orderIngredients = orderDetails?.ingredients
-    .map(index => burgerIngredients.find(ingredient => index === ingredient._id))
+    .map((index: string) => burgerIngredients.find(ingredient => index === ingredient._id))
     .map(el => {
-      if (el.type === 'bun') {
+      if (el && el.type === 'bun') {
         return {
           ...el,
           __v: 2
@@ -87,7 +87,11 @@ export const OrderItemData: FC = () => {
     })
 
   const totalPrice: number = orderIngredients ? orderIngredients.reduce((acc, currentValue) => {
-    return acc + (currentValue.__v * currentValue.price)
+    if (currentValue && currentValue.price) {
+      return acc + (currentValue.__v * currentValue.price)
+    } else {
+      return acc
+    }
   }, 0) : 0
 
   const dateFormatter: string = orderDetails ? formatRelative(
@@ -100,7 +104,7 @@ export const OrderItemData: FC = () => {
   ) : ''
 
   return (
-    wsConnected && orderDetails && (
+    orderDetails && (
       <div className={styles.item__data}>
         <div className={styles.item__data_header}>
           <p className={`${styles.item__data_header_number} text text_type_digits-default`}>#{orderDetails.number}</p>

@@ -15,7 +15,11 @@ import {
   ADD_INGREDIENT,
   MOVE_INGREDIENT,
   CLEAR_CONSTRUCTOR,
-  REMOVE_INGREDIENT_COUNTER
+  REMOVE_INGREDIENT_COUNTER,
+  TBurgerIngredientsActions,
+  TSetOrderActions,
+  TIngredientDetailsActions,
+  TConstructorIngredientsActions
 } from '../actions/index'
 
 export interface IIngredient {
@@ -30,7 +34,7 @@ export interface IIngredient {
   proteins: number;
   type: string;
   __v: number;
-  _id: number;
+  _id: string;
   uniqueKey?: string;
 }
 
@@ -38,42 +42,47 @@ interface IOrderNumber {
   number: number;
 }
 
-interface IOrderDetails {
+export interface IOrderDetails {
   name: string;
   order: IOrderNumber;
   success: boolean;
 }
 
-// Исходное состояние
-const initialState: {
+interface IReducersState {
   burgerIngredients: IIngredient[];
   burgerIngredientsRequest: boolean;
   burgerIngredientsFailed: boolean;
 
   constructorIngredients: IIngredient[];
-  bun: IIngredient | {};
+  bun: IIngredient | null;
 
   ingredientDetails: IIngredient | null;
 
-  orderDetails: IOrderDetails | {};
+  orderDetails: IOrderDetails | null;
   orderRequest: boolean;
   orderFailed: boolean;
-} = {
+}
+
+// Исходное состояние
+const initialState: IReducersState = {
   burgerIngredients: [],
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,
 
   constructorIngredients: [],
-  bun: {},
+  bun: null,
 
   ingredientDetails: null,
 
-  orderDetails: {},
+  orderDetails: null,
   orderRequest: false,
   orderFailed: false
 }
 
-export const burgerIngredientsReducer = (state = initialState, action) => {
+export const burgerIngredientsReducer = (
+  state = initialState, 
+  action: TBurgerIngredientsActions
+): IReducersState => {
   switch (action.type) {
     case GET_BURGER_INGREDIENTS_REQUEST: {
       return {
@@ -85,7 +94,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
     case GET_BURGER_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        burgerIngredients: action.data,
+        burgerIngredients: [...action.data],
         burgerIngredientsRequest: false
       };
     }
@@ -141,7 +150,50 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
   }
 }
 
-export const ingredientDetailsReducer = (state = initialState, action) => {
+export const orderDetailsReducer = (
+  state = initialState, 
+  action: TSetOrderActions
+): IReducersState => {
+  switch (action.type) {
+    case SET_ORDER_REQUEST: {
+      return {
+        ...state,
+        orderRequest: true,
+        orderFailed: false,
+      };
+    }
+    case SET_ORDER_FAILED: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: true,
+        orderDetails: null
+      };
+    }
+    case SET_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: false,
+        orderDetails: action.order
+      };
+    }
+    case CLEAR_ORDER_DETAILS: {
+      return {
+        ...state,
+        orderDetails: null
+      };
+    }
+    default: {
+      return state
+    }
+  }
+}
+
+export const ingredientDetailsReducer = (
+  state = initialState, 
+  action: TIngredientDetailsActions
+): IReducersState => {
   switch (action.type) {
     case ADD_INGREDIENT_DETAILS: {
       return {
@@ -161,7 +213,10 @@ export const ingredientDetailsReducer = (state = initialState, action) => {
   }
 }
 
-export const constructorIngredientsReducer = (state = initialState, action) => {
+export const constructorIngredientsReducer = (
+  state = initialState, 
+  action: TConstructorIngredientsActions
+): IReducersState => {
   switch (action.type) {
     case BUN_REPLACE: {
       return {
@@ -173,7 +228,7 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         constructorIngredients: [],
-        bun: {}
+        bun: null
       };
     }
     case ADD_INGREDIENT: {
@@ -201,44 +256,6 @@ export const constructorIngredientsReducer = (state = initialState, action) => {
             return el
           }),
         ]
-      };
-    }
-    default: {
-      return state
-    }
-  }
-}
-
-export const orderDetailsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_ORDER_REQUEST: {
-      return {
-        ...state,
-        orderRequest: true,
-        orderFailed: false,
-      };
-    }
-    case SET_ORDER_FAILED: {
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: true,
-        orderDetails: {}
-      };
-    }
-    case SET_ORDER_SUCCESS: {
-      console.log(action.order)
-      return {
-        ...state,
-        orderRequest: false,
-        orderFailed: false,
-        orderDetails: action.order
-      };
-    }
-    case CLEAR_ORDER_DETAILS: {
-      return {
-        ...state,
-        orderDetails: {}
       };
     }
     default: {

@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
 
 import { OrderItem } from '../../components/order-item/order-item'
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_START, WS_GET_ORDERS } from '../../services/actions/wsActions'
+import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/wsActions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import { TOrder } from '../../services/reducers/wsReduser'

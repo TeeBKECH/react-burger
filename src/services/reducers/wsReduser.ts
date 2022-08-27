@@ -19,8 +19,7 @@ export type TOrder = {
   uniqueKey?: string;
 }
 
-type TWsData = {
-  success: boolean;
+export type TWsData = {
   orders: TOrder[];
   total: number;
   totalToday: number;
@@ -42,7 +41,7 @@ const initialState: TWSState = {
   orderDetails: null,
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action): TWSState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {

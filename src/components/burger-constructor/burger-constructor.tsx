@@ -51,7 +51,7 @@ const BurgerConstructor: FC = () => {
   const token = getCookie('accessToken')
   let totalPrice: number = 0
 
-  if (!!constructorIngredients.length || bun.price) {
+  if (!!constructorIngredients.length || bun?.price) {
     let ingredientPrice: number = constructorIngredients
       .map((el: IIngredient) => {
         return el.price
@@ -59,7 +59,7 @@ const BurgerConstructor: FC = () => {
       .reduce((prevPrice, currentValue): number => {
         return prevPrice + currentValue
       }, 0)
-    let bunPrice: number = bun.price ? bun.price * 2 : 0
+    let bunPrice: number = bun?.price ? bun?.price * 2 : 0
     totalPrice = ingredientPrice + bunPrice
   }
 
@@ -153,7 +153,7 @@ const BurgerConstructor: FC = () => {
       <div ref={dropBun} className={styles.constructor_list}>
 
         <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_top}>
-          {bun.price ? (
+          {bun?.price ? (
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -198,7 +198,7 @@ const BurgerConstructor: FC = () => {
         </ul>
 
         <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_bottom}>
-          {bun.price ? (
+          {bun?.price ? (
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -226,7 +226,7 @@ const BurgerConstructor: FC = () => {
           <CurrencyIcon type="primary" />
         </div>
         {/* @ts-ignore */}
-        <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun.price ? true : false}>
+        <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun?.price ? true : false}>
           Оформить заказ
         </Button>
       </div>
@@ -250,7 +250,7 @@ const BurgerConstructor: FC = () => {
         )
       }
       {
-        !orderRequest && !orderFailed && orderDetails.success && (
+        !orderRequest && !orderFailed && orderDetails?.success && (
           <Modal onClose={closeOrderDetails}>
             <OrderDetails number={orderDetails.order.number} />
           </Modal>
