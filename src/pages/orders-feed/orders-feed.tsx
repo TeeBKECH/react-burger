@@ -35,8 +35,8 @@ export const OrdersFeed: FC = () => {
         </h2>
         <div className={`${styles.feed__items} customScroller`}>
           {
-            wsConnected && wsData && wsData.orders.map((el: TOrder) => {
-              return <OrderItem orderData={el} key={el.uniqueKey} />
+            wsConnected && wsData && wsData.orders.map((el) => {
+              return <OrderItem orderData={el} key={el._id} />
             })
           }
         </div>
@@ -50,7 +50,7 @@ export const OrdersFeed: FC = () => {
                 wsConnected && wsData && wsData.orders.map((el, index) => {
                   if (index < 10) {
                     if (el.status === 'done') {
-                      return <li key={el.uniqueKey} className="text text_type_main-default">{el.number}</li>
+                      return <li key={el._id} className="text text_type_main-default">{el.number}</li>
                     }
                   }
                   return null
@@ -65,7 +65,7 @@ export const OrdersFeed: FC = () => {
                 wsConnected && wsData && wsData.orders.map((el, index) => {
                   if (index < 10) {
                     if (el.status === 'pending') {
-                      return <li key={el.uniqueKey} className="text text_type_main-default">{el.number}</li>
+                      return <li key={el._id} className="text text_type_main-default">{el.number}</li>
                     }
                   }
                   return null

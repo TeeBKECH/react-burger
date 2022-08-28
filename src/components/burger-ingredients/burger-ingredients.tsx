@@ -91,7 +91,7 @@ const BurgerIngredients: FC = () => {
 
             {
               ingredientTypes.map((ingredientType, index) => {
-                const items = burgerIngredients.filter((item: IIngredient) => item.type === Object.keys(ingredientType).join())
+                const items = burgerIngredients.filter((item) => item.type === Object.keys(ingredientType).join())
                 return (
                   <article
                     key={index}
@@ -102,7 +102,7 @@ const BurgerIngredients: FC = () => {
                     </h4>
                     <div className={styles.category_items}>
                       {
-                        items.map((el: IIngredient) => (
+                        items.map((el) => (
                           <Ingredient type={el.type === 'bun' ? 'bun' : 'other'} key={el._id} el={el} openIngredientDetails={openIngredientDetails} />
                         ))
                       }

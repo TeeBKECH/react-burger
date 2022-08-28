@@ -21,7 +21,7 @@ const Ingredient: FC<IIngredientProps> = ({el, openIngredientDetails, type}) => 
   const [{ opacity }, ref] = useDrag({
     type: type,
     item: { el },
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1
     })
   });

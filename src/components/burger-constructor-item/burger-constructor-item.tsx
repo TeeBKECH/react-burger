@@ -9,8 +9,12 @@ import styles from './burger-constructor-item.module.css'
 interface IBurgerItemProps {
   el: IIngredient;
   index: number;
-  removeIngredient: any;
-  moveIngredient: any;
+  removeIngredient: (el: IIngredient) => void;
+  moveIngredient: (dragIndex: number, hoverIndex: number) => void;
+}
+
+export interface IDndItem {
+  index: number;
 }
 
 const BurgerConstrucorItem: FC<IBurgerItemProps> = ({ el, index, removeIngredient, moveIngredient }) => {
@@ -20,14 +24,14 @@ const BurgerConstrucorItem: FC<IBurgerItemProps> = ({ el, index, removeIngredien
   const [{ isDragging }, dragRef] = useDrag({
     type: 'item',
     item: { index },
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   })
 
   const [ , dropRef] = useDrop({
     accept: 'item',
-    hover: (item: any, monitor: any): void => {
+    hover: (item: IDndItem, monitor: any): void => {
       const dragIndex: number = item.index
       const hoverIndex: number = index
       const hoverBoundingRect = ref.current?.getBoundingClientRect()

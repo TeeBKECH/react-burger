@@ -53,7 +53,7 @@ const BurgerConstructor: FC = () => {
 
   if (!!constructorIngredients.length || bun?.price) {
     let ingredientPrice: number = constructorIngredients
-      .map((el: IIngredient) => {
+      .map((el) => {
         return el.price
       })
       .reduce((prevPrice, currentValue): number => {
@@ -126,11 +126,11 @@ const BurgerConstructor: FC = () => {
         })
     },
     [constructorIngredients],
-)
+  )
 
   const [{ isHover }, dropBun] = useDrop({
     accept: 'bun',
-    collect: monitor => ({
+    collect: (monitor) => ({
       isHover: monitor.isOver()
     }),
     drop(itemId: any) {
@@ -140,7 +140,7 @@ const BurgerConstructor: FC = () => {
 
   const [{ onHover }, dropIngredient] = useDrop({
     accept: 'other',
-    collect: monitor => ({
+    collect: (monitor) => ({
       onHover: monitor.isOver()
     }),
     drop(itemId: any) {
@@ -174,7 +174,7 @@ const BurgerConstructor: FC = () => {
 
         <ul ref={dropIngredient} className={styles.constructor_box + ' customScroller'}>
           {
-            !!constructorIngredients.length ? constructorIngredients.map((el: IIngredient, i: number) => {
+            !!constructorIngredients.length ? constructorIngredients.map((el, i) => {
               return (
                 <BurgerConstructorItem
                   key={el.uniqueKey}

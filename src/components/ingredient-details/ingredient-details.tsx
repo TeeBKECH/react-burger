@@ -24,7 +24,7 @@ const IngredientDetails: FC = () => {
   useEffect(() => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
-      ingredient: burgerIngredients.find((el: IIngredient) => el._id === ingredientId)
+      ingredient: burgerIngredients.find((el) => el._id === ingredientId)
     })
   }, [burgerIngredients, dispatch, ingredientId])
 

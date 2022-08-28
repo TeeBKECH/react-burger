@@ -65,28 +65,31 @@ export const OrderItemData: FC = () => {
   }, [wsData, id, dispatch])
 
   const orderIngredients = orderDetails?.ingredients
-    .map((index: string) => burgerIngredients.find(ingredient => index === ingredient._id))
-    .map(el => {
-      if (el && el.type === 'bun') {
-        return {
-          ...el,
-          __v: 2
+    .map((index) => burgerIngredients.find(ingredient => index === ingredient._id))
+    .map((el, index, array) => {
+      let counter = 0
+      array.forEach(item => {
+        if (item?._id === el?._id) {
+          counter = counter + 1
         }
-      } else {
-        return {
-          ...el,
-          __v: 1
+        if (el?.type === 'bun') {
+          counter = 2
         }
-      }
-    })
-    .map(el => {
+      })
       return {
         ...el,
+        __v: counter,
         uniqueKey: uuidv4()
       }
     })
 
-  const totalPrice: number = orderIngredients ? orderIngredients.reduce((acc, currentValue) => {
+    const uniqueIngredientsId = orderDetails?.ingredients.filter((el, index, array) => array.indexOf(el) === index)
+
+    const uniqueIngredients = uniqueIngredientsId?.map(id => {
+      return orderIngredients?.find(el => el._id === id)
+    })
+
+  const totalPrice: number = uniqueIngredients ? uniqueIngredients.reduce((acc, currentValue) => {
     if (currentValue && currentValue.price) {
       return acc + (currentValue.__v * currentValue.price)
     } else {
@@ -119,15 +122,15 @@ export const OrderItemData: FC = () => {
           </h4>
           <ul className={`customScroller`}>
             {
-              orderIngredients && orderIngredients.map((el) => {
+              uniqueIngredients && uniqueIngredients.map((el) => {
                 return (
-                  <li key={el.uniqueKey} className={styles.item__data_ingredient}>
+                  <li key={el?.uniqueKey} className={styles.item__data_ingredient}>
                     <div className={styles.item__data_ingredient_img}>
-                      <img src={el.image_mobile} alt={el.name} />
+                      <img src={el?.image_mobile} alt={el?.name} />
                     </div>
-                    <p className="text text_type_main-default">{el.name}</p>
+                    <p className="text text_type_main-default">{el?.name}</p>
                     <div className={styles.item__data_ingredient_price}>
-                      <p className="text text_type_digits-default">{el.__v} x {el.price}</p>
+                      <p className="text text_type_digits-default">{el?.__v} x {el?.price}</p>
                       <CurrencyIcon type="primary" />
                     </div>
                   </li>

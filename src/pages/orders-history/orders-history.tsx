@@ -30,7 +30,7 @@ export const OrdersHistory: FC = () => {
   return (
     <div className={`${styles.feed__items} customScroller`}>
       {
-        wsConnected && wsData && wsData.orders.reverse().map((el: TOrder) => {
+        wsConnected && wsData && wsData.orders.reverse().map((el) => {
           return <OrderItem orderData={el} key={el._id} />
         })
       }

@@ -1,24 +1,22 @@
 import type { Middleware, MiddlewareAPI } from 'redux'
 import type { AppDispatch, RootState } from '../store'
-import { v4 as uuidv4 } from 'uuid'
-import { TOrder } from '../reducers/wsReduser';
 
 export interface IWsActions {
   wsInit: string;
   onOpen: string;
   onClose: string;
   onError: string;
-  getOrders: string;
+  onMessage: string;
 }
 
-export const socketMiddleware = (wsActions): Middleware => {
+export const socketMiddleware = (wsActions: IWsActions): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null
 
     return next => action => {
       const { dispatch } = store
       const { type, payload } = action
-      const { wsInit, onOpen, onClose, onError, getOrders } = wsActions
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions
 
       if (type === wsInit) {
         socket = new WebSocket(payload)
@@ -39,16 +37,8 @@ export const socketMiddleware = (wsActions): Middleware => {
           const { success, ...restParsedData } = parsedData
 
           dispatch({
-            type: getOrders,
-            payload: {
-              ...restParsedData,
-              orders: restParsedData.orders.map((order: TOrder) => {
-                return {
-                  ...order, 
-                  uniqueKey: uuidv4()
-                }
-              })
-            }
+            type: onMessage,
+            payload: restParsedData
           })
         }
 

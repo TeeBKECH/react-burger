@@ -4,7 +4,7 @@ export const WS_CONNECTION_START = 'WS_CONNECTION_START'
 export const WS_CONNECTION_SUCCESS = 'WS_CONNECTION_SUCCESS'
 export const WS_CONNECTION_ERROR = 'WS_CONNECTION_ERROR'
 export const WS_CONNECTION_CLOSED = 'WS_CONNECTION_CLOSED'
-export const WS_GET_ORDERS = 'WS_GET_ORDERS'
+export const WS_ON_MESSAGE = 'WS_ON_MESSAGE'
 export const WS_ADD_ORDER_DETAILS = 'ADD_ORDER_DETAILS'
 export const WS_REMOVE_ORDER_DETAILS = 'WS_REMOVE_ORDER_DETAILS'
 
@@ -26,8 +26,8 @@ export interface IWsConnectionClosed {
   readonly type: typeof WS_CONNECTION_CLOSED;
 }
 
-export interface IWsGetOrders {
-  readonly type: typeof WS_GET_ORDERS;
+export interface IWsOnMessage {
+  readonly type: typeof WS_ON_MESSAGE;
   readonly payload: TWsData;
 }
 
@@ -45,6 +45,6 @@ export type TWsActions =
   | IWsConnectionSuccess
   | IWsConnectionError
   | IWsConnectionClosed
-  | IWsGetOrders
+  | IWsOnMessage
   | IWsAddOrderDetails
   | IWsRemoveOrderDetails

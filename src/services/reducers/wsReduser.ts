@@ -2,9 +2,10 @@ import {
   WS_CONNECTION_SUCCESS,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_CLOSED,
-  WS_GET_ORDERS,
+  WS_ON_MESSAGE,
   WS_ADD_ORDER_DETAILS,
-  WS_REMOVE_ORDER_DETAILS
+  WS_REMOVE_ORDER_DETAILS,
+  TWsActions
 } from '../actions/wsActions'
 
 export type TOrder = {
@@ -41,7 +42,10 @@ const initialState: TWSState = {
   orderDetails: null,
 };
 
-export const wsReducer = (state = initialState, action): TWSState => {
+export const wsReducer = (
+  state = initialState, 
+  action: TWsActions
+): TWSState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
@@ -61,7 +65,7 @@ export const wsReducer = (state = initialState, action): TWSState => {
         wsConnected: false,
         wsConnectedError: false
       };
-    case WS_GET_ORDERS:
+    case WS_ON_MESSAGE:
       return {
         ...state,
         wsData: action.payload

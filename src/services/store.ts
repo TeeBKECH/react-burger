@@ -9,7 +9,7 @@ import {
   WS_CONNECTION_ERROR, 
   WS_CONNECTION_START, 
   WS_CONNECTION_SUCCESS, 
-  WS_GET_ORDERS
+  WS_ON_MESSAGE
 } from './actions/wsActions'
 import { TFormActions, TUserActions } from './actions/auth'
 import { TBurgerIngredientsActions, TConstructorIngredientsActions, TIngredientDetailsActions, TSetOrderActions } from './actions'
@@ -19,7 +19,7 @@ const wsActions = {
   onOpen: WS_CONNECTION_SUCCESS,
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_ERROR,
-  getOrders: WS_GET_ORDERS
+  onMessage: WS_ON_MESSAGE
 }
 
 const store = createStore(
@@ -31,6 +31,12 @@ const store = createStore(
 
 type TApplicationActions = 
   | TFormActions
+  | TWsActions
+  | TUserActions
+  | TBurgerIngredientsActions
+  | TConstructorIngredientsActions
+  | TIngredientDetailsActions
+  | TSetOrderActions
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

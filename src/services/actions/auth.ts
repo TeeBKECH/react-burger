@@ -238,7 +238,7 @@ export const logOut: AppThunk = (token: string | undefined) => {
   }
 }
 
-const refreshToken = (afterRefresh: any) => {
+const refreshToken: AppThunk = (afterRefresh) => {
 
   return function(dispatch: AppDispatch) {
 
