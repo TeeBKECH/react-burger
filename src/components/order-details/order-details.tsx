@@ -1,7 +1,8 @@
 import { FC } from 'react'
 
-import styles from './order-details.module.css'
 import orderImage from '../../images/orderImage.svg'
+
+import styles from './order-details.module.css'
 
 interface IOrder {
   number: number;

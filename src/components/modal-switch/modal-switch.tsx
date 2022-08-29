@@ -1,24 +1,27 @@
-import { FC } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { FC } from "react"
+import { useHistory, useLocation, Route, Switch } from "react-router-dom"
+
 import { REMOVE_INGREDIENT_DETAILS } from '../../services/actions/index'
-import { Switch, Route } from 'react-router-dom';
-import { useAppDispatch } from "../../utils/hooks";
+import { useAppDispatch } from "../../utils/hooks"
 
-import { 
-  Error404Page, 
-  ForgotPasswordPage, 
-  LoginPage, 
-  ProfilePage, 
-  RegisterPage, 
+import {
+  Error404Page,
+  ForgotPasswordPage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
   ResetPasswordPage,
-  OrdersList,
-  Home } from '../../pages';
-import AppHeader from '../app-header/app-header';
-import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ProtectedRoute } from '../protected-route/protected-route';
+  Home,
+  OrdersFeed
+} from '../../pages'
 
-import styles from './modal-switch.module.css';
-import Modal from "../modal/modal";
+import AppHeader from '../app-header/app-header'
+import IngredientDetails from '../ingredient-details/ingredient-details'
+import { ProtectedRoute } from '../protected-route/protected-route'
+import { OrderItemData } from "../order-item-data/order-item-data"
+import Modal from "../modal/modal"
+
+import styles from './modal-switch.module.css'
 
 interface ILocationState {
   background?: Location;
@@ -33,10 +36,14 @@ export const ModalSwitch: FC = () => {
 
   const background = locationState && locationState.background
 
-  const closeIngredientDetails = () => {
+  const closeIngredientDetails = (): void => {
     dispatch({
       type: REMOVE_INGREDIENT_DETAILS
     })
+    history.goBack()
+  }
+
+  const closeOrderDetails = (): void => {
     history.goBack()
   }
 
@@ -61,8 +68,11 @@ export const ModalSwitch: FC = () => {
             <Route path="/reset-password" exact>
               <ResetPasswordPage />
             </Route>
-            <Route path="/orders-list" exact>
-              <OrdersList />
+            <Route path="/feed" exact>
+              <OrdersFeed />
+            </Route>
+            <Route path="/feed/:id" exact>
+              <OrderItemData />
             </Route>
             <ProtectedRoute path="/profile">
               <ProfilePage />
@@ -78,15 +88,25 @@ export const ModalSwitch: FC = () => {
       </div>
 
       {background && (
-        <Route
-          path='/ingredients/:ingredientId'
-          children={
-            <Modal title="Детали ингредиента" onClose={closeIngredientDetails}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
+        <>
+          <Route
+            path='/ingredients/:ingredientId'
+            children={
+              <Modal title="Детали ингредиента" onClose={closeIngredientDetails}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:id'
+            children={
+              <Modal title="" onClose={closeOrderDetails}>
+                <OrderItemData />
+              </Modal>
+            }
+          />
+        </>
       )}
     </>
-  );
-};
+  )
+}

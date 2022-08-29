@@ -4,7 +4,7 @@ import { ForgotPasswordPage } from "./forgot-pass/forgot-pass"
 import { ResetPasswordPage } from "./reset-pass/reset-pass"
 import { ProfilePage } from "./profile/profile"
 import { Error404Page } from "./error-404/error-404"
-import { OrdersList } from "./orders-list/orders-list"
+import { OrdersFeed } from "./orders-feed/orders-feed"
 import { OrdersHistory } from "./orders-history/orders-history"
 import { Home } from "./home/home"
 
@@ -15,7 +15,7 @@ export {
   ResetPasswordPage, 
   ProfilePage, 
   Error404Page, 
-  OrdersList, 
+  OrdersFeed, 
   OrdersHistory,
   Home
 }

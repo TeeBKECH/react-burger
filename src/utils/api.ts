@@ -1,9 +1,10 @@
-export const API_URL = 'https://norma.nomoreparties.space/api'
+export const API_URL: string = 'https://norma.nomoreparties.space/api'
+export const API_WS_URL: string = 'wss://norma.nomoreparties.space'
 
 export const checkResponse = async (res: Response) => {
 
   const isJson: boolean = res.headers.get('content-type')?.includes('application/json') as boolean
-  const data: any | null = isJson ? await res.json() : null
+  const data = isJson ? await res.json() : null
 
   if (res.ok) {
     return data
@@ -20,7 +21,7 @@ export const getCookie = (name: string) => {
   return matches ? decodeURIComponent(matches[1]) : undefined
 }
 
-const setCookie = (name: string, value: any, props?: any) => {
+const setCookie = (name: string, value: string | null, props?) => {
   props = props || {}
   let exp = props.expires
   if (typeof exp == 'number' && exp) {
@@ -31,7 +32,7 @@ const setCookie = (name: string, value: any, props?: any) => {
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString()
   }
-  value = encodeURIComponent(value)
+  value = encodeURIComponent(value as string)
   let updatedCookie = name + '=' + value
   for (const propName in props) {
     updatedCookie += '; ' + propName

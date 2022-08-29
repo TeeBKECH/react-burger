@@ -1,5 +1,6 @@
 .profile {
   width: 1280px;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   gap: 60px;
@@ -8,7 +9,9 @@
 .profile_sidebar {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 80px;
+  flex: 1;
 }
 
 .profile_nav {
@@ -35,7 +38,10 @@
 }
 
 .profile_content {
-
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  flex: 2;
 }
 
 .profile_form {

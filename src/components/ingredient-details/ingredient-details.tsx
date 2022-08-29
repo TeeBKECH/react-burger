@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
 import { ADD_INGREDIENT_DETAILS } from '../../services/actions'
@@ -17,22 +18,19 @@ const IngredientDetails: FC = () => {
     ingredientDetails: store.ingredientDetailsReducer.ingredientDetails
   }))
 
-  const {ingredientId}: {ingredientId?: number} = useParams()
+  const {ingredientId}: {ingredientId?: string} = useParams()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch({
       type: ADD_INGREDIENT_DETAILS,
-      ingredient: burgerIngredients.find((el: IIngredient) => el._id === ingredientId)
+      ingredient: burgerIngredients.find((el) => el._id === ingredientId)
     })
-    console.log(burgerIngredients)
-
-  }, [burgerIngredients])
+  }, [burgerIngredients, dispatch, ingredientId])
 
   return (
-    <>
-      {ingredientDetails && (
-        <div className={styles.ingredient}>
+    ingredientDetails && (
+      <div className={styles.ingredient}>
         <div className={styles.ingredient_img}>
           <img src={ingredientDetails.image} alt={ingredientDetails.name} />
         </div>
@@ -56,8 +54,7 @@ const IngredientDetails: FC = () => {
           </div>
         </div>
       </div>
-      )}
-    </>
+    )
   )
 }
 

@@ -1,15 +1,16 @@
-import { FC, useCallback, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
+import { Redirect } from 'react-router-dom'
 import { useDrop } from 'react-dnd'
 import { v4 as uuidv4 } from 'uuid'
-import { Redirect } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks'
-
 import { Button, ConstructorElement, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
-import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
+import { getCookie } from '../../utils/api'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import Modal from '../modal/modal'
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item'
 import OrderDetails from '../order-details/order-details'
+import Modal from '../modal/modal'
+
 import {
   setOrderDetails, 
   CLEAR_ORDER_DETAILS, 
@@ -20,13 +21,21 @@ import {
   REMOVE_INGREDIENT,
   MOVE_INGREDIENT
 } from '../../services/actions/index'
+import { getUser } from '../../services/actions/auth'
+import { IIngredient } from '../../services/reducers/reducers'
 
 import noImg from '../../images/noImg.png'
 import styles from './burger-constructor.module.css'
-import { IIngredient } from '../../services/reducers/reducers'
 
 const BurgerConstructor: FC = () => {
-  const { bun, constructorIngredients, orderDetails, orderRequest, orderFailed, user } = useAppSelector(store => ({
+  const { 
+    bun, 
+    constructorIngredients, 
+    orderDetails, 
+    orderRequest, 
+    orderFailed, 
+    user 
+  } = useAppSelector(store => ({
     bun: store.constructorIngredientsReducer.bun,
     constructorIngredients: store.constructorIngredientsReducer.constructorIngredients,
     orderDetails: store.orderDetailsReducer.orderDetails,
@@ -35,31 +44,37 @@ const BurgerConstructor: FC = () => {
     user: store.userReducer.user,
   }))
 
-  const [checkLogin, setChecklogin] = useState<boolean>(false)
-
   const dispatch = useAppDispatch()
 
+  const [checkLogin, setChecklogin] = useState<boolean>(false)
+
+  const token = getCookie('accessToken')
   let totalPrice: number = 0
 
-  if (!!constructorIngredients.length || bun.price) {
+  if (!!constructorIngredients.length || bun?.price) {
     let ingredientPrice: number = constructorIngredients
-      .map((el: IIngredient) => {
+      .map((el) => {
         return el.price
       })
       .reduce((prevPrice, currentValue): number => {
         return prevPrice + currentValue
       }, 0)
-    let bunPrice: number = bun.price ? bun.price * 2 : 0
+    let bunPrice: number = bun?.price ? bun?.price * 2 : 0
     totalPrice = ingredientPrice + bunPrice
   }
 
+  useEffect(() => {
+    if (token) {
+      dispatch(getUser())
+    }
+  }, [])
 
   const openOrderDetails = (): void => {
-    if (!user) {
+    if (user) {
+      dispatch(setOrderDetails())
+    } else {
       setChecklogin(true)
-      return
     }
-    dispatch(setOrderDetails())
   }
 
   const closeOrderDetails = (): void => {
@@ -111,11 +126,11 @@ const BurgerConstructor: FC = () => {
         })
     },
     [constructorIngredients],
-)
+  )
 
   const [{ isHover }, dropBun] = useDrop({
     accept: 'bun',
-    collect: monitor => ({
+    collect: (monitor) => ({
       isHover: monitor.isOver()
     }),
     drop(itemId: any) {
@@ -125,7 +140,7 @@ const BurgerConstructor: FC = () => {
 
   const [{ onHover }, dropIngredient] = useDrop({
     accept: 'other',
-    collect: monitor => ({
+    collect: (monitor) => ({
       onHover: monitor.isOver()
     }),
     drop(itemId: any) {
@@ -138,7 +153,7 @@ const BurgerConstructor: FC = () => {
       <div ref={dropBun} className={styles.constructor_list}>
 
         <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_top}>
-          {bun.price ? (
+          {bun?.price ? (
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -159,7 +174,7 @@ const BurgerConstructor: FC = () => {
 
         <ul ref={dropIngredient} className={styles.constructor_box + ' customScroller'}>
           {
-            !!constructorIngredients.length ? constructorIngredients.map((el: IIngredient, i: number) => {
+            !!constructorIngredients.length ? constructorIngredients.map((el, i) => {
               return (
                 <BurgerConstructorItem
                   key={el.uniqueKey}
@@ -183,7 +198,7 @@ const BurgerConstructor: FC = () => {
         </ul>
 
         <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_bottom}>
-          {bun.price ? (
+          {bun?.price ? (
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -211,18 +226,36 @@ const BurgerConstructor: FC = () => {
           <CurrencyIcon type="primary" />
         </div>
         {/* @ts-ignore */}
-        <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun.price ? true : false}>
+        <Button type="primary" size="large" onClick={openOrderDetails} disabled={!bun?.price ? true : false}>
           Оформить заказ
         </Button>
       </div>
-      {checkLogin && (
-        <Redirect to={{pathname: '/login'}} />
-      )}
-      {!orderRequest && !orderFailed && orderDetails.success && (
-        <Modal onClose={closeOrderDetails}>
-          <OrderDetails number={orderDetails.order.number} />
-        </Modal>
-      )}
+      {
+        checkLogin && (
+          <Redirect to={{pathname: '/login'}} />
+        )
+      }
+      {
+        orderRequest && (
+          <Modal onClose={closeOrderDetails}>
+            Формируем ваш заказ, ожидайте...
+          </Modal>
+        )
+      }
+      {
+        orderFailed && (
+          <Modal onClose={closeOrderDetails}>
+            Произошла ошибка при формировании заказа!
+          </Modal>
+        )
+      }
+      {
+        !orderRequest && !orderFailed && orderDetails?.success && (
+          <Modal onClose={closeOrderDetails}>
+            <OrderDetails number={orderDetails.order.number} />
+          </Modal>
+        )
+      }
     </section>
   )
 }

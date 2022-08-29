@@ -10,11 +10,12 @@ import styles from './profile.module.css'
 
 const ProfileForm: FC = () => {
 
-  const { user,
+  const { 
+    user,
     form
   } = useAppSelector(store => ({
-  user: store.userReducer.user,
-  form: store.formDataReducer.form
+    user: store.userReducer.user,
+    form: store.formDataReducer.form
   }))
 
   const dispatch = useAppDispatch()

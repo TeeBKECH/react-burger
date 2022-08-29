@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom'
 import { useDrag } from 'react-dnd'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+
 import { IIngredient } from '../../services/reducers/reducers';
 
 import styles from './ingredient.module.css'
@@ -14,13 +15,13 @@ interface IIngredientProps {
 
 const Ingredient: FC<IIngredientProps> = ({el, openIngredientDetails, type}) => {
 
-  const location = useLocation()
-  const ingredientId = el._id
+  const location: Location = useLocation()
+  const ingredientId: string = el._id
 
   const [{ opacity }, ref] = useDrag({
     type: type,
     item: { el },
-    collect: (monitor: any) => ({
+    collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1
     })
   });

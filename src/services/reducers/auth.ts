@@ -11,12 +11,35 @@ import {
   FORM_SET_VALUE,
   RESET_PASSWORD,
   FORGOT_PASSWORD,
-  UPDATE_FORM
+  UPDATE_FORM,
+  TFormActions,
+  TUserActions
 } from '../actions/auth'
 
-// Исходное состояние
-const initialState = {
+export interface IUser {
+  email: string;
+  name: string;
+}
 
+export interface IForm {
+  nameValue: string;
+  emailValue: string;
+  passwordValue: string;
+  resetPasswordToken: string;
+}
+
+// Исходное состояние
+const initialState: {
+  form: IForm;
+  
+  requestMessage: string;
+  submitRequest: boolean;
+  submitFailed: boolean;
+
+  user: IUser | null;
+  accesToken: string;
+  refreshToken: string;
+} = {
   form: {
     nameValue: '',
     emailValue: '',
@@ -33,7 +56,10 @@ const initialState = {
   refreshToken: '',
 }
 
-export const formDataReducer = (state = initialState, action) => {
+export const formDataReducer = (
+  state = initialState, 
+  action: TFormActions
+) => {
   switch(action.type) {
     case FORM_SET_VALUE: {
       return {
@@ -77,7 +103,10 @@ export const formDataReducer = (state = initialState, action) => {
   }
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (
+  state = initialState, 
+  action
+) => {
   switch (action.type) {
     case SUBMIT_REQUEST: {
       return {

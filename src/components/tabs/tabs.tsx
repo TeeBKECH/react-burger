@@ -1,11 +1,12 @@
 import { FC } from 'react'
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
+
 import styles from './tabs.module.css'
 
 interface ITabProps {
   current: string;
-  setCurrent: any;
+  setCurrent: (value: string) => void;
 }
 
 const Tabs: FC<ITabProps> = ({current, setCurrent}) => {
