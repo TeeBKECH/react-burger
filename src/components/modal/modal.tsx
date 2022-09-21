@@ -30,8 +30,10 @@ const Modal: FC<IModalProps> = ({onClose, children, title}) => {
     <>
       <div className={styles.modal}>
         <div className={styles.modal_header}>
-          <h3 className='text text_type_main-large'>{title ? title : ''}</h3>
-          <CloseIcon onClick={onClose} type="primary" />
+          <h3 data-cy="modalTitle" className='text text_type_main-large'>{title ? title : ''}</h3>
+          <div data-cy="closeModal">
+            <CloseIcon onClick={onClose} type="primary" />
+          </div>
         </div>
         <div className={styles.modal_body}>
           {children}

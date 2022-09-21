@@ -10,7 +10,7 @@ interface IOrder {
 
 const OrderDetails: FC<IOrder> = ({number}) => {
   return (
-    <div className={styles.order}>
+    <div className={styles.order} data-cy="orderDetails">
       <div className={styles.order_header}>
         <p className={`${styles.order_number} text text_type_digits-large`}>{number}</p>
         <p className='text text_type_main-medium'>идентификатор заказа</p>
