@@ -2,6 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://teebkech.github.io/react-burger/",
   "dependencies": {
     "@redux-devtools/extension": "^3.2.2",
     "@reduxjs/toolkit": "^1.8.3",
@@ -63,6 +64,5 @@
     "fetch-mock": "^9.11.0",
     "gh-pages": "^4.0.0",
     "redux-mock-store": "^1.5.4"
-  },
-  "homepage": "https://teebkech.github.io/react-burger"
+  }
 }
