@@ -4,7 +4,7 @@ import { OrderItem } from '../../components/order-item/order-item'
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_START } from '../../services/actions/wsActions'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 
-import { TOrder } from '../../services/reducers/wsReduser'
+import { TOrder } from '../../services/reducers/wsReducer'
 
 import styles from './orders-feed.module.css'
 import { API_WS_URL } from '../../utils/api'

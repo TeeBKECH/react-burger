@@ -29,7 +29,7 @@ export interface IForm {
 }
 
 // Исходное состояние
-const initialState: {
+export const initialState: {
   form: IForm;
   
   requestMessage: string;

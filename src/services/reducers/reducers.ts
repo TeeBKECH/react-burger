@@ -64,7 +64,7 @@ interface IReducersState {
 }
 
 // Исходное состояние
-const initialState: IReducersState = {
+export const initialState: IReducersState = {
   burgerIngredients: [],
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,

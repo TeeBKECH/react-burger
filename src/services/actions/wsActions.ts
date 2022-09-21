@@ -1,4 +1,4 @@
-import { TOrder, TWsData } from "../reducers/wsReduser"
+import { TOrder, TWsData } from "../reducers/wsReducer"
 
 export const WS_CONNECTION_START = 'WS_CONNECTION_START'
 export const WS_CONNECTION_SUCCESS = 'WS_CONNECTION_SUCCESS'

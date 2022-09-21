@@ -7,7 +7,7 @@ import ruLocale from 'date-fns/locale/ru'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { TOrder } from '../../services/reducers/wsReduser'
+import { TOrder } from '../../services/reducers/wsReducer'
 import { useAppSelector } from '../../utils/hooks'
 
 import styles from './order-item.module.css'
