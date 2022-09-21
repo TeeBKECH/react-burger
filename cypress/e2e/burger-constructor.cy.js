@@ -1,3 +1,5 @@
+export const testUrl = 'http://localhost:3000'
+
 describe('service is available', function () {
   beforeEach(() => {
     cy.viewport(1920, 1080);
@@ -16,8 +18,8 @@ describe('service is available', function () {
     cy.clearCookies();
   });
 
-  it('should be available on localhost:3000', function () {
-    cy.visit('http://localhost:3000');
+  it('should be available on our url', function () {
+    cy.visit(testUrl);
   });
 
   it('should be drag-and-drop', function () {

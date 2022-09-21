@@ -96,6 +96,11 @@ describe('formDataReducer', () => {
 
 describe('userReducer', () => {
 
+  const userData = {
+    email: "mail@mail123.com",
+    name: "andrey"
+  }
+
   // Возвращаем начальное состояние, если ни один экшн не подходит
   it('should return the initial state', () => {
     expect(userReducer(undefined, {})).toEqual(initialState)
@@ -128,17 +133,11 @@ describe('userReducer', () => {
     expect(
       userReducer((initialState), {
         type: CREATE_USER,
-        payload: {
-          email: "mail@mail123.com",
-          name: "andrey"
-        }
+        payload: userData
       })
     ).toEqual({
       ...initialState,
-      user: {
-        email: "mail@mail123.com",
-        name: "andrey"
-      }
+      user: userData
     })
   })
 
@@ -146,17 +145,11 @@ describe('userReducer', () => {
     expect(
       userReducer((initialState), {
         type: LOGIN_USER,
-        payload: {
-          email: "mail@mail123.com",
-          name: "andrey"
-        }
+        payload: userData
       })
     ).toEqual({
       ...initialState,
-      user: {
-        email: "mail@mail123.com",
-        name: "andrey"
-      }
+      user: userData
     })
   })
 
@@ -175,17 +168,11 @@ describe('userReducer', () => {
     expect(
       userReducer((initialState), {
         type: GET_USER,
-        payload: {
-          email: "mail@mail123.com",
-          name: "andrey"
-        }
+        payload: userData
       })
     ).toEqual({
       ...initialState,
-      user: {
-        email: "mail@mail123.com",
-        name: "andrey"
-      }
+      user: userData
     })
   })
 
@@ -193,17 +180,11 @@ describe('userReducer', () => {
     expect(
       userReducer((initialState), {
         type: UPDATE_USER,
-        payload: {
-          email: "mail@mail123.com",
-          name: "andrey"
-        }
+        payload: userData
       })
     ).toEqual({
       ...initialState,
-      user: {
-        email: "mail@mail123.com",
-        name: "andrey"
-      }
+      user: userData
     })
   })
 

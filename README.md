@@ -1,25 +1,93 @@
-# Getting Started with Create React App
+# **Курсовой Проект: Stellar Burger**
+### Факультет "React разработчик" Яндекс.Практикум (16 когорта)
+
+Данный проект представляет собой приложение космической бургерной, позволяющее заказывать уникальные бургеры, которые приготовят по индивидуальному заказу. В приложении можно создавать бургеры простым перетаскиванием необходимых ингредиентов, оформлять заказ, а также отслеживать его статус в реальном времени.
+
+
+## Технологии
+
+*	React
+* 	TypeScript
+* 	Redux
+* 	WebSocket
+* 	React Router
+* 	React DnD
+* 	CSS Modules
+
+
+## Функциональность
+
+*	Регистрация/авторизация/восстановление пароля пользователей;
+*	Редактирование профиля;
+*	Защита роутов авторизацией;
+*	Динамический роутинг.
+*	История заказов пользователя с обновлением в реальном времени (последние 50);
+*	Drag-n-drop перетаскивания ингредиентов для изменения их порядка в бургере или для добавления в новый;
+*	Изменение порядка ингредиентов;
+*	Лента с обновлением статусов заказов в реальном времени (WebSocket);
+
+
+## Установка
+
+1.	Создаем рабочую директорию с произвольным именем (например dev):
+    mkdir <имя рабочей директории>;
+
+2.	Клонируем репозиторий в рабочую директорию, переходим в неё: 
+    cd <имя рабочей директории>;
+
+3.	Клонируем репозиторий: git clone https://github.com/TeeBKECH/react-burger.git;
+    В рабочей директории должна появиться папка проекта react-burger;
+
+4.	Переходим в папку с проектом:
+    cd react-burger, устанавливаем зависимости: npm install;
+
+5.	Запускаем проект: npm start.
+
+## Для деплоя приложения на githubPages:
+1.	Делаем свой репозиторий публичным
+2.  Во вкладке source выбираем ветку main (master)
+3.  Специально для деплоя созданы 2 скрипта:
+    npm run predeploy
+    npm run deployonghp
+4. Готово!
+
+
+
+## Тестирование бизнес-логики приложения: 
+npm test
+
+
+## Функциональное тестирование с использованием Cypress:
+npm run cypress
+
+
+## Посмотреть готовый проект: [GitHubPages](https://teebkech.github.io/react-burger/)
+
+
+***  
+
+### Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+#### Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+##### `npm start`
 
 Runs the app in the development mode.\
-Open [https://teebkech.github.io/react-burger/](https://teebkech.github.io/react-burger/) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+##### `npm test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+##### `npm run build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,7 +97,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+##### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -39,7 +107,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+#### Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
