@@ -30,7 +30,7 @@ const IngredientDetails: FC = () => {
 
   return (
     ingredientDetails && (
-      <div className={styles.ingredient}>
+      <div className={styles.ingredient} data-cy="ingredientDetails">
         <div className={styles.ingredient_img}>
           <img src={ingredientDetails.image} alt={ingredientDetails.name} />
         </div>

@@ -35,7 +35,7 @@ const Ingredient: FC<IIngredientProps> = ({el, openIngredientDetails, type}) => 
       }}
       className={styles.link}
     >
-      <div draggable ref={ref} onClick={() => openIngredientDetails(el)} className={styles.category_item} style={{ opacity }}>
+      <div data-cy="ingredientItem" draggable ref={ref} onClick={() => openIngredientDetails(el)} className={styles.category_item} style={{ opacity }}>
         {el.__v !== 0 && <Counter count={el.__v} size="default" />}
         <img src={el.image} alt={el.name} />
         <div className={styles.category_item_currency}>

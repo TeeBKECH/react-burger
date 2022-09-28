@@ -150,7 +150,7 @@ const BurgerConstructor: FC = () => {
 
   return (
     <section className={styles.burger_constructor}>
-      <div ref={dropBun} className={styles.constructor_list}>
+      <div ref={dropBun} data-cy="constructorBun" className={styles.constructor_list}>
 
         <div className={styles.constructor_list_item + ' ' + styles.constructor_list_item_top}>
           {bun?.price ? (
@@ -172,7 +172,7 @@ const BurgerConstructor: FC = () => {
           )}
         </div>
 
-        <ul ref={dropIngredient} className={styles.constructor_box + ' customScroller'}>
+        <ul ref={dropIngredient} data-cy="constructorIngredient" className={styles.constructor_box + ' customScroller'}>
           {
             !!constructorIngredients.length ? constructorIngredients.map((el, i) => {
               return (
